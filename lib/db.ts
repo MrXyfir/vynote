@@ -2,7 +2,7 @@
 
 // Set global.__mysql equal to a client pool
 if (global.__mysql === undefined) {
-    let config = require("../config").database;
+    let config = require("../config").database.mysql;
     global.__mysql = mysql.createPool(config);
 }
 
