@@ -51,4 +51,13 @@ export module controllers {
 
     }
 
+    // Called on connection to /user socket namespace
+    export function user(socket: SocketIO.Socket) {
+
+        socket.on("get"    , require("./user/get"));
+        socket.on("login"  , require("./user/login"));
+        socket.on("update" , require("./user/update"));
+
+    }
+
 }

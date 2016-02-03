@@ -25,6 +25,7 @@ app.get('/', controllers.home);
 app.get("/*", controllers.app);
 
 // Set main controllers for each socket namespace
+io.of("/user").on("connection", controllers.user);
 io.of("/notes").on("connection", controllers.notes);
 io.of("/pages").on("connection", controllers.pages);
 io.of("/explorer").on("connection", controllers.explorer);
