@@ -344,6 +344,7 @@ declare module NodeJS {
         gc: () => void;
         v8debug?: any;
         __mysql: any;
+        __redis: any;
     }
 
     export interface Timer {
