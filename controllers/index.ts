@@ -5,15 +5,17 @@
 */
 export module controllers {
 
-    // Express GET /* route handler
-    export function view(req, res) {
+    // Express GET / route handler
+    export function home(req, res) {
 
-        if (req.session.uid) {
-            res.sendFile(__dirname + "/views/App.html");
-        }
-        else {
-            res.sendFile(__dirname + "/views/Home.html");
-        }
+        res.sendFile(__dirname + "/views/Home.html");
+
+    }
+
+    // Express GET /* route handler
+    export function app(req, res) {
+
+        res.sendFile(__dirname + "/views/App.html");
 
     }
 

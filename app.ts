@@ -1,6 +1,7 @@
 /// <reference path="typings/socket.io/socket.io.d.ts" />
 /// <reference path="typings/express/express.d.ts" />
 /// <reference path="typings/mysql/mysql.d.ts" />
+/// <reference path="typings/redis/redis.d.ts" />
 /// <reference path="typings/node/node.d.ts" />
 
 import * as express from "express";
@@ -18,10 +19,10 @@ let config = require("./config").environment;
 
 server.listen(config.port, () => { console.log("SERVER RUNNING ON ", config.port); });
 
-// Server static files in /public
-// Any get request not to a /public file hits view controller
+// Express middleware / controllers
 app.use('/', express.static(__dirname + "/public"));
-app.get("/*", controllers.view);
+app.get('/', controllers.home);
+app.get("/*", controllers.app);
 
 // Set main controllers for each socket namespace
 io.of("/notes").on("connection", controllers.notes);
