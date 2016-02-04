@@ -11,8 +11,8 @@ if (global.__redis === undefined) {
 export module session {
 
 
-    // Returns the entire session object or undefined
-    function get(id: string, fn: Function) {
+    // Returns the entire session object or empty object
+    export function get(id: string, fn: Function) {
 
         id = id.split('#')[1];
 
@@ -20,14 +20,14 @@ export module session {
             redis.get(id, (err, value) => {
                 global.__redis.release(redis);
 
-                // Return session object or undefined
-                fn(!!err || !value ? undefined : JSON.parse(value));
+                // Return session object or empty object
+                fn(!!err || !value ? {} : JSON.parse(value));
             });
         });
     }
 
     // Saves the entire session object
-    function save(id: string, value: any) {
+    export function save(id: string, value: any) {
 
         value = JSON.stringify(value);
         id    = id.split('#')[1];
@@ -41,7 +41,7 @@ export module session {
     }
 
     // Deletes the session id
-    function destroy(id: string) {
+    export function destroy(id: string) {
 
         id = id.split('#')[1];
 
