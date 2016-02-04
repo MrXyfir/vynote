@@ -473,6 +473,8 @@ declare module SocketIO {
 	 */
 	interface Socket {
 		
+        session: any;
+
 		/**
 		 * The namespace that this socket is for
 		 */
