@@ -1,5 +1,6 @@
 /// <reference path="typings/socket.io/socket.io.d.ts" />
 /// <reference path="typings/express/express.d.ts" />
+/// <reference path="typings/request/request.d.ts" />
 /// <reference path="typings/mysql/mysql.d.ts" />
 /// <reference path="typings/redis/redis.d.ts" />
 /// <reference path="typings/node/node.d.ts" />
