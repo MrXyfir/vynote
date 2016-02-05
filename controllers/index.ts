@@ -58,11 +58,10 @@ export module controllers {
     // Called on connection to /explorer socket namespace
     export function explorer(socket: SocketIO.Socket) {
 
-        socket.on("get"      , function () { call("./explorer/get", socket, arguments); });
-        socket.on("get subs" , function () { call("./explorer/getSubs", socket, arguments); });
-        socket.on("create"   , function () { call("./explorer/create", socket, arguments); });
-        socket.on("move"     , function () { call("./explorer/move", socket, arguments); });
-        socket.on("delete"   , function () { call("./explorer/delete", socket, arguments); });
+        socket.on("get"    , function () { call("./explorer/get", socket, arguments); });
+        socket.on("create" , function () { call("./explorer/create", socket, arguments); });
+        socket.on("move"   , function () { call("./explorer/move", socket, arguments); });
+        socket.on("delete" , function () { call("./explorer/delete", socket, arguments); });
 
     }
 
