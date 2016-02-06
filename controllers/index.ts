@@ -62,6 +62,8 @@ export module controllers {
         socket.on("create" , function () { call("./explorer/create", socket, arguments); });
         socket.on("move"   , function () { call("./explorer/move", socket, arguments); });
         socket.on("delete" , function () { call("./explorer/delete", socket, arguments); });
+        socket.on("find"   , function () { call("./explorer/find", socket, arguments); });
+        socket.on("rename" , function () { call("./explorer/rename", socket, arguments); });
 
     }
 
