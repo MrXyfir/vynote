@@ -42,7 +42,6 @@ export module controllers {
         socket.on("update content" , function () { call("./notes/updateContent", socket, arguments); });
         socket.on("delete"         , function () { call("./notes/delete", socket, arguments); });
         socket.on("create"         , function () { call("./notes/create", socket, arguments); });
-        socket.on("get children"   , function () { call("./notes/getChildren", socket, arguments); });
         socket.on("disconnect", () => session.destroy(socket.id));
 
     }
