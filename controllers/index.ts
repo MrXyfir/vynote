@@ -43,7 +43,8 @@ export module controllers {
         socket.on("delete"         , function () { call("./notes/delete", socket, arguments); });
         socket.on("create"         , function () { call("./notes/create", socket, arguments); });
         socket.on("get children"   , function () { call("./notes/getChildren", socket, arguments); });
-        
+        socket.on("disconnect", () => session.destroy(socket.id));
+
     }
 
     // Called on connection to /pages socket namespace
@@ -52,6 +53,7 @@ export module controllers {
         socket.on("get"            , function () { call("./pages/get", socket, arguments); });
         socket.on("update content" , function () { call("./pages/updateContent", socket, arguments); });
         socket.on("update meta"    , function () { call("./pages/updateMeta", socket, arguments); });
+        socket.on("disconnect", () => session.destroy(socket.id));
 
     }
 
@@ -64,6 +66,7 @@ export module controllers {
         socket.on("delete" , function () { call("./explorer/delete", socket, arguments); });
         socket.on("find"   , function () { call("./explorer/find", socket, arguments); });
         socket.on("rename" , function () { call("./explorer/rename", socket, arguments); });
+        socket.on("disconnect", () => session.destroy(socket.id));
 
     }
 
@@ -73,6 +76,7 @@ export module controllers {
         socket.on("get"    , function () { call("./user/get", socket, arguments); });
         socket.on("login"  , function () { call("./user/login", socket, arguments); });
         socket.on("update" , function () { call("./user/update", socket, arguments); });
+        socket.on("disconnect", () => session.destroy(socket.id));
 
     }
 
