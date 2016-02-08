@@ -64,7 +64,9 @@ export module controllers {
         socket.on("delete" , function () { call("./explorer/delete", socket, arguments); });
         socket.on("find"   , function () { call("./explorer/find", socket, arguments); });
         socket.on("rename" , function () { call("./explorer/rename", socket, arguments); });
-        socket.on("disconnect", () => session.destroy(socket.id));
+
+        socket.on("close"      , (doc: number) => socket.leave(''+doc));
+        socket.on("disconnect" , () => session.destroy(socket.id));
 
     }
 

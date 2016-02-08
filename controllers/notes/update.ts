@@ -34,7 +34,14 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
 
     db(cn => cn.query(sql, vars, (err, rows) => {
         cn.release();
-        fn(!!err || !rows.affectedRows);
+
+        if (err || !rows.affectedRows) {
+            fn(true);
+        }
+        else {
+            fn(false);
+            socket.broadcast.to(''+data.note).emit("update element", data);
+        }
     }));
 
 };

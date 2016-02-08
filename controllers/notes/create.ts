@@ -55,6 +55,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                     else {
                         cn.release();
                         fn(false, id);
+                        socket.broadcast.to(''+data.note).emit("create element", data);
                     }
                 });
             };
