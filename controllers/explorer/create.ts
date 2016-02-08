@@ -2,7 +2,7 @@
 
 interface IData {
     objType: number, folder: number, name: string,
-    docType?: number, color?: number
+    docType?: number, color?: number, encrypt?: string
 }
 
 export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
@@ -33,11 +33,16 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
             else {
                 data.name = !data.name.match(/^[\w\d-.,#$%&()]{1,100}$/) ? "New File" : data.name;
 
+                // data.encrypt is encrypt("KEY", userEncKey), used to verify encryption keys
+                let encrypt: string = (data.encrypt.length > 0 && socket.session.subscription > Date.now() / 1000)
+                    ? data.encrypt : "";
+
                 sql = "INSERT INTO documents SET ?";
                 insert = {
                     user_id: socket.session.uid, doc_type: data.docType,
                     created: Math.round(new Date().getTime() / 1000),
-                    folder_id: data.folder, name: data.name
+                    folder_id: data.folder, name: data.name,
+                    encrypt: encrypt
                 };
             }
 

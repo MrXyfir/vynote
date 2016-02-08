@@ -1,6 +1,6 @@
 ﻿import db = require("../../lib/db");
 
-export = (socket: SocketIO.Socket, note: number, fn: Function) => {
+export = (socket: SocketIO.Socket, note: number, encrypt: string, fn: Function) => {
 
     db(cn => {
         // Release connection, output to client, ?join room
@@ -12,11 +12,19 @@ export = (socket: SocketIO.Socket, note: number, fn: Function) => {
         };
 
         // Grab note elements where doc_id is in documents or document_contributors with user's ID
-        let sql: string = "SELECT parent_id, note_id, level, content, flags FROM note_elements "
-            + "WHERE doc_id IN (SELECT doc_id FROM documents WHERE doc_id = ? AND user_id = ?)"
-            + "OR doc_id IN (SELECT doc_id FROM document_contributors WHERE doc_id = ? AND user_id = ?)";
+        let sql: string = `
+            SELECT parent_id, note_id, level, content, flags FROM note_elements 
+            WHERE doc_id IN (SELECT doc_id FROM documents WHERE doc_id = ? AND user_id = ? AND encrypt = ?) 
+            OR doc_id IN (SELECT doc_id FROM document_contributors WHERE doc_id = ? AND user_id = ? AND encrypt = ?)
+        `;
+        // Encrypt is blank for all non-encrypted files
+        // Encrypt should be equal to encrypt("KEY", userEncKey) for encrypted files
+        let vars = [
+            note, socket.session.uid, encrypt,
+            note, socket.session.uid, encrypt
+        ];
 
-        cn.query(sql, [note, socket.session.uid, note, socket.session.uid], (err, rows) => {
+        cn.query(sql, vars, (err, rows) => {
             if (err) {
                 finish([], false);
             }
