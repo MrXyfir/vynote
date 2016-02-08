@@ -47,12 +47,26 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
             }
 
             cn.query(sql, insert, (err, result) => {
-                cn.release();
-
-                if (err || !result.affectedRows)
+                if (err || !result.affectedRows) {
+                    cn.release();
                     fn(true, "An unknown error occured");
-                else
-                    fn(false, result.insertId);
+                }
+                else {
+                    let id: number = result.insertId;
+
+                    // Create row in document_content for non-note document
+                    if (data.objType == 2 && data.docType != 1) {
+                        sql = "INSERT INTO document_content SET ?";
+                        cn.query(sql, { doc_id: id }, (err, result) => {
+                            cn.release();
+
+                            fn(false, id);
+                        });
+                    }
+                    else {
+                        fn(false, id);
+                    }
+                }
             });
         }
     }));
