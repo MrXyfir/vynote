@@ -73,9 +73,12 @@ export module controllers {
     // Called on connection to /user socket namespace
     export function user(socket: SocketIO.Socket) {
 
-        socket.on("get"    , function () { call("./user/get", socket, arguments); });
-        socket.on("login"  , function () { call("./user/login", socket, arguments); });
-        socket.on("update" , function () { call("./user/update", socket, arguments); });
+        socket.on("get"             , function () { call("./user/get", socket, arguments); });
+        socket.on("login"           , function () { call("./user/login", socket, arguments); });
+        socket.on("update"          , function () { call("./user/update", socket, arguments); });
+        socket.on("create shortcut" , function () { call("./user/create-shortcut", socket, arguments); });
+        socket.on("delete shortcut" , function () { call("./user/delete-shortcut", socket, arguments); });
+
         socket.on("disconnect", () => session.destroy(socket.id));
 
     }
