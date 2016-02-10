@@ -9,6 +9,11 @@ interface IData {
 
 export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
 
+    if (Date.now() > socket.session.subscription) {
+        fn(true, "Free members cannot set contributor permissions");
+        return;
+    }
+
     let sql: string = `
         UPDATE document_contributors SET can_write = ?, can_delete = ?, can_update = ? 
         WHERE doc_id IN (
