@@ -9,8 +9,6 @@ import * as express from "express";
 import * as socket from "socket.io";
 import * as http from "http";
 
-import { controllers } from "./controllers/";
-
 // Create servers / applications
 let app = express();
 let server = http.createServer(app);
@@ -22,11 +20,5 @@ server.listen(config.port, () => { console.log("SERVER RUNNING ON ", config.port
 
 // Express middleware / controllers
 app.use('/', express.static(__dirname + "/public"));
-app.get('/', controllers.home);
-app.get("/*", controllers.app);
 
-// Set main controllers for each socket namespace
-io.of("/user").on("connection", controllers.user);
-io.of("/notes").on("connection", controllers.notes);
-io.of("/pages").on("connection", controllers.pages);
-io.of("/explorer").on("connection", controllers.explorer);
+io.on("connection", require("./controllers/"));
