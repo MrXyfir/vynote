@@ -65,6 +65,10 @@ export module controllers {
         socket.on("find"   , function () { call("./explorer/find", socket, arguments); });
         socket.on("rename" , function () { call("./explorer/rename", socket, arguments); });
 
+        socket.on("add user"       , function () { call("./explorer/add-user", socket, arguments); });
+        socket.on("remove user"    , function () { call("./explorer/remove-user", socket, arguments); });
+        socket.on("set user perms" , function () { call("./explorer/set-user-perms", socket, arguments); });
+
         socket.on("close"      , (doc: number) => socket.leave(''+doc));
         socket.on("disconnect" , () => session.destroy(socket.id));
 
@@ -73,10 +77,11 @@ export module controllers {
     // Called on connection to /user socket namespace
     export function user(socket: SocketIO.Socket) {
 
-        socket.on("get"             , function () { call("./user/get", socket, arguments); });
-        socket.on("login"           , function () { call("./user/login", socket, arguments); });
-        socket.on("update"          , function () { call("./user/update", socket, arguments); });
-        socket.on("create shortcut" , function () { call("./user/create-shortcut", socket, arguments); });
+        socket.on("get"    , function () { call("./user/get", socket, arguments); });
+        socket.on("login"  , function () { call("./user/login", socket, arguments); });
+        socket.on("update" , function () { call("./user/update", socket, arguments); });
+
+        socket.on("create shortcut", function () { call("./user/create-shortcut", socket, arguments); });
         socket.on("delete shortcut" , function () { call("./user/delete-shortcut", socket, arguments); });
 
         socket.on("disconnect", () => session.destroy(socket.id));
