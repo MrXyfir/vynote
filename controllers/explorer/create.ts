@@ -7,7 +7,12 @@ interface IData {
 
 export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
 
-    let sql: string = "SELECT folder_id FROM folders WHERE folder_id = ? AND user_id = ?";
+    let sql: string = `
+        SELECT folder_id, (
+            SELECT COUNT(folder_id) FROM folders WHERE user_id = ?
+        ) as folder_count 
+        FROM folders WHERE folder_id = ? AND user_id = ?
+    `;
 
     // Ensure that user owns folder they want to create object in
     db(cn => cn.query(sql, [data.folder, socket.session.uid], (err, rows) => {
@@ -20,6 +25,12 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
 
             // Create a new folder
             if (data.objType == 1) {
+                // Free members are limited to 15 folders
+                if (rows[0].folder_count >= 15 && Date.now() > socket.session.subscription) {
+                    fn(true, "Free users are limited to 15 folders");
+                    return;
+                }
+
                 data.color = (data.color < 0 || data.color > 255) ? 0 : data.color;
                 data.name = !data.name.match(/^[\w\d-.,#$%&()]{1,100}$/) ? "New Folder" : data.name;
 
