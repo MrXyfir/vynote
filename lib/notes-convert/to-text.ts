@@ -1,7 +1,7 @@
 ﻿import * as fs from "fs";
 
 import db = require("../db");
-import buildNoteObject = require("./to-note-object");
+import buildNoteObject = require("./to-object");
 
 export = (elements: any[]): string => {
         // Build note from elements
