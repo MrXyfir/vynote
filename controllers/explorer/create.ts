@@ -8,15 +8,23 @@ interface IData {
 export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
 
     let sql: string = `
-        SELECT folder_id, (
+        SELECT (
             SELECT COUNT(folder_id) FROM folders WHERE user_id = ?
-        ) as folder_count 
-        FROM folders WHERE folder_id = ? AND user_id = ?
+        ) as folder_count, (
+            SELECT folder_id FROM folders WHERE folder_id = ? AND user_id = ?
+        ) as folder_exists, (
+            SELECT COUNT(doc_id) FROM documents WHERE user_id = ?
+        ) as doc_count
     `;
+    let vars = [
+        socket.session.uid,
+        data.folder, socket.session.uid,
+        socket.session.uid
+    ];
 
     // Ensure that user owns folder they want to create object in
-    db(cn => cn.query(sql, [data.folder, socket.session.uid], (err, rows) => {
-        if ((err || !rows.length) && data.folder != 0) {
+    db(cn => cn.query(sql, vars, (err, rows) => {
+        if ((err || rows[0].folder_exists == null) && data.folder != 0) {
             cn.release();
             fn(true, "Folder does not exist");
         }
@@ -27,6 +35,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
             if (data.objType == 1) {
                 // Free members are limited to 15 folders
                 if (rows[0].folder_count >= 15 && Date.now() > socket.session.subscription) {
+                    cn.release();
                     fn(true, "Free users are limited to 15 folders");
                     return;
                 }
@@ -42,6 +51,13 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
             }
             // Document
             else {
+                // Free members are limited to 100 documents
+                if (rows[0].doc_count >= 100 && Date.now() > socket.session.subscription) {
+                    cn.release();
+                    fn(true, "Free users are limited to 100 documents");
+                    return;
+                }
+
                 data.name = !data.name.match(/^[\w\d-.,#$%&()]{1,100}$/) ? "New File" : data.name;
 
                 // data.encrypt is encrypt("KEY", userEncKey), used to verify encryption keys
