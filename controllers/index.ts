@@ -33,7 +33,7 @@ export = (socket: SocketIO.Socket) => {
     socket.on("delete object"         , function () { call("./explorer/delete", socket, arguments); });
     socket.on("find objects"          , function () { call("./explorer/find", socket, arguments); });
     socket.on("rename object"         , function () { call("./explorer/rename", socket, arguments); });
-    socket.on("close document"        , (doc: number) => socket.leave(''+doc));
+    socket.on("close document", (doc: number) => socket.leave('' + doc));
 
     /* Document Contributor Management Events */
     socket.on("add user to document"      , function () { call("./contributors/add", socket, arguments); });

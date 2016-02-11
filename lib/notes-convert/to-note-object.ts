@@ -2,6 +2,8 @@
     note_id: number, parent_id: number, content: string
 }
 
+// Convert note elements to an object that can be easily rendered
+// in multiple forms (text, JSX, etc)
 export = (elements: INoteElement[]) => {
     let note = {
         ref: {
