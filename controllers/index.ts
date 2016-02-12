@@ -20,7 +20,8 @@ export = (socket: SocketIO.Socket) => {
     socket.on("update note element" , function () { call("./notes/update", socket, arguments); });
     socket.on("delete note element" , function () { call("./notes/delete", socket, arguments); });
     socket.on("create note element" , function () { call("./notes/create", socket, arguments); });
-        
+    socket.on("import notes"        , function () { call("./notes/import", socket, arguments); });
+
     /* Non-Note Document Events */
     socket.on("get document content"    , function () { call("./documents/get", socket, arguments); });
     socket.on("update document content" , function () { call("./documents/update", socket, arguments); });
