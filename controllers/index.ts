@@ -49,6 +49,12 @@ export = (socket: SocketIO.Socket) => {
     socket.on("create shortcut"  , function () { call("./shortcuts/create", socket, arguments); });
     socket.on("delete shortcut"  , function () { call("./shortcuts/delete", socket, arguments); });
 
+    /* Version Control Events */
+    socket.on("create version" , function () { call("./versions/create", socket, arguments); });
+    socket.on("load version"   , function () { call("./versions/load", socket, arguments); });
+    socket.on("delete version" , function () { call("./versions/delete", socket, arguments); });
+    socket.on("list versions"  , function () { call("./versions/list", socket, arguments); });
+
     socket.on("disconnect", () => session.destroy(socket.id));
 
 }
