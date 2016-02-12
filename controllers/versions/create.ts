@@ -45,7 +45,7 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
             cn.release();
             fn(true, "A version with that name already exists");
         }
-        else if (rows[0].owns_document == 1) {
+        else if (rows[0].owns_document != 1) {
             cn.release();
             fn(true, "You do not own or have access to this document");
         }
