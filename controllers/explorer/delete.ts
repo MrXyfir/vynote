@@ -22,10 +22,10 @@ export = (socket: SocketIO.Socket, objType: number, id: number, fn: Function) =>
     // Due to foreign keys pointing to folder_id, contained documents are automatically deleted
     else {
         db(cn => {
-            let sql: string = "SELECT folder_id FROM folders WHERE parent_id = ? AND user_id = ?";
+            let sql: string = "SELECT COUNT(folder_id) as count FROM folders WHERE parent_id = ? AND user_id = ?";
 
             cn.query(sql, [id, socket.session.uid], (err, rows) => {
-                if (rows.length > 0) {
+                if (err || rows[0].count > 0) {
                     cn.release();
                     fn(true, "Cannot delete folders that contain sub-folders");
                 }

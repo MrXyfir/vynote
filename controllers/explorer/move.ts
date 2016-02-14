@@ -10,7 +10,7 @@ export = (socket: SocketIO.Socket, objType: number, id: number, to: number, fn: 
         cn.query(sql, [socket.session.uid, to], (err, rows) => {
             if ((err || !rows.length) && to != 0) {
                 cn.release();
-                fn(true);
+                fn(true, "Folder does not exist in your account");
             }
             else {
                 // Folder
@@ -26,7 +26,15 @@ export = (socket: SocketIO.Socket, objType: number, id: number, to: number, fn: 
                 cn.query(sql, [to, id, socket.session.uid], (err, result) => {
                     cn.release();
 
-                    fn(!!err || !result.affectedRows);
+                    if (!!err || !result.affectedRows) {
+                        if (objType != 1 && to == 0)
+                            fn(true, "Cannot move document to root folder");
+                        else
+                            fn(true);
+                    }
+                    else {
+                        fn(false);
+                    }
                 });
             }
         });

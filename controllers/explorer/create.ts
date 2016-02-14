@@ -24,7 +24,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
 
     // Ensure that user owns folder they want to create object in
     db(cn => cn.query(sql, vars, (err, rows) => {
-        if ((err || rows[0].folder_exists == null) && data.folder != 0) {
+        if (err || (rows[0].folder_exists == null && data.folder != 0)) {
             cn.release();
             fn(true, "Folder does not exist");
         }
@@ -49,6 +49,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                     name: data.name, color: data.color
                 };
             }
+
             // Document
             else {
                 // Free members are limited to 100 documents
