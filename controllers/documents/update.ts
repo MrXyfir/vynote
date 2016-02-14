@@ -6,6 +6,11 @@ interface IData {
 
 export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
 
+    if (Object.keys(socket.rooms).indexOf(''+data.doc) == -1) {
+        fn(true);
+        return;
+    }
+
     let value: string = "";
 
     // Determine what to place after 'SET content = '
@@ -27,7 +32,8 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
     // Determine vars based on action
     switch (data.action) {
         case "INSERT":
-            vars = [ data.content.at, data.content.length, data.content.string ];
+            // +2 because JS strings start at 0 and INSERT() includes the starting point
+            vars = [ data.content.at + 2, data.content.length, data.content.string ];
             break;
         case "REPLACE":
             vars = [ data.content.find, data.content.replace ];
