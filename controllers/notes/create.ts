@@ -5,7 +5,12 @@ interface IData {
 }
 
 export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
-
+    
+    if (Object.keys(socket.rooms).indexOf(''+data.note) == -1) {
+        fn(true);
+        return;
+    }
+    
     if (data.content.toString().length > 300) {
         fn(false);
         return;
@@ -59,6 +64,8 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                     }
                 });
             };
+
+            insert();
         }
     }));
 

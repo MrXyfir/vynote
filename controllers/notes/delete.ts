@@ -2,6 +2,11 @@
 
 export = (socket: SocketIO.Socket, note: number, elements: number[], fn: Function) => {
 
+    if (Object.keys(socket.rooms).indexOf('' + note) == -1) {
+        fn(true);
+        return;
+    }
+
     let sql: string = `
         DELETE FROM note_elements 
         WHERE (note_id IN (?)) 
@@ -9,13 +14,16 @@ export = (socket: SocketIO.Socket, note: number, elements: number[], fn: Functio
             doc_id IN (
                 SELECT doc_id FROM documents WHERE doc_id = ? AND user_id = ?
             )
-            OR
+            OR 
             doc_id IN (
                 SELECT doc_id FROM document_contributors WHERE doc_id = ? AND user_id = ? AND can_delete = 1
             )
-        )`;
+        )
+    `;
     let vars = [
-        elements.join(", "), note, socket.session.uid, note, socket.session.uid
+        elements,
+        note, socket.session.uid,
+        note, socket.session.uid
     ];
 
     db(cn => cn.query(sql, vars, (err, result) => {
@@ -26,7 +34,7 @@ export = (socket: SocketIO.Socket, note: number, elements: number[], fn: Functio
         }
         else {
             fn(false);
-            socket.broadcast.to(''+note).emit("delete elements", elements);
+            socket.broadcast.to(''+note).emit("delete elements", note, elements);
         }
     }));
 
