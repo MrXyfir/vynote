@@ -37,9 +37,10 @@ export = (socket: SocketIO.Socket) => {
     socket.on("close document", (doc: number) => socket.leave('' + doc));
 
     /* Document Contributor Management Events */
-    socket.on("add user to document"      , function () { call("./contributors/add", socket, arguments); });
-    socket.on("remove user from document" , function () { call("./contributors/remove", socket, arguments); });
-    socket.on("set user permissions"      , function () { call("./contributors/permissions", socket, arguments); });
+    socket.on("add contributor"      , function () { call("./contributors/add", socket, arguments); });
+    socket.on("remove contributor"   , function () { call("./contributors/remove", socket, arguments); });
+    socket.on("set user permissions" , function () { call("./contributors/permissions", socket, arguments); });
+    socket.on("list contributors"    , function () { call("./contributors/list", socket, arguments); });
 
     /* User Events */
     socket.on("get user info"    , function () { call("./user/get", socket, arguments); });
