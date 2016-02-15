@@ -16,11 +16,11 @@ function call(file: string, socket: SocketIO.Socket, args: IArguments) {
 export = (socket: SocketIO.Socket) => {
         
     /* Note Element Events */
-    socket.on("get note elements"   , function () { call("./notes/get", socket, arguments); });
-    socket.on("update note element" , function () { call("./notes/update", socket, arguments); });
-    socket.on("delete note element" , function () { call("./notes/delete", socket, arguments); });
-    socket.on("create note element" , function () { call("./notes/create", socket, arguments); });
-    socket.on("import notes"        , function () { call("./notes/import", socket, arguments); });
+    socket.on("get note elements"    , function () { call("./notes/get", socket, arguments); });
+    socket.on("update note element"  , function () { call("./notes/update", socket, arguments); });
+    socket.on("delete note elements" , function () { call("./notes/delete", socket, arguments); });
+    socket.on("create note element"  , function () { call("./notes/create", socket, arguments); });
+    socket.on("import notes"         , function () { call("./notes/import", socket, arguments); });
 
     /* Non-Note Document Events */
     socket.on("get document content"    , function () { call("./documents/get", socket, arguments); });
