@@ -3,6 +3,11 @@ import db = require("../../lib/db");
 
 export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
 
+    if (Object.keys(socket.rooms).indexOf(''+doc) == -1) {
+        fn(true);
+        return;
+    }
+
     let sql: string = `
         SELECT (
             SELECT doc_type FROM documents WHERE doc_id = ?

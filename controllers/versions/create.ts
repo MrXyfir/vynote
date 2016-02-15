@@ -5,6 +5,11 @@ import objectToText = require("../../lib/notes-convert/to-text");
 
 export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
 
+    if (Object.keys(socket.rooms).indexOf(''+doc) == -1) {
+        fn(true);
+        return;
+    }
+
     if (Date.now() > socket.session.subscription) {
         fn(true, "Free members cannot create versions");
         return;
