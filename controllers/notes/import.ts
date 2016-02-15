@@ -3,6 +3,11 @@ import db = require("../../lib/db");
 
 export = (socket: SocketIO.Socket, note: number, content: string[], fn: Function) => {
 
+    if (Object.keys(socket.rooms).indexOf('' + note) == -1) {
+        fn(true);
+        return;
+    }
+
     if (Date.now() > socket.session.subscription) {
         fn(true, "Free members cannot import note documents");
         return;
