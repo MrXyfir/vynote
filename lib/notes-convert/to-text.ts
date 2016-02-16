@@ -10,6 +10,10 @@ export = (elements: any[]): string => {
         // Convert object to text format
         const renderText = (parent: number, level: number): string => {
 
+            // Undefined if element (parent) has no children
+            if (note.ref[parent] === undefined)
+                return "";
+
             let content: string = "";
 
             // Grab content of all children under parent
