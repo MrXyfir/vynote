@@ -52,6 +52,13 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
 
             // Document
             else {
+                // Documents cannot live in root
+                if (data.folder == 0) {
+                    cn.release();
+                    fn(true, "You cannot create documents in the root folder");
+                    return;
+                }
+
                 // Free members are limited to 100 documents
                 if (rows[0].doc_count >= 100 && Date.now() > socket.session.subscription) {
                     cn.release();
