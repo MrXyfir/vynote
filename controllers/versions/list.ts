@@ -1,9 +1,9 @@
 ﻿import db = require("../../lib/db");
 
-export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
+export = (socket: SocketIO.Socket, doc: number, fn: Function) => {
 
     let sql: string = `
-        SELECT name, content FROM document_versions WHERE doc_id IN (
+        SELECT name, created FROM document_versions WHERE doc_id IN (
             SELECT doc_id FROM documents WHERE (doc_id = ? AND user_id = ?) 
             OR (doc_id IN (
                 SELECT doc_id FROM document_contributors WHERE doc_id = ? AND user_id = ?
