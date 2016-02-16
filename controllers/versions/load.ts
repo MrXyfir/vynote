@@ -14,9 +14,10 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
         ) as doc_type, (
             SELECT COUNT(doc_id) FROM documents WHERE (doc_id = ? AND user_id = ?)
             OR (doc_id IN (
-                SELECT doc_id FROM document_contributors WHERE doc_id = ? AND user_id = ?
+                SELECT doc_id FROM document_contributors WHERE doc_id = ? AND user_id = ? 
+                AND can_write = 1 AND can_update = 1 AND can_delete = 1
             ))
-        ) as owns_document, (
+        ) as has_access, (
             SELECT COUNT(doc_id) FROM document_versions WHERE doc_id = ? AND name = ?
         ) as version_exists
     `;
@@ -36,9 +37,9 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
             cn.release();
             fn(true, "Version does not exist");
         }
-        else if (rows[0].owns_document != 1) {
+        else if (rows[0].has_access != 1) {
             cn.release();
-            fn(true, "You do not own or have access to this document");
+            fn(true, "You do not own or have sufficient access to this document");
         }
         else {
             // Note document
