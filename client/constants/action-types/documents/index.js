@@ -1,0 +1,1 @@
+export const SAVE_CONTENT = "DOCUMENT/SAVE_CONTENT";
