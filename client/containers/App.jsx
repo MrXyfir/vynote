@@ -46,13 +46,13 @@ class App extends Component {
             <div>
                 <Explorer 
                     data={this.state.fs} 
-                    emit={this.state.emit} 
-                    dispatch={this.state.dispatch}
+                    emit={this.emit} 
+                    dispatch={this.dispatch}
                 ></Explorer>
                 <Document 
                     data={this.state.document} 
-                    emit={this.state.emit} 
-                    dispatch={this.state.dispatch}
+                    emit={this.emit} 
+                    dispatch={this.dispatch}
                 ></Document>
                 <Notification data={this.state.notification}></Notification>
             </div>
