@@ -4,7 +4,7 @@ import marked from "marked";
 import { togglePreview } from "../../actions/documents/page";
 import { saveError, saveSuccess, saveContent } from "../../actions/documents/";
 
-import Editor from "../../components/documents/Editor";
+import Editor from "./Editor";
 
 export default class Page extends Component {
 	
@@ -17,6 +17,8 @@ export default class Page extends Component {
 	}
 	
 	onChange(e) {
+		e.id = this.props.data.id;
+	
 		this.props.emit("update document content", e, (err) => {
 			if (err) {
 				this.props.dispatch(saveError());
