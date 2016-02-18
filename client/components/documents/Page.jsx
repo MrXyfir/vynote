@@ -31,15 +31,16 @@ export default class Page extends Component {
 	render() {
 		let document;
 		
-		if (this.props.data.preview) {
-			document = <div dangerouslySetInnerHTML={{__html: marked(this.props.data.content)}}></div>
-		}
-		else {
+		if (this.props.data.preview)
+			document = <div dangerouslySetInnerHTML={{__html: marked(this.props.data.content)}}></div>;
+		else
 			document = <Editor onChange={this.onChange} data={this.props.data} />;
-		}
 	
 		return (
 			<div className={"document document-page-" + (this.props.data.preview ? "preview" : "edit")}>
+				<button className="btn btn-primary" onClick={this.onTogglePreview}>{
+					this.props.data.preview ? "Edit Mode" : "Preview Mode"
+				}</button>
 				{document}
 			</div>
 		);

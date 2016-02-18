@@ -1,8 +1,8 @@
 ﻿import { Component } from "react";
 
-import Page from "./Documents/Page";
-import Note from "./Documents/Note";
-import Code from "./Documents/Code";
+import Page from "../components/documents/Page";
+import Note from "../components/documents/Note";
+import Code from "../components/documents/Code";
 
 export default class Document extends Component {
 

@@ -14,15 +14,15 @@ export default class Ace extends Component {
 		this.editor.getSession().setMode(`ace/mode/${getSyntaxFile(this.props.data.syntax)}`);
 		this.editor.setTheme(`ace/theme/${getThemeFile(this.props.data.theme)}`);
 		this.editor.setShowPrintMargin(false);
-		//this.editor.setFontSize(fontSize);
-		//this.editor.setValue(value, cursorStart);
-		//this.editor.setOption('tabSize', tabSize);
+		this.editor.setFontSize(16);
 		this.editor.on('change', this.onChange);
 		
 		this.editor.setValue(this.props.data.content);
 	}
 	
 	componentWillUnmount() {
+		clearTimeout(this.timeout);
+	
 		this.editor.destroy();
 		this.editor = null;
 	}
