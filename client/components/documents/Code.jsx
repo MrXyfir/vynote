@@ -45,14 +45,14 @@ export default class Code extends Component {
 			<div className="document document-code">
 				<div className="document-settings">
 					<label>Syntax</label>
-					<select ref="syntax" onChange={this.onSetSyntax}>{
+					<select ref="syntax" onChange={this.onSetSyntax} defaultValue={this.props.data.syntax}>{
 						syntaxes.map((syntax, i) => {
 							return (<option value={i}>{syntax[0]}</option>);
 						})
 					}</select>
 					
 					<label>Theme</label>
-					<select ref="theme" onChange={this.onSetTheme}>{
+					<select ref="theme" onChange={this.onSetTheme} defaultValue={this.props.data.theme}>{
 						themes.map((theme, i) => {
 							return (<option value={i}>{theme[0]}</option>);
 						})
