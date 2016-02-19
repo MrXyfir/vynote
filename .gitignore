@@ -1,8 +1,9 @@
 .ntvs_analysis.dat.tmp
 .ntvs_analysis.dat
 node_modules/
+public/css/
+public/js/
 *.njsproj
-public/
 *.sln
 *.map
 *.js
