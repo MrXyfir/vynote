@@ -4,11 +4,11 @@ export = (socket: SocketIO.Socket, note: number, encrypt: string, fn: Function) 
 
     db(cn => {
         // Release connection, output to client, ?join room
-        const finish = (output: any[], join: boolean) => {
+        const finish = (output: any[], err: boolean) => {
             cn.release();
-            fn(output);
+            fn(err, output);
 
-            if (join) socket.join(''+note);
+            if (!err) socket.join(''+note);
         };
 
         // Grab note elements where doc_id is in documents or document_contributors with user's ID
@@ -30,7 +30,7 @@ export = (socket: SocketIO.Socket, note: number, encrypt: string, fn: Function) 
 
         cn.query(sql, vars, (err, rows) => {
             if (err) {
-                finish([], false);
+                finish([], true);
             }
             // Determine if no rows because note has no elements
             // or because user cannot access note
@@ -50,15 +50,15 @@ export = (socket: SocketIO.Socket, note: number, encrypt: string, fn: Function) 
                 cn.query(sql, vars, (err, rows) => {
                     // User does not have access to note
                     if (err || rows[0].has_access != 1)
-                        finish([], false);
+                        finish([], true);
                     // User has access to note but it has no elements yet
                     else
-                        finish([], true);
+                        finish([], false);
                 });
             }
             // Return elements and have user join room
             else {
-                finish(rows, true);
+                finish(rows, false);
             }
         });
     });
