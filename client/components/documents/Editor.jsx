@@ -2,6 +2,8 @@ import { Component } from "react";
 
 import { getThemeFile, getSyntaxFile } from "../constants/editor";
 
+import { encrypt, decrypt } from "../../lib/crypto";
+
 export default class Ace extends Component {
 	
 	constructor(props) {
@@ -17,7 +19,11 @@ export default class Ace extends Component {
 		this.editor.setFontSize(16);
 		this.editor.on('change', this.onChange);
 		
-		this.editor.setValue(this.props.data.content);
+		this.editor.setValue(
+			(this.props.data.encrypted) 
+			? decrypt(this.props.data.content, this.props.data.encrypt)
+			: this.props.data.content
+		);
 	}
 	
 	componentWillUnmount() {
@@ -32,7 +38,11 @@ export default class Ace extends Component {
 	
 		this.timeout = setTimeout(() => {
 			this.props.onChange({
-				action: "OVERWRITE", content: this.editor.getValue()
+				action: "OVERWRITE", content: (
+					(this.props.data.encrypted) 
+					? encrypt(this.editor.getValue(), this.props.data.encrypt)
+					: this.editor.getValue()
+				)
 			});
 		}, 5000);
 	}
