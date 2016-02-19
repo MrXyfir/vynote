@@ -1,0 +1,2 @@
+export const SET_SYNTAX = "DOCUMENT/CODE/SET_SYNTAX";
+export const SET_THEME = "DOCUMENT/CODE/SET_THEME";
