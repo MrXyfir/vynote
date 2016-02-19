@@ -27,7 +27,13 @@ export default class Code extends Component {
 	}
 	
 	onSetSyntax() {
-		this.props.dispatch(setSyntax(this.refs.syntax.value));
+		const syntax = this.refs.syntax.value; 
+		
+		this.props.emit("set document syntax", this.props.data.id, syntax, (err) => {
+			if (!err) {
+				this.props.dispatch(setSyntax(syntax));
+			}
+		});
 	}
 	
 	onSetTheme() {
