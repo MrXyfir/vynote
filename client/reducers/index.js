@@ -1,6 +1,6 @@
 ﻿// Reducers
 import document from "./document/";
-import explorer from "./explorer";
+import explorer from "./explorer/";
 import notification from "./notification";
 
 import initialState from "../constants/initial-state";
