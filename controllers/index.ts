@@ -28,7 +28,7 @@ export = (socket: SocketIO.Socket) => {
     socket.on("set document syntax"     , function () { call("./documents/syntax", socket, arguments); });
 
     /* Explorer Events */
-    socket.on("get objects in folder" , function () { call("./explorer/get", socket, arguments); });
+    socket.on("get filesystem"        , function () { call("./explorer/get", socket, arguments); });
     socket.on("create object"         , function () { call("./explorer/create", socket, arguments); });
     socket.on("move object to folder" , function () { call("./explorer/move", socket, arguments); });
     socket.on("delete object"         , function () { call("./explorer/delete", socket, arguments); });
