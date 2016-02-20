@@ -1,7 +1,9 @@
 export default function (folders, scope) {
 	const getParent = (id) => {
 		if (folders[id].parent_id === 0) {
-			return [{ name: folders[id].name, id }];
+			return [{ name: folders[id].name, id }].concat(
+				[{ name: "", id: 0 }]
+			);
 		}
 		else {
 			return [{ name: folders[id].name, id }].concat(
