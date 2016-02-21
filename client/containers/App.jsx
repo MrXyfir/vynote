@@ -45,7 +45,8 @@ class App extends Component {
         return (
             <div>
                 <Explorer 
-                    data={this.state.fs} 
+                    data={this.state.explorer} 
+                    user={this.state.user} 
                     emit={this.emit} 
                     dispatch={this.dispatch}
                 ></Explorer>
