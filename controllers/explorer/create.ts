@@ -69,7 +69,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                 data.name = !data.name.match(/^[\w\d-.,#$%&()]{1,100}$/) ? "New File" : data.name;
 
                 // data.encrypt is encrypt("KEY", userEncKey), used to verify encryption keys
-                let encrypt: string = (data.encrypt.length > 0 && socket.session.subscription > Date.now() / 1000)
+                let encrypt: string = (data.encrypt.length > 0 && Date.now() > socket.session.subscription)
                     ? data.encrypt : "";
 
                 sql = "INSERT INTO documents SET ?";
