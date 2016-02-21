@@ -2,7 +2,7 @@
 
 interface IData {
     objType: number, folder: number, name: string,
-    docType?: number, color?: number, encrypt?: string
+    color: number, docType?: number, encrypt?: string
 }
 
 export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
@@ -40,8 +40,8 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                     return;
                 }
 
-                data.color = (data.color < 0 || data.color > 255) ? 0 : data.color;
-                data.name = !data.name.match(/^[\w\d-.,#$%&()]{1,100}$/) ? "New Folder" : data.name;
+                data.color = (Date.now() > socket.session.subscription) ? data.color : 0;
+                data.name = !data.name.match(/^[\w\d-.,#$%&()]{1,50}$/) ? "New Folder" : data.name;
 
                 sql = "INSERT INTO folders SET ?";
                 insert = {
@@ -66,7 +66,8 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                     return;
                 }
 
-                data.name = !data.name.match(/^[\w\d-.,#$%&()]{1,100}$/) ? "New File" : data.name;
+                data.color = (Date.now() > socket.session.subscription) ? data.color : 0;
+                data.name = !data.name.match(/^[\w\d-.,#$%&()]{1,50}$/) ? "New File" : data.name;
 
                 // data.encrypt is encrypt("KEY", userEncKey), used to verify encryption keys
                 let encrypt: string = (data.encrypt.length > 0 && Date.now() > socket.session.subscription)
@@ -77,7 +78,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                     user_id: socket.session.uid, doc_type: data.docType,
                     created: Math.round(new Date().getTime() / 1000),
                     folder_id: data.folder, name: data.name,
-                    encrypt: encrypt
+                    encrypt: encrypt, color: data.color
                 };
             }
 
