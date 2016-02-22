@@ -1,5 +1,6 @@
-import { CREATE_FOLDER, CREATE_DOCUMENT } from "../../constants/action-types/explorer/user-input";
-import { RENAME_OBJECT, MOVE_OBJECT } from "../../constants/action-types/explorer/user-input";
+import {
+	CREATE_FOLDER, CREATE_DOCUMENT, RENAME_OBJECT, MOVE_OBJECT, CLOSE
+} from "../../constants/action-types/explorer/user-input";
 
 export default function (state, action) {
 	switch (action.type) {
@@ -18,8 +19,13 @@ export default function (state, action) {
 			
 		case MOVE_OBJECT:
 			return Object.assign({}, state, {
-				action: MOVE_OBJECT, objType: action.objType, objId: action.objId
+				userInput: {
+					action: MOVE_OBJECT, objType: action.objType, objId: action.objId
+				}
 			});
+			
+		case CLOSE:
+			return Object.assign({}, state, { userInput: { action: "" } });
 			
 		default:
 			return state;
