@@ -12,9 +12,3 @@ export function triggerCreateDocument() {
 		type: CREATE_DOCUMENT
 	};
 }
-
-export function createDocumentInRoot() {
-	return {
-		type: ERROR, message: "Cannot create documents in root folder"
-	}
-}

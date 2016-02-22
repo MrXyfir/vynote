@@ -1,7 +1,8 @@
 import { Component } from "react";
 
-import { triggerCreateFolder, triggerCreateDocument, createDocumentInRoot } from "../../actions/explorer/control-bar";
+import { triggerCreateFolder, triggerCreateDocument } from "../../actions/explorer/user-input";
 import { navigateToFolder, loadFileSystem } from "../../actions/explorer/";
+import { error } from "../../actions/notification";
 
 import { buildExplorerObject } from "../../lib/explorer/build";
 
@@ -19,7 +20,7 @@ export default class ControlBar extends Component {
 	onCreateDocument() {
 		if (this.props.data.scope === 0) {
 			// Cannot create documents in root
-			this.dispatch(createDocumentInRoot());
+			this.dispatch(error("Cannot create documents in root folder"));
 		}
 		else {
 			// UserInput will handle creation process
