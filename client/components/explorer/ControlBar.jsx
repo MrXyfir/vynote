@@ -52,17 +52,18 @@ export default class ControlBar extends Component {
 	render() {
 		return (
 			<div className="explorer-control-bar">
-				<span className="explorer-active-folder">{
+				<span className="explorer-active-folder" title="Active Folder">{
 					this.props.data.folders[this.props.data.scope].name
 				}</span>
 				<span
+					title="Go to Parent Folder" 
 					className={this.props.data.scope > 0 ? "icon-level-up" : ""} 
 					onClick={this.onNavigateToParent}
-				></span>
-				<span className="icon-folder-add" onClick={this.onCreateFolder}></span>
-				<span className="icon-doc-add" onClick={this.onCreateDocument}></span>
-				<span className="icon-refresh" onClick={this.onRefresh}></span>
-				<span className="icon-home" onClick={this.onNavigateToRoot}></span>
+				/>
+				<span className="icon-folder-add" title="Create Folder" onClick={this.onCreateFolder} />
+				<span className="icon-doc-add" title="Create Document" onClick={this.onCreateDocument} />
+				<span className="icon-refresh" title="Refresh" onClick={this.onRefresh} />
+				<span className="icon-home" title="Go to Home Folder" onClick={this.onNavigateToRoot} />
 			</div>
 		);
 	}

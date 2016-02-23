@@ -129,9 +129,9 @@ export default class ExplorerObject extends Component {
 					this.state.showControls
 					? (
 						<div className="object-controls">
-							<span className="icon-edit" onClick={this.onRename} />
-							<span className="icon-move" onClick={this.onMove} />
-							<span className="icon-trash" onClick={this.onDelete} />
+							<span className="icon-edit" title="Rename" onClick={this.onRename} />
+							<span className="icon-move" title="Move" onClick={this.onMove} />
+							<span className="icon-trash" title="Delete" onClick={this.onDelete} />
 						</div>
 					)
 					: (
