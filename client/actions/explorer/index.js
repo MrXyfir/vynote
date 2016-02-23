@@ -1,5 +1,6 @@
 import {
-	LOAD_FILESYSTEM, UPDATE_SCOPE, DELETE_OBJECT, CREATE_FOLDER, CREATE_DOCUMENT
+	LOAD_FILESYSTEM, UPDATE_SCOPE, DELETE_OBJECT, CREATE_FOLDER, CREATE_DOCUMENT,
+	RENAME_OBJECT, MOVE_OBJECT
 } from "../../constants/action-types/explorer/";
 
 export function createFolder(data) {
@@ -29,5 +30,17 @@ export function navigateToFolder(scope) {
 export function deleteObject(objType, id) {
 	return {
 		type: DELETE_OBJECT, objType, id
+	};
+}
+
+export function renameObject(data) {
+	return {
+		type: RENAME_OBJECT, data
+	};
+}
+
+export function moveObject(data) {
+	return {
+		type: MOVE_OBJECT, data
 	};
 }
