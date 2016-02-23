@@ -55,7 +55,7 @@ class App extends Component {
                     emit={this.emit} 
                     dispatch={this.dispatch}
                 ></Document>
-                <Notification data={this.state.notification}></Notification>
+                <Notification data={this.state.notification} dispatch={this.dispatch} />
             </div>
         );
     }

@@ -1,4 +1,4 @@
-import { SUCCESS, ERROR, INFO } from "../constants/action-types/notifications";
+import { SUCCESS, ERROR, INFO, CLEAR } from "../constants/action-types/notifications";
 
 export function error(message) {
 	return {
@@ -17,3 +17,9 @@ export function info(message) {
 		type: INFO, message
 	};
 };
+
+export function clear() {
+	return {
+		type: CLEAR
+	};
+}
