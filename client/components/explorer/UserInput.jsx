@@ -39,9 +39,9 @@ export default class UserInput extends Component {
 			name: this.refs.input.innerHTML
 		};
 	
-		this.props.emit("create object", data, (err, msg) => {
+		this.props.emit("create object", data, (err, res) => {
 			if (err) {
-				this.dispatch(error(msg));
+				this.dispatch(error(res));
 				
 			}
 			else {
@@ -49,6 +49,7 @@ export default class UserInput extends Component {
 					Date.now() > this.props.subscription && !this.refs.key.value
 				);
 				data.syntax = 7;
+				data.doc_id = res;
 			
 				this.dispatch(createDocument(data));
 				this.dispatch(success(`Document '${data.name}' created`)); 
