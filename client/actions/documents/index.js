@@ -1,5 +1,7 @@
 import { ERROR, SUCCESS } from "../../constants/action-types/notifications";
-import { SAVE_CONTENT, LOAD_CONTENT, SET_KEY } from "../../constants/action-types/documents/";
+import {
+	SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT
+} from "../../constants/action-types/documents/";
 
 export function saveError() {
 	return {
@@ -22,6 +24,12 @@ export function saveContent(data) {
 export function accessError() {
 	return {
 		type: ERROR, message: "Could not access document with provided encryption key"	
+	};
+}
+
+export function loadDocument(document) {
+	return {
+		type: LOAD_DOCUMENT, document	
 	};
 }
 
