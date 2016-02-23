@@ -7,7 +7,7 @@ interface IData {
 export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
 
     // Validate name
-    if (!data.name.match(/^[\w\d-.,#$%&()]{1,50}$/)) {
+    if (!data.name.match(/^[\w\d- .,#$%&()]{1,50}$/)) {
         fn(true, "Invalid name characters or length");
     }
     // Contributor document
