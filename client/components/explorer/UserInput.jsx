@@ -23,7 +23,7 @@ export default class UserInput extends Component {
 			return;
 		}
 	
-		const data = {
+		let data = {
 			objType: 2, folder: this.props.data.scope,
 			docType: this.refs.docType.value,
 			encrypt: (
@@ -45,6 +45,11 @@ export default class UserInput extends Component {
 				
 			}
 			else {
+				data.encrypted = (
+					Date.now() > this.props.subscription && !this.refs.key.value
+				);
+				data.syntax = 7;
+			
 				this.dispatch(createDocument(data));
 				this.dispatch(success(`Document '${data.name}' created`)); 
 			}
