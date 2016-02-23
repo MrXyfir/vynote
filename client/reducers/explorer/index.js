@@ -57,6 +57,11 @@ export default function (state, action) {
 					temp = JSON.parse(JSON.stringify(state));
 					if (action.objType == 1) {
 						delete temp.folders[action.id];
+						// Delete all documents in folder
+						Object.keys(temp.documents).forEach(doc => {
+							if (temp.documents[doc].folder_id == action.id)
+								delete temp.documents[doc];
+						});
 						delete temp.children[action.id];
 					}
 					else {
