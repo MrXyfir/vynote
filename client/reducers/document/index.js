@@ -4,7 +4,9 @@ import page from "./page";
 import code from "./code";
 
 // Action types
-import { SAVE_CONTENT, LOAD_CONTENT, SET_KEY } from "../../constants/action-types/documents/";
+import {
+	SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT
+} from "../../constants/action-types/documents/";
 
 export default function (state, action) {
 	let actionType = action.type.split('/');
@@ -32,13 +34,19 @@ export default function (state, action) {
 						return Object.assign({}, state, { content: action.data });
 					else
 						return state;
+						
 				case LOAD_CONTENT:
 					return Object.assign({}, state, { content: action.content });
+					
 				case SET_KEY:
 					if (state.encrypted)
 						return Object.assign({}, state, { encrypt: action.key });
 					else
 						return state;
+				
+				case LOAD_DOCUMENT:
+					return action.document;		
+				
 				default:
 					return state;
 			}
