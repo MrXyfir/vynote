@@ -45,11 +45,12 @@ export default class UserInput extends Component {
 				
 			}
 			else {
-				data.encrypted = (
-					Date.now() > this.props.subscription && !this.refs.key.value
-				);
-				data.syntax = 7;
-				data.doc_id = res;
+				data = {
+					doc_type: data.docType, doc_id: res, name: data.name,
+					encrypt: data.encrypt, encrypted: data.encrypt != "",
+					contributor: false, syntax: 7, color: data.color,
+					folder_id: data.folder
+				};
 			
 				this.dispatch(createDocument(data));
 				this.dispatch(success(`Document '${data.name}' created`)); 
@@ -60,7 +61,7 @@ export default class UserInput extends Component {
 	}
 	
 	onCreateFolder() {
-		const data = {
+		let data = {
 			objType: 1, folder: this.props.data.scope,
 			name: this.refs.input.innerHTML,
 			color: (
@@ -70,11 +71,15 @@ export default class UserInput extends Component {
 			),
 		};
 		
-		this.props.emit("create object", data, (err, msg) => {
+		this.props.emit("create object", data, (err, res) => {
 			if (err) {
-				this.dispatch(error(msg));
+				this.dispatch(error(res));
 			}
 			else {
+				data = {
+					name: data.name, parent_id: data.folder, folder_id: res
+				};
+			
 				this.dispatch(createFolder(data));
 				this.dispatch(success(`Folder ${data.name} created`));
 			}
