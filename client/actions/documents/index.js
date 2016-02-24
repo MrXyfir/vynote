@@ -1,7 +1,12 @@
-import { ERROR, SUCCESS } from "../../constants/action-types/notifications";
+import {
+	ERROR, SUCCESS
+} from "../../constants/action-types/notifications";
 import {
 	SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT
 } from "../../constants/action-types/documents/";
+import {
+	DOCUMENT_CONTROLS
+} from "../../constants/action-types/modal/document-controls";
 
 export function saveError() {
 	return {
@@ -44,3 +49,9 @@ export function setEncryptionKey(key) {
 		type: SET_KEY, key
 	};
 }
+
+export function openDocumentControls() {
+	return {
+		type: DOCUMENT_CONTROLS
+	};
+};
