@@ -1,7 +1,7 @@
 import { Component } from "react";
 
-// Components
-import DocumentControls from "../components/documents/Controls";
+// Sub-Containers
+import DocumentControls from "./modal/DocumentControls";
 
 // Actions
 import { close } from "../actions/modal";
@@ -31,6 +31,7 @@ export default class Modal extends Component {
 						dispatch={this.props.dispatch}
 					/>
 				); break;
+				
 			default;
 				return <div />;
 		}
