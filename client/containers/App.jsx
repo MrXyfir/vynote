@@ -49,12 +49,13 @@ class App extends Component {
                     user={this.state.user} 
                     emit={this.emit} 
                     dispatch={this.dispatch}
-                ></Explorer>
+                />
                 <Document 
                     data={this.state.document} 
                     emit={this.emit} 
+                    folders={this.state.explorer.folders} 
                     dispatch={this.dispatch}
-                ></Document>
+                />
                 <Notification data={this.state.notification} dispatch={this.dispatch} />
             </div>
         );

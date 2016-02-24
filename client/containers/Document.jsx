@@ -1,12 +1,21 @@
 ﻿import { Component } from "react";
 
+// Components
 import Page from "../components/documents/Page";
 import Note from "../components/documents/Note";
 import Code from "../components/documents/Code";
 
-import { accessError, loadContent, setEncryptionKey } from "../actions/documents/";
+// Actions creators
+import {
+    accessError, loadContent, setEncryptionKey, openDocumentControls
+} from "../actions/documents/";
 
+// Modules
 import toNoteObject from "../../lib/notes-convert/to-object";
+import getScopeParents from "../lib/explorer/scope-parents";
+
+// Constants
+import { syntaxes } from "../constants/editor";
 
 export default class Document extends Component {
 
@@ -38,6 +47,10 @@ export default class Document extends Component {
             }
         });
     }
+    
+    onOpenDocControls() {
+        this.dispatch(openDocumentControls());
+    }
 
     render() {
         // Document is encrypted and user has not provided key
@@ -56,14 +69,57 @@ export default class Document extends Component {
         }
         // Output appropriate component to handle document
         else {
+            let view;
+        
             switch (this.props.data.type) {
                 case 1:
-                    return <Note data={this.props.data} emit={this.props.emit} dispatch={this.props.dispatch}></Note>;
+                    view = <Note data={this.props.data} emit={this.props.emit} dispatch={this.props.dispatch} />;
+                    break;
                 case 2:
-                    return <Page data={this.props.data} emit={this.props.emit} dispatch={this.props.dispatch}></Page>;
+                    view = <Page data={this.props.data} emit={this.props.emit} dispatch={this.props.dispatch} />;
+                    break;
                 case 3:
-                    return <Code data={this.props.data} emit={this.props.emit} dispatch={this.props.dispatch}></Code>;
+                    view = <Code data={this.props.data} emit={this.props.emit} dispatch={this.props.dispatch} />;
             }
+            
+            return (
+                <div className="document-container">
+                    <div className="document-head">
+                        <div className="document-info">
+                            <span title="Document Type">[
+                                {this.props.data.doc_type == 1 ? "Note" : (this.props.data.doc_type == 2 ? "Page" : "Code")}
+                            ]</span>
+                            {" - "}
+                            <span title="Document Name">[
+                                {this.props.data.name}
+                            ]</span>
+                            {" - "}
+                            <span title="Created">[
+                                {(new Date()).toLocaleString(this.props.data.created)}
+                            ]</span> 
+                        </div>
+                        <div className="document-icons">
+                            <span 
+                                className={this.props.data.contributor ? "icon-users" : ""}
+                                title={this.props.data.contributor ? "Multi-User Document" : ""}
+                            />
+                            <span 
+                                className={"icon-" + (this.props.data.encrypted ? "lock" : "unlocked")}
+                                title={this.props.data.encrypted ? "Encrypted" : "Unencrypted"} 
+                            />
+                        </div>
+                        <div className="document-location">{
+                            getScopeParents(this.props.folders, this.props.data.folder_id)
+                                .map(folder => {
+                                    return folder.name;
+                                }).join("/") + "/" + this.props.folders[this.props.data.folder_id].name
+                        }</div>
+                        <a onClick={this.onOpenDocControls}>Document Controls</a>
+                    </div>
+                    
+                    {view}
+                </div>
+            );
         }
     }
 
