@@ -7,8 +7,8 @@ import reducers from "../reducers/";
 
 // React container components
 import Explorer from "./Explorer";
-import Settings from "./Settings";
 import Document from "./Document";
+import Modal from "./Modal";
 
 // Non-container React componenents
 import Notification from "../components/Notification";
@@ -54,6 +54,11 @@ class App extends Component {
                     data={this.state.document} 
                     emit={this.emit} 
                     folders={this.state.explorer.folders} 
+                    dispatch={this.dispatch}
+                />
+                <Modal
+                    data={this.state} 
+                    emit={this.emit} 
                     dispatch={this.dispatch}
                 />
                 <Notification data={this.state.notification} dispatch={this.dispatch} />
