@@ -21,3 +21,6 @@
 .icon-level-up:before { content: '\e813'; } /* '' */
 .icon-loading:before { content: '\e814'; } /* '' */
 .icon-nested-note:before { content: '\e815'; } /* '' */
+.icon-move:before { content: '\e816'; } /* '' */
+.icon-lock:before { content: '\e817'; } /* '' */
+.icon-unlocked:before { content: '\e818'; } /* '' */
