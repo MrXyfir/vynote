@@ -6,7 +6,7 @@ import {
 } from "../../constants/action-types/documents/";
 import {
 	DOCUMENT_CONTROLS
-} from "../../constants/action-types/modal/document-controls";
+} from "../../constants/action-types/modal/document-controls/";
 
 export function saveError() {
 	return {
