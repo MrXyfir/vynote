@@ -1,5 +1,5 @@
 // Reducers
-import documentControls from "./document-controls";
+import documentControls from "./document-controls/";
 
 // Action types
 import { CLOSE } from "../../constants/action-types/modal/";
