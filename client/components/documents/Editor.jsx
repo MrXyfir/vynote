@@ -11,7 +11,7 @@ export default class Ace extends Component {
 	}
 	
 	componentDidMount() {
-		this.editor = ace.edit("ace-editor");
+		this.editor = ace.edit(this.props.id || "ace-editor");
 		
 		this.editor.getSession().setMode(`ace/mode/${getSyntaxFile(this.props.data.syntax)}`);
 		this.editor.setTheme(`ace/theme/${getThemeFile(this.props.data.theme)}`);
@@ -49,7 +49,7 @@ export default class Ace extends Component {
 
 	render() {
 		return (
-			<div id="ace-editor"></div>
+			<div id={this.props.id || "ace-editor"}></div>
 		);
 	}
 	
