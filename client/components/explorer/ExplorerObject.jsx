@@ -6,7 +6,7 @@ import {
 } from "../../actions/explorer/user-input";
 import { error } from "../../actions/notification";
 import { navigateToFolder, deleteObject } from "../../actions/explorer/";
-import { loadDocument } from "../../actions/document/";
+import { loadDocument } from "../../actions/documents/";
 
 // Constants
 import colors from "../../constants/colors";
@@ -66,7 +66,7 @@ export default class ExplorerObject extends Component {
 				// Document container will require encryption key when
 				// encrypted == true && encrypt == ""
 				this.dispatch(loadDocument(
-					Object.assign({}, this.props.data, { encrypt: "" }
+					Object.assign({}, this.props.data, { encrypt: "" })
 				));
 				return;
 			}
@@ -81,7 +81,7 @@ export default class ExplorerObject extends Component {
 						this.dispatch(loadDocument(
 							Object.assign({}, this.props.data, {
 								content: buildNoteObject(res)
-							}
+							})
 						));
 					}
 				});
@@ -95,7 +95,7 @@ export default class ExplorerObject extends Component {
 					else {
 						this.dispatch(loadDocument(
 							Object.assign({}, this.props.data, { content: res })
-						);
+						));
 					}
 				});
 			}

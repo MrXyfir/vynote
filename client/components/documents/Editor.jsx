@@ -1,6 +1,6 @@
 import { Component } from "react";
 
-import { getThemeFile, getSyntaxFile } from "../constants/editor";
+import { getThemeFile, getSyntaxFile } from "../../constants/editor";
 
 import { encrypt, decrypt } from "../../lib/crypto";
 

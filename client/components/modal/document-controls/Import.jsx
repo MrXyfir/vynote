@@ -12,7 +12,7 @@ import {
 } from "../../../actions/modal/";
 
 // Components
-import Editor from "../Editor";
+import Editor from "../../documents/Editor";
 
 // Modules
 import buildNoteObject from "../../../../lib/notes-convert/to-object";
