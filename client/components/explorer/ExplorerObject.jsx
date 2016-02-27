@@ -67,7 +67,7 @@ export default class ExplorerObject extends Component {
 				// encrypted == true && encrypt == ""
 				this.dispatch(loadDocument(
 					Object.assign({}, this.props.data, { encrypt: "" }
-				);
+				));
 				return;
 			}
 		
