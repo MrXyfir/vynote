@@ -1,10 +1,10 @@
 import { Component } from "react";
 
 // Components
-import VersionControl from "../../components/documents/controls/VersionControl";
-import Contributors from "../../components/documents/controls/Contributors";
-import Export from "../../components/documents/controls/Export";
-import Import from "../../components/documents/controls/Import";
+import VersionControl from "../../components/modal/document-controls/VersionControl";
+import Contributors from "../../components/modal/document-controls/Contributors";
+import Export from "../../components/modal/document-controls/Export";
+import Import from "../../components/modal/document-controls/Import";
 
 export default class DocumentControls extends Component {
 
