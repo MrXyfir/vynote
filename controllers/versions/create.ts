@@ -1,6 +1,7 @@
 ﻿import db = require("../../lib/db");
 
 // Convert note_elements rows to object via to-object, then to text
+import buildNoteObject = require("../../lib/notes-convert/to-object");
 import objectToText = require("../../lib/notes-convert/to-text");
 
 export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
@@ -84,7 +85,7 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
                         VALUES (?, ?, ?)
                     `;
                     vars = [
-                        doc, name, objectToText(rows)
+                        doc, name, objectToText(buildNoteObject(rows))
                     ];
 
                     cn.query(sql, vars, (err, result) => {
