@@ -34,24 +34,23 @@ gulp.task('css', function () {
 gulp.task('client', function () {
     var babelify = require("babelify");
     var uglify = require('gulp-uglify');
+    var fs = require("fs");
 
-    return require("browserify")(
-        './client/containers/App.jsx',
-        { extensions: '.jsx' }
-    )
-    .transform(babelify, {
-        presets: ["es2015", "react"],
-        extensions: [".jsx"]
-    })
-    .bundle()
-    .pipe(source('App.js'))
-    .pipe(streamify(uglify({
-        mangle: false,
-        compress: {
-            unused: false
-        }
-    })))
-    .on('error', gutil.log)
-    .pipe(!isDev ? gzip() : gutil.noop())
-    .pipe(gulp.dest('./public/js/'));
+    var extensions = ['.jsx', '.js'];
+    
+    return require("browserify")({ debug: true, extensions: extensions })
+        .transform(babelify.configure({
+            extensions: extensions, presets: ["es2015", "react"]
+        }))
+        .require("./client/containers/App.jsx", { entry: true })
+        .bundle()
+        .on("error", function (err) { console.log("Error : " + err.message); })
+        .pipe(streamify(uglify({
+            mangle: false,
+            compress: {
+                unused: false
+            }
+        })))
+        .pipe(!isDev ? gzip() : gutil.noop())
+        .pipe(fs.createWriteStream("./public/js/App.js"));
 });
