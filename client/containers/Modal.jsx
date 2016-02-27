@@ -32,7 +32,7 @@ export default class Modal extends Component {
 					/>
 				); break;
 				
-			default;
+			default:
 				return <div />;
 		}
 	
