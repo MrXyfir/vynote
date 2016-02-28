@@ -9,15 +9,19 @@
   "author": "Xyfir",
   "license": "ISC",
   "devDependencies": {
+    "autoprefixer": "^6.3.3",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
+    "cssnano": "^3.5.2",
     "gulp": "^3.9.0",
     "gulp-gzip": "^1.2.0",
+    "gulp-postcss": "^6.1.0",
     "gulp-streamify": "^1.0.2",
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
+    "precss": "^1.4.0",
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {

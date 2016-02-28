@@ -7,16 +7,21 @@ var isDev = require("./config").environment.development;
 /*
 	css
 	- imports css files
+    - scss -> css
 	- autoprefixer
 	- minifies / gzip
 */
 gulp.task("css", function () {
-    return gulp.src("./styles/style.css")
-		.pipe(require("gulp-postcss")([
-            require("autoprefixer")(
-                {browsers: "last 1 version, > 10%"}
-            ),
-            require("cssnano")
+    var postcss = require("gulp-postcss");
+    var precss = require("precss");
+    var nano = require("cssnano");
+    var ap = require("autoprefixer");
+    
+    return gulp.src("./styles/style.scss")
+        .pipe(postcss([
+            precss({}),
+            ap({browsers: "last 1 version, > 10%"}),
+            nano()
         ]))
 		.pipe(!isDev ? gzip() : gutil.noop())
 		.pipe(gulp.dest("./public/css"));
