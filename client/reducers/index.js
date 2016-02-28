@@ -4,9 +4,12 @@ import document from "./document/";
 import explorer from "./explorer/";
 import notification from "./notification";
 
-import initialState from "../constants/initial-state";
+import { INITIALIZE_STATE } from "../constants/action-types/";
 
-export default function (state = initialState, action) {
+export default function (state, action) {
+
+    if (action.type == INITIALIZE_STATE)
+        return action.state;
 
     return {
         modal: modal(state.modal, action),

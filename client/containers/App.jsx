@@ -16,6 +16,12 @@ import Notification from "../components/Notification";
 // io returns a socket.io connection after creating event listeners
 import io from "../sockets/";
 
+// Modules
+import buildExplorerObject from "../lib/explorer/build";
+
+// Constants
+import { INITIALIZE_STATE } from "../constants/action-types/";
+
 // Create store and socket connection
 let store = createStore(reducers);
 let socket = io(store);
@@ -25,9 +31,41 @@ class App extends Component {
     constructor(props) {
         super(props);
 
-        this.state = store.getState();
         store.subscribe(() => {
             this.setState(store.getState());
+        });
+        
+        // Begin building initial state object
+        let state = {
+            explorer: {}, document: {
+                doc_type: 0, doc_id: 0
+            },
+            modal: {
+                action: ""
+            },
+            notification: {
+                status: "", message: ""
+            },
+            user: {
+                shortcuts: {}, config: {}, subscription: 0
+            }
+        };
+        
+        // Grab filesystem and user objects
+        socket.emit("get filesystem", (res) => {
+           state.explorer = buildExplorerObject(res);
+            
+           socket.emit("get user info", (res) => {
+               state.user = res;
+               state.user.config = JSON.parse(res.user.config);
+               
+               this.state = state;
+               
+               // Push initial state to store
+               store.dispatch({
+                   type: INITIALIZE_STATE, state
+               });
+           });
         });
     }
 
@@ -38,7 +76,7 @@ class App extends Component {
 
     emit() {
         // Emits a socket event
-        socket.emit.apply(null, [].concat(Array.prototype.slice.call(arguments)));
+        socket.emit.apply(null, Array.prototype.slice.call(arguments));
     }
 
     render() {

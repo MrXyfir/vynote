@@ -1,0 +1,1 @@
+export const INITIALIZE_STATE = "INITIALIZE_STATE";
