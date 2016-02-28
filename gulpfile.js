@@ -1,10 +1,8 @@
-var streamify = require('gulp-streamify');
-var source = require('vinyl-source-stream');
-var gutil = require('gulp-util');
-var gzip = require('gulp-gzip');
-var gulp = require('gulp');
+var gutil = require("gulp-util");
+var gzip = require("gulp-gzip");
+var gulp = require("gulp");
 
-var isDev = require('./config').environment.development;
+var isDev = require("./config").environment.development;
 
 /*
 	css
@@ -12,16 +10,16 @@ var isDev = require('./config').environment.development;
 	- autoprefixer
 	- minifies / gzip
 */
-gulp.task('css', function () {
-    return gulp.src('./styles/style.css')
-		.pipe(require('gulp-postcss')([
-            require('autoprefixer')(
-                {browsers: 'last 1 version, > 10%'}
+gulp.task("css", function () {
+    return gulp.src("./styles/style.css")
+		.pipe(require("gulp-postcss")([
+            require("autoprefixer")(
+                {browsers: "last 1 version, > 10%"}
             ),
-            require('cssnano')
+            require("cssnano")
         ]))
 		.pipe(!isDev ? gzip() : gutil.noop())
-		.pipe(gulp.dest('./public/css'));
+		.pipe(gulp.dest("./public/css"));
 });
 
 /*
@@ -31,26 +29,31 @@ gulp.task('css', function () {
 	- bundles React componenents
 	- minifies / gzip
 */
-gulp.task('client', function () {
+gulp.task("client", function () {
+    var browserify = require("browserify");
+    var streamify = require("gulp-streamify");
     var babelify = require("babelify");
-    var uglify = require('gulp-uglify');
-    var fs = require("fs");
+    var uglify = require("gulp-uglify");
+    var source = require("vinyl-source-stream");
 
-    var extensions = ['.jsx', '.js'];
+    var extensions = [".jsx", ".js"];
     
-    return require("browserify")({ debug: true, extensions: extensions })
-        .transform(babelify.configure({
-            extensions: extensions, presets: ["es2015", "react"]
-        }))
-        .require("./client/containers/App.jsx", { entry: true })
-        .bundle()
-        .on("error", function (err) { console.log("Error : " + err.message); })
-        .pipe(streamify(uglify({
+    var b = browserify(
+        './client/containers/App.jsx', { debug: true, extensions: extensions }
+    );
+    b.transform(babelify.configure({
+        extensions: extensions, presets: ["es2015", "react"]
+    }));
+    
+    return b.bundle()
+		.pipe(source('App.js'))
+		.pipe(streamify(uglify({
             mangle: false,
             compress: {
                 unused: false
             }
-        })))
-        .pipe(!isDev ? gzip() : gutil.noop())
-        .pipe(fs.createWriteStream("./public/js/App.js"));
+        })
+        .on('error', gutil.log)))
+		.pipe(!isDev ? gzip() : gutil.noop())
+		.pipe(gulp.dest('./public/js/'));
 });
