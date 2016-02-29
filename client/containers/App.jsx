@@ -21,6 +21,7 @@ import buildExplorerObject from "../lib/explorer/build";
 
 // Constants
 import { INITIALIZE_STATE } from "../constants/action-types/";
+import { URL, XACC } from "../constants/config.js";
 
 // Create store and socket connection
 let store = createStore(reducers);
@@ -35,38 +36,69 @@ class App extends Component {
             this.setState(store.getState());
         });
         
-        // Begin building initial state object
-        let state = {
-            explorer: {}, document: {
-                doc_type: 0, doc_id: 0
-            },
-            modal: {
-                action: ""
-            },
-            notification: {
-                status: "", message: ""
-            },
-            user: {
-                shortcuts: {}, config: {}, subscription: 0
-            }
+        const initialize = () => {
+            // Begin building initial state object
+            let state = {
+                explorer: {}, document: {
+                    doc_type: 0, doc_id: 0
+                },
+                modal: {
+                    action: ""
+                },
+                notification: {
+                    status: "", message: ""
+                },
+                user: {
+                    shortcuts: {}, config: {}, subscription: 0
+                }
+            };
+            
+            // Grab filesystem and user objects
+            socket.emit("get user info", (isLoggedIn, data) => {
+                if (!isLoggedIn) {
+                    location.href = XACC + "login/12";
+                }
+                
+                state.user = data;
+                state.user.config = JSON.parse(data.user.config);
+                
+                socket.emit("get filesystem", (data) => {
+                    state.explorer = buildExplorerObject(data);
+                    
+                    this.state = state;
+                    
+                    // Push initial state to store
+                    store.dispatch({
+                        type: INITIALIZE_STATE, state
+                    });
+                });
+            });
         };
         
-        // Grab filesystem and user objects
-        socket.emit("get filesystem", (res) => {
-           state.explorer = buildExplorerObject(res);
+        // Attempt to login using XID/AUTH or skip to initialize()
+        if (!!location.href.indexOf("xid=") && !!location.href.indexOf("auth=")) {
+            // Login using XID/AUTH_TOKEN
+            let xid = location.href.substring(
+                location.href.lastIndexOf("?xid=") + 5,
+                location.href.lastIndexOf("&auth")
+            );
+            let auth = location.href.substring(
+                location.href.lastIndexOf("&auth=") + 6
+            );
             
-           socket.emit("get user info", (res) => {
-               state.user = res;
-               state.user.config = JSON.parse(res.user.config);
-               
-               this.state = state;
-               
-               // Push initial state to store
-               store.dispatch({
-                   type: INITIALIZE_STATE, state
-               });
-           });
-        });
+            socket.emit("login user", xid, auth, (err) => {
+                if (err) {
+                    location.href = XACC + "login/12";
+                }
+                else {
+                    initialize();
+                    history.pushState({}, '', URL + "workspace/");
+                }
+            });
+        }
+        else {
+            initialize();
+        }
     }
 
     dispatch(action) {
