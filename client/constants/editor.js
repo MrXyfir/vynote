@@ -50,12 +50,12 @@ export const syntaxes = [
     ["ABAP"],
     ["ABC"],
     ["ActionScript"],
-    ["ADA"]
-    ["Apache_Conf"]
-    ["AsciiDoc"]
-    ["Assembly_x86"]
-    ["AutoHotKey"]
-    ["BatchFile"]
+    ["ADA"],
+    ["Apache_Conf"],
+    ["AsciiDoc"],
+    ["Assembly_x86"],
+    ["AutoHotKey"],
+    ["BatchFile"],
     ["C and C++", "c_cpp"],
     ["C9Search"],
     ["Cirru"],
