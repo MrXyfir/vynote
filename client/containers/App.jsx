@@ -1,5 +1,5 @@
-﻿import { Component } from "react";
-import { Render } from "react-dom";
+﻿import React from "react";
+import { render } from "react-dom";
 
 // Redux store / reducers
 import { createStore } from "redux";
@@ -27,7 +27,7 @@ import { URL, XACC } from "../constants/config.js";
 let store = createStore(reducers);
 let socket = io(store);
 
-class App extends Component {
+class App extends React.Component {
 
     constructor(props) {
         super(props);
@@ -138,4 +138,4 @@ class App extends Component {
 
 }
 
-Render(<App />, document.querySelector("#content"));
+render(<App />, document.querySelector("#content"));
