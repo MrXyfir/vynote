@@ -10,6 +10,8 @@ export default function (state, action) {
 
     if (action.type == INITIALIZE_STATE)
         return action.state;
+    else if (state == undefined)
+        return {};
 
     return {
         modal: modal(state.modal, action),
