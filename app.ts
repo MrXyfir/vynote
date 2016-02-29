@@ -21,10 +21,10 @@ server.listen(config.port, () => { console.log("SERVER RUNNING ON ", config.port
 // Express middleware / controllers
 app.use('/', express.static(__dirname + "/public"));
 app.get('/', (req, res) => {
-    res.sendFile("./views/Home.html");
+    res.sendFile(__dirname + "/views/Home.html");
 });
 app.get("/workspace/*", (req, res) => {
-    res.sendFile("./views/App.html");
+    res.sendFile(__dirname + "/views/App.html");
 });
 
 io.on("connection", require("./controllers/"));
