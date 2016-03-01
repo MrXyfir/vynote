@@ -17,7 +17,7 @@ export default function (state, action) {
         modal: modal(state.modal, action),
         document: document(state.document, action),
         explorer: explorer(state.explorer, action),
-        notification: notification(state.notifcation, action)
+        notification: notification(state.notification, action)
     };
 
 }
