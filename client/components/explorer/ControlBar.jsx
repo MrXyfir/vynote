@@ -10,6 +10,12 @@ export default class ControlBar extends React.Component {
 	
 	constructor(props) {
 		super(props);
+        
+        this.onNavigateToParent = this.onNavigateToParent.bind(this);
+        this.onCreateDocument = this.onCreateDocument.bind(this);
+        this.onNavigateToRoot = this.onNavigateToRoot.bind(this);
+        this.onCreateFolder = this.onCreateFolder.bind(this);
+        this.onRefresh = this.onRefresh.bind(this);
 	}
 	
 	onCreateFolder() {

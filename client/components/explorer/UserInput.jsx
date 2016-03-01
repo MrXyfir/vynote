@@ -17,6 +17,16 @@ import colors from "../../constants/colors";
 
 export default class UserInput extends React.Component {
 	
+    constructor(props) {
+        super(props);
+        
+        this.onCreateDocument = this.onCreateDocument.bind(this);
+        this.onCreateFolder = this.onCreateFolder.bind(this); 
+        this.onRenameObject = this.onRenameObject.bind(this);
+        this.onMoveObject = this.onMoveObject.bind(this);
+        this.onKeyPress = this.onKeyPress.bind(this);
+    }
+    
 	onCreateDocument() {
 		if (this.refs.docType.value === 0) {
 			this.dispatch(error("You must select a document type"));

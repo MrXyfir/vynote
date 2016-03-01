@@ -6,6 +6,10 @@ export default class Notification extends React.Component {
 
 	constructor(props) {
 		super(props);
+        
+        this.onMouseOver = this.onMouseOver.bind(this);
+        this.onMouseOut = this.onMouseOut.bind(this);
+        this._clear = this._clear.bind(this);
 	}
 
 	componentWillUpdate() {

@@ -21,6 +21,8 @@ export default class Import extends React.Component {
 
 	constructor(props) {
 		super(props);
+        
+        this.onImport = this.onImport.bind(this);
 	}
 	
 	onImport() {

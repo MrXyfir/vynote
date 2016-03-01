@@ -10,6 +10,10 @@ export default class Code extends React.Component {
 	
 	constructor(props) {
 		super(props);
+        
+        this.onSetSyntax = this.onSetSyntax.bind(this);
+        this.onSetTheme = this.onSetTheme.bind(this);
+        this.onChange = this.onChange.bind(this);
 	}
 	
 	onChange(e) {

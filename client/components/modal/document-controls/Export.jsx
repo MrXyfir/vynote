@@ -10,6 +10,8 @@ export default class Export extends React.Component {
 
 	constructor(props) {
 		super(props);
+        
+        this.onExport = this.onExport.bind(this);
 	}
 	
 	onExport() {

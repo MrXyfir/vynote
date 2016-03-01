@@ -21,6 +21,10 @@ export default class VersionControl extends React.Component {
 
 	constructor(props) {
 		super(props);
+        
+        this.onCreateVersion = this.onCreateVersion.bind(this);
+        this.onDeleteVersion = this.onDeleteVersion.bind(this);
+        this.onLoadVersion = this.onLoadVersion.bind(this);
 	}
 	
 	componentWillMount() {

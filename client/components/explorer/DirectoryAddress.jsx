@@ -4,6 +4,10 @@ import { navigateToFolder } from "../../actions/explorer/";
 
 export default class DirectoryAddress extends React.Component {
 
+    constructor(props) {
+        super(props);
+    }
+
 	navigateToParent(id) {
 		this.props.dispatch(navigateToFolder(id));
 	}
@@ -18,7 +22,7 @@ export default class DirectoryAddress extends React.Component {
 					return (
 						<span 
 							className="explorer-directory-address-item" 
-							onClick={() => { this.navigateToParent(dir.id); }}
+							onClick={this.navigateToParent.bind(this, dir.id)}
 						>{
 							dir.name + "/"
 						}</span>

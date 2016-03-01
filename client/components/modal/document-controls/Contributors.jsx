@@ -13,6 +13,11 @@ export default class VersionControl extends React.Component {
 
 	constructor(props) {
 		super(props);
+        
+        this.onRemoveContributor = this.onRemoveContributor.bind(this);
+        this.onSelectContributor = this.onSelectContributor.bind(this);
+        this.onSetPermissions = this.onSetPermissions.bind(this);
+        this.onAddContributor = this.onAddContributor.bind(this);
 	}
 	
 	componentWillMount() {

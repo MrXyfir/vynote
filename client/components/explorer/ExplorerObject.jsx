@@ -20,6 +20,13 @@ export default class ExplorerObject extends React.Component {
 		super(props);
 		
 		this.state = { showControls: false };
+        
+        this.onMouseOver = this.onMouseOver.bind(this);
+        this.onMouseOut = this.onMouseOut.bind(this);
+        this.onRename = this.onRename.bind(this);
+        this.onDelete = this.onDelete.bind(this);
+        this.onMove = this.onMove.bind(this);
+        this.onOpen = this.onOpen.bind(this);
 	}
 	
 	onMouseOver() {

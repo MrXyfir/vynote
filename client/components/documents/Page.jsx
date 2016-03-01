@@ -10,6 +10,9 @@ export default class Page extends React.Component {
 	
 	constructor(props) {
 		super(props);
+        
+        this.onTogglePreview = this.onTogglePreview.bind(this);
+        this.onChange = this.onChange.bind(this);
 	}
 	
 	onTogglePreview() {
