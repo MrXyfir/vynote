@@ -52,13 +52,11 @@ gulp.task("client", function () {
     
     return b.bundle()
 		.pipe(source('App.js'))
-		.pipe(streamify(uglify({
+        .pipe(streamify(uglify({
             mangle: false,
-            compress: {
-                unused: false
-            }
-        })
-        .on('error', gutil.log)))
+            compress: { unused: false }
+        }))
+        .on('error', gutil.log))
 		.pipe(!isDev ? gzip() : gutil.noop())
 		.pipe(gulp.dest('./public/js/'));
 });
