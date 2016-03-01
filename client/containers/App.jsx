@@ -46,7 +46,7 @@ class App extends React.Component {
             // Begin building initial state object
             let state = {
                 explorer: {}, document: {
-                    doc_type: 0, doc_id: 0
+                    doc_type: 0, doc_id: 0, folder_id: 0
                 },
                 modal: {
                     action: ""

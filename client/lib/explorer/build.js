@@ -1,7 +1,11 @@
-export default function (temp, scope) {
+export default function (temp, scope = 0) {
 	let explorer = {
-		folders: {},
-		children: {},
+        folders: {
+            0: { name: "Root" }
+        },
+        children: {
+            0: []
+        },
 		documents: {},
 		scopeParents: [],
 		userInput: { action: "" },

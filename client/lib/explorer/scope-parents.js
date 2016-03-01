@@ -1,6 +1,6 @@
 export default function (folders, scope) {
 	const getParent = (id) => {
-		if (folders[id].parent_id === 0) {
+		if (folders[id].parent_id == 0) {
 			return [{ name: folders[id].name, id }].concat(
 				[{ name: "", id: 0 }]
 			);
@@ -12,10 +12,10 @@ export default function (folders, scope) {
 		}
 	};
 	
-	if (scope === 0) {
-		return [ { name: "", id: 0 } ];
+	if (scope == 0) {
+        return [{ name: "", id: 0 }];
 	}
-	else {
+    else {
 		let scopeParents = getParent(folders[scope].parent_id);
 		
 		// getParent array starts with current scope and ends with root

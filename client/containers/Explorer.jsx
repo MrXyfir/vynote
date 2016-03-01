@@ -17,7 +17,8 @@ export default class Explorer extends React.Component {
 					dispatch={this.props.dispatch}
 				/>
 				<div className="explorer-objects">{
-					this.props.data.children[this.props.data.scope].map(child => {
+                    this.props.data.children[this.props.data.scope] !== undefined
+					? this.props.data.children[this.props.data.scope].map(child => {
 						let isDoc = (child.type == 2);
 						
 						return (
@@ -28,7 +29,7 @@ export default class Explorer extends React.Component {
 								dispatch={this.props.dispatch}
 							/>
 						);
-					})
+					}) : <div />
 				}</div>
 				<UserInput 
 					data={this.props.data} 
