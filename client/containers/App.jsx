@@ -114,7 +114,7 @@ class App extends React.Component {
 
     emit() {
         // Emits a socket event
-        socket.emit.apply(null, Array.prototype.slice.call(arguments));
+        socket.emit.apply(this, Array.prototype.slice.call(arguments));
     }
 
     render() {
