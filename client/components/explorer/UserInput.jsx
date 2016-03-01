@@ -29,7 +29,7 @@ export default class UserInput extends React.Component {
     
 	onCreateDocument() {
 		if (this.refs.docType.value === 0) {
-			this.dispatch(error("You must select a document type"));
+			this.props.dispatch(error("You must select a document type"));
 			return;
 		}
 	
@@ -51,7 +51,7 @@ export default class UserInput extends React.Component {
 	
 		this.props.emit("create object", data, (err, res) => {
 			if (err) {
-				this.dispatch(error(res));
+				this.props.dispatch(error(res));
 				
 			}
 			else {
@@ -62,11 +62,11 @@ export default class UserInput extends React.Component {
 					folder_id: data.folder
 				};
 			
-				this.dispatch(createDocument(data));
-				this.dispatch(success(`Document '${data.name}' created`)); 
+				this.props.dispatch(createDocument(data));
+				this.props.dispatch(success(`Document '${data.name}' created`)); 
 			}
 			
-			this.dispatch(closeUserInput());
+			this.props.dispatch(closeUserInput());
 		});  
 	}
 	
@@ -83,18 +83,18 @@ export default class UserInput extends React.Component {
 		
 		this.props.emit("create object", data, (err, res) => {
 			if (err) {
-				this.dispatch(error(res));
+				this.props.dispatch(error(res));
 			}
 			else {
 				data = {
 					name: data.name, parent_id: data.folder, folder_id: res
 				};
 			
-				this.dispatch(createFolder(data));
-				this.dispatch(success(`Folder ${data.name} created`));
+				this.props.dispatch(createFolder(data));
+				this.props.dispatch(success(`Folder ${data.name} created`));
 			}
 			
-			this.dispatch(closeUserInput());
+			this.props.dispatch(closeUserInput());
 		});
 	}
 	
@@ -107,14 +107,14 @@ export default class UserInput extends React.Component {
 	
 		this.props.emit("rename object", data, (err, msg) => {
 			if (err) {
-				this.dispatch(error(msg));
+				this.props.dispatch(error(msg));
 			}
 			else {
-				this.dispatch(renameObject(data));
-				this.dispatch(success(`Renamed ${data.objType === 1 ? "folder" : "document"}`));
+				this.props.dispatch(renameObject(data));
+				this.props.dispatch(success(`Renamed ${data.objType === 1 ? "folder" : "document"}`));
 			}
 			
-			this.dispatch(closeUserInput());
+			this.props.dispatch(closeUserInput());
 		});
 	}
 	
@@ -129,22 +129,22 @@ export default class UserInput extends React.Component {
 		
 			this.props.emit("move object to folder", data, (err, msg) => {
 				if (err) {
-					this.dispatch(error(msg));
+					this.props.dispatch(error(msg));
 				}
 				else {
-					this.dispatch(moveObject(data));
-					this.dispatch(success(`${data.objType === 1 ? "Folder" : "Document"} moved`));
+					this.props.dispatch(moveObject(data));
+					this.props.dispatch(success(`${data.objType === 1 ? "Folder" : "Document"} moved`));
 				}
 				
-				this.dispatch(closeUserInput());
+				this.props.dispatch(closeUserInput());
 			});
 		};
 		
 		// User wants to move object to root
 		if (directory.length == 1) {
 			if (this.props.data.userInput.objType == 2) {
-				this.dispatch(error("Cannot move documents to root"));
-				this.dispatch(closeUserInput());
+				this.props.dispatch(error("Cannot move documents to root"));
+				this.props.dispatch(closeUserInput());
 			}
 			else {
 				move(0);
@@ -168,12 +168,12 @@ export default class UserInput extends React.Component {
 			
 			// Don't move object
 			if (folder == this.props.data.scope) {
-				this.dispatch(closeUserInput());
+				this.props.dispatch(closeUserInput());
 			}
 			// Couldn't find a folder at that address
 			else if (folder == 0) {
-				this.dispatch(error("No folder exists at that address"));
-				this.dispatch(closeUserInput()); 
+				this.props.dispatch(error("No folder exists at that address"));
+				this.props.dispatch(closeUserInput()); 
 			}
 			else {
 				move(folder);

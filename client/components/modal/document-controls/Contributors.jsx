@@ -59,7 +59,7 @@ export default class VersionControl extends React.Component {
 	}
 	
 	onSelectContributor(user) {
-		this.dispatch(selectContributor(user));
+		this.props.dispatch(selectContributor(user));
 	}
 	
 	onSetPermissions() {

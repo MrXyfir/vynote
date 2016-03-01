@@ -20,17 +20,17 @@ export default class ControlBar extends React.Component {
 	
 	onCreateFolder() {
 		// UserInput will handle creation process
-		this.dispatch(triggerCreateFolder());
+		this.props.dispatch(triggerCreateFolder());
 	}
 	
 	onCreateDocument() {
 		if (this.props.data.scope === 0) {
 			// Cannot create documents in root
-			this.dispatch(error("Cannot create documents in root folder"));
+			this.props.dispatch(error("Cannot create documents in root folder"));
 		}
 		else {
 			// UserInput will handle creation process
-			this.dispatch(triggerCreateDocument());
+			this.props.dispatch(triggerCreateDocument());
 		}
 	}
 	
@@ -47,12 +47,12 @@ export default class ControlBar extends React.Component {
 		this.props.emit("get filesystem", (res) => {
 			res = buildExplorerObject(res, this.props.data.scope);
 			
-			this.dispatch(loadFileSystem(res));
+			this.props.dispatch(loadFileSystem(res));
 		});
 	}
 	
 	onNavigateToRoot() {
-		this.dispatch(navigateToFolder(0));
+		this.props.dispatch(navigateToFolder(0));
 	}
 	
 	render() {

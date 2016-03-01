@@ -49,7 +49,7 @@ export default class Document extends React.Component {
     }
     
     onOpenDocControls() {
-        this.dispatch(openDocumentControls());
+        this.props.dispatch(openDocumentControls());
     }
 
     render() {

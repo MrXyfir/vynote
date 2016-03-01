@@ -57,10 +57,10 @@ export default class ExplorerObject extends React.Component {
 		
 		this.props.emit("delete object", type, id, (err, msg) => {
 			if (err) {
-				this.dispatch(error(msg));
+				this.props.dispatch(error(msg));
 			}
 			else {
-				this.dispatch(deleteObject(type, id));
+				this.props.dispatch(deleteObject(type, id));
 			}
 		});
 	}
@@ -72,7 +72,7 @@ export default class ExplorerObject extends React.Component {
 			if (this.props.data.encrypted) {
 				// Document container will require encryption key when
 				// encrypted == true && encrypt == ""
-				this.dispatch(loadDocument(
+				this.props.dispatch(loadDocument(
 					Object.assign({}, this.props.data, { encrypt: "" })
 				));
 				return;
@@ -82,10 +82,10 @@ export default class ExplorerObject extends React.Component {
 			if (this.props.data.doc_type == 1) {
 				this.props.emit("get note elements", this.props.data.doc_id, "", (err, res) => {
 					if (err) {
-						this.dispatch(error("Could not load note"));
+						this.props.dispatch(error("Could not load note"));
 					}
 					else {
-						this.dispatch(loadDocument(
+						this.props.dispatch(loadDocument(
 							Object.assign({}, this.props.data, {
 								content: buildNoteObject(res)
 							})
@@ -97,10 +97,10 @@ export default class ExplorerObject extends React.Component {
 			else {
 				this.props.emit("get document content", this.props.data.doc_id, "", (err, res) => {
 					if (err) {
-						this.dispatch(error("Could not load document"));
+						this.props.dispatch(error("Could not load document"));
 					}
 					else {
-						this.dispatch(loadDocument(
+						this.props.dispatch(loadDocument(
 							Object.assign({}, this.props.data, { content: res })
 						));
 					}
@@ -108,7 +108,7 @@ export default class ExplorerObject extends React.Component {
 			}
 		}
 		else {
-			this.dispatch(navigateToFolder(this.props.data.folder_id));
+			this.props.dispatch(navigateToFolder(this.props.data.folder_id));
 		}
 	}
 

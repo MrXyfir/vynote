@@ -36,7 +36,7 @@ export default class VersionControl extends React.Component {
 	onLoadVersion(name) {
 		this.props.emit("load version", this.props.data.document.doc_id, name, (err, msg) => {
 			if (err) {
-				this.dispatch(error(msg));
+				this.props.dispatch(error(msg));
 			}
 			else {
 				let event = (
@@ -59,9 +59,9 @@ export default class VersionControl extends React.Component {
 								? buildNoteObject(content) : content
 							);
 						
-							this.dispatch(loadContent(content));
-							this.dispatch(close());
-							this.dispatch(success(`Document reverted to version '${name}'`));
+							this.props.dispatch(loadContent(content));
+							this.props.dispatch(close());
+							this.props.dispatch(success(`Document reverted to version '${name}'`));
 						}
 					}
 				);
@@ -74,11 +74,11 @@ export default class VersionControl extends React.Component {
 			"delete version", this.props.data.document.doc_id, name,
 			(err) => {
 				if (err) {
-					this.dispatch(error(`Could not delete version '${name}'`));
+					this.props.dispatch(error(`Could not delete version '${name}'`));
 				}
 				else {
-					this.dispatch(deleteVersion(name));
-					this.dispatch(success(`Deleted version '${name}'`));
+					this.props.dispatch(deleteVersion(name));
+					this.props.dispatch(success(`Deleted version '${name}'`));
 				}
 			}
 		);
@@ -91,11 +91,11 @@ export default class VersionControl extends React.Component {
 			"create version", this.props.data.document.doc_id, name,
 			(err, msg) => {
 				if (err) {
-					this.dispatch(error(msg || "An unknown error occured"));
+					this.props.dispatch(error(msg || "An unknown error occured"));
 				}
 				else {
-					this.dispatch(createVersion(name));
-					this.dispatch(success(`Created version '${name}'`));
+					this.props.dispatch(createVersion(name));
+					this.props.dispatch(success(`Created version '${name}'`));
 				}
 			}
 		);
