@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 
 // Action creators
 import { error, success } from "../../../actions/notification";
@@ -6,7 +6,7 @@ import { error, success } from "../../../actions/notification";
 // Modules
 import objectToText from "../../../../lib/notes-convert/to-text";
 
-export default class Export extends Component {
+export default class Export extends React.Component {
 
 	constructor(props) {
 		super(props);

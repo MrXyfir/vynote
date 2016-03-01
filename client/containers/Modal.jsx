@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 
 // Sub-Containers
 import DocumentControls from "./modal/DocumentControls";
@@ -6,7 +6,7 @@ import DocumentControls from "./modal/DocumentControls";
 // Actions
 import { close } from "../actions/modal";
 
-export default class Modal extends Component {
+export default class Modal extends React.Component {
 
 	constructor(props) {
 		super(props);

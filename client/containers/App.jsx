@@ -36,6 +36,12 @@ class App extends React.Component {
             this.setState(store.getState());
         });
         
+        if (location.href.indexOf("http://localhost") == 0) {
+            store.subscribe(() => {
+                console.log(store.getState());
+            });
+        }
+        
         const initialize = () => {
             // Begin building initial state object
             let state = {
@@ -60,7 +66,7 @@ class App extends React.Component {
                 }
                 
                 state.user = data;
-                state.user.config = JSON.parse(data.user.config);
+                state.user.config = JSON.parse(data.config);
                 
                 socket.emit("get filesystem", (data) => {
                     state.explorer = buildExplorerObject(data);
@@ -76,7 +82,7 @@ class App extends React.Component {
         };
         
         // Attempt to login using XID/AUTH or skip to initialize()
-        if (!!location.href.indexOf("xid=") && !!location.href.indexOf("auth=")) {
+        if (location.href.indexOf("xid=") > -1 && location.href.indexOf("auth=") > -1) {
             // Login using XID/AUTH_TOKEN
             let xid = location.href.substring(
                 location.href.lastIndexOf("?xid=") + 5,
@@ -112,6 +118,10 @@ class App extends React.Component {
     }
 
     render() {
+        if (this.state == undefined) {
+            return <span className="icon-loading" />;
+        }
+        
         return (
             <div>
                 <Explorer 

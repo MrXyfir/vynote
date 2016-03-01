@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 import marked from "marked";
 
 import { togglePreview } from "../../actions/documents/page";
@@ -6,7 +6,7 @@ import { saveError, saveSuccess, saveContent } from "../../actions/documents/";
 
 import Editor from "./Editor";
 
-export default class Page extends Component {
+export default class Page extends React.Component {
 	
 	constructor(props) {
 		super(props);

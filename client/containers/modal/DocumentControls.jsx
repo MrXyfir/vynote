@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 
 // Components
 import VersionControl from "../../components/modal/document-controls/VersionControl";
@@ -6,7 +6,7 @@ import Contributors from "../../components/modal/document-controls/Contributors"
 import Export from "../../components/modal/document-controls/Export";
 import Import from "../../components/modal/document-controls/Import";
 
-export default class DocumentControls extends Component {
+export default class DocumentControls extends React.Component {
 
 	constructor(props) {
 		super(props);

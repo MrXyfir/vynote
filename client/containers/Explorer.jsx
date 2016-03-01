@@ -1,11 +1,11 @@
-import { Component } from "react";
+import React from "react";
 
 import DirectoryAddress from "../components/explorer/DirectoryAddress";
 import ExplorerObject from "../components/explorer/ExplorerObject";
 import ControlBar from "../components/explorer/ControlBar";
 import UserInput from "../components/explorer/UserInput";
 
-export default class Explorer extends Component {
+export default class Explorer extends React.Component {
 	
 	render() {
 		return (

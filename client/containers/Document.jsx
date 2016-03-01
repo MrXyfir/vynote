@@ -1,4 +1,4 @@
-﻿import { Component } from "react";
+﻿import React from "react";
 
 // Components
 import Page from "../components/documents/Page";
@@ -17,7 +17,7 @@ import getScopeParents from "../lib/explorer/scope-parents";
 // Constants
 import { syntaxes } from "../constants/editor";
 
-export default class Document extends Component {
+export default class Document extends React.Component {
 
     onSetEncryptionKey() {
         let event = this.props.data.type === 1 ? "get note elements" : "get document content";

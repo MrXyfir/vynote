@@ -1,8 +1,8 @@
-import { Component } from "react";
+import React from "react";
 
 import { clear } from "../actions/notification";
 
-export default class Notification extends Component {
+export default class Notification extends React.Component {
 
 	constructor(props) {
 		super(props);

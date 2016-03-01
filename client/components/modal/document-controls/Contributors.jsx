@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 
 // Action creators
 import {
@@ -9,7 +9,7 @@ import {
 	error, success
 } from "../../../actions/notification";
 
-export default class VersionControl extends Component {
+export default class VersionControl extends React.Component {
 
 	constructor(props) {
 		super(props);

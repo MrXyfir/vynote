@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 
 // Action creators
 import {
@@ -17,7 +17,7 @@ import {
 // Modules
 import buildNoteObject from "../../../../lib/notes-convert/to-object";
 
-export default class VersionControl extends Component {
+export default class VersionControl extends React.Component {
 
 	constructor(props) {
 		super(props);

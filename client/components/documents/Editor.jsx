@@ -1,10 +1,10 @@
-import { Component } from "react";
+import React from "react";
 
 import { getThemeFile, getSyntaxFile } from "../../constants/editor";
 
 import { encrypt, decrypt } from "../../lib/crypto";
 
-export default class Ace extends Component {
+export default class Ace extends React.Component {
 	
 	constructor(props) {
 		super(props);

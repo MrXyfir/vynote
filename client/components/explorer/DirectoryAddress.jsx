@@ -1,8 +1,8 @@
-import { Component } from "react";
+import React from "react";
 
 import { navigateToFolder } from "../../actions/explorer/";
 
-export default class DirectoryAddress extends Component {
+export default class DirectoryAddress extends React.Component {
 
 	navigateToParent(id) {
 		this.props.dispatch(navigateToFolder(id));

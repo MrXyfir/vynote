@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 
 // Action creators
 import { error, success } from "../../actions/notification";
@@ -15,7 +15,7 @@ import {
 // Other constants
 import colors from "../../constants/colors";
 
-export default class UserInput extends Component {
+export default class UserInput extends React.Component {
 	
 	onCreateDocument() {
 		if (this.refs.docType.value === 0) {

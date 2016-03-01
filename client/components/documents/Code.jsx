@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 
 import { saveError, saveSuccess, saveContent } from "../../actions/documents/";
 import { setSyntax, setTheme } from "../../actions/documents/code";
@@ -6,7 +6,7 @@ import { themes, syntaxes } from "../../constants/editor";
 
 import Editor from "./Editor";
 
-export default class Code extends Component {
+export default class Code extends React.Component {
 	
 	constructor(props) {
 		super(props);

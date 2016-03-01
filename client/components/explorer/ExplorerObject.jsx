@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 
 // Action creators
 import {
@@ -14,7 +14,7 @@ import colors from "../../constants/colors";
 // Modules
 import buildNoteObject from "../../../lib/notes-convert/to-object";
 
-export default class ExplorerObject extends Component {
+export default class ExplorerObject extends React.Component {
 
 	constructor(props) {
 		super(props);
