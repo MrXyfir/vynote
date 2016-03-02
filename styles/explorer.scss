@@ -1,0 +1,49 @@
+.explorer {
+    width: 20vw;
+    height: 95vh;
+    background-color: $llgray;
+    padding: 0.5em;
+    float: left;
+}
+
+.explorer-control-bar {
+    
+    background-color: $lgray;
+    padding: 0.1em;
+    margin-bottom: 0.5em;
+    
+    .explorer-active-folder {
+        text-transform: uppercase;
+        font-weight: bold;
+        color: $gray;
+    }
+    
+    span[class^="icon-"] {
+        float: right;
+    }
+    
+}
+
+.explorer-objects {
+    
+    .explorer-object-document, .explorer-object-folder {
+        
+        display: table;
+        
+        .icon-folder, .icon-doc-text, .icon-file-code, .icon-nested-note {
+            display: table-cell;
+        }
+        
+        .object-name {
+            display: table-cell;
+        }
+        
+        .object-controls {
+            display: table-cell;
+            width: 100%;
+            text-align: right;
+        }
+        
+    }
+    
+}
