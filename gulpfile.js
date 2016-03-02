@@ -17,7 +17,7 @@ gulp.task("css", function () {
     var nano = require("cssnano");
     var ap = require("autoprefixer");
     
-    return gulp.src("./styles/style.scss")
+    return gulp.src("./styles/style.css")
         .pipe(postcss([
             precss({}),
             ap({browsers: "last 1 version, > 10%"}),
