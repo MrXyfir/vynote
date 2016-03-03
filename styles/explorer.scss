@@ -53,16 +53,28 @@
     
     background-color: $lgray;
     position: absolute;
-    width: 100vw;
-    top: 93%;
+    outline: $black solid 1px;
+    width: 97vw;
+    top: 92%;
     
     * {
         margin-left: 0.4em;
-        display: inline;
+        display: inline-block;
     }
     
     .explorer-user-input-title {
         font-weight: bold;
+    }
+    
+    .explorer-user-input-text {
+        background-color: $llgray;
+        outline: $black solid 1px;
+        padding: 0.2em;
+        width: 40vw;
+    }
+    
+    .icon-close {
+        float: right;
     }
     
 }
