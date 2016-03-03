@@ -25,6 +25,11 @@ export default class UserInput extends React.Component {
         this.onRenameObject = this.onRenameObject.bind(this);
         this.onMoveObject = this.onMoveObject.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
+        this.onClose = this.onClose.bind(this);
+    }
+    
+    onClose() {
+        this.props.dispatch(closeUserInput());
     }
     
 	onCreateDocument() {
@@ -265,13 +270,14 @@ export default class UserInput extends React.Component {
 		return (
 			<div className="explorer-user-input">
                 <span className="explorer-user-input-title">{inputTitle}</span>
-				{inputExtended}
 				<div 
 					ref="input"
 					className="explorer-user-input-text" 
 					onKeyPress={this.onKeyPress} 
 					contentEditable={true}
 				>{inputContent}</div>
+                {inputExtended}
+                <span className="icon-close" onClick={this.onClose} />
 			</div>
 		);
 	}
