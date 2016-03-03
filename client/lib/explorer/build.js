@@ -17,9 +17,7 @@ export default function (temp, scope = 0) {
 	
 	temp.folders.forEach(folder => {
         // Add folder's parent and name to explorer.folders object by ID
-        explorer.folders[folder.folder_id] = {
-            parent: folder.parent_id, name: folder.name
-        };
+        explorer.folders[folder.folder_id] = folder;
 		
 		// Add folder as child for folder.parent_id
         if (explorer.children[folder.parent_id] === undefined)
