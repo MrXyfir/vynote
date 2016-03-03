@@ -10,6 +10,8 @@
         "**/*.njsproj": true,
         "**/*.sln": true,
         "**/*.dat": true,
-        "**/*.map": true
+        "**/*.map": true,
+        "**/bin": true,
+        "**/obj": true
     }
 }
