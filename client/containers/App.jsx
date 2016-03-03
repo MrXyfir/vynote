@@ -117,18 +117,18 @@ class App extends React.Component {
                 <Explorer 
                     data={this.state.explorer} 
                     user={this.state.user} 
-                    emit={socket.emit} 
+                    socket={socket} 
                     dispatch={store.dispatch}
                 />
                 <Document 
                     data={this.state.document} 
-                    emit={socket.emit} 
+                    socket={socket} 
                     folders={this.state.explorer.folders} 
                     dispatch={store.dispatch}
                 />
                 <Modal
                     data={this.state} 
-                    emit={socket.emit} 
+                    socket={socket} 
                     dispatch={store.dispatch}
                 />
                 <Notification data={this.state.notification} dispatch={store.dispatch} />
