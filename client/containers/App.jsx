@@ -107,16 +107,6 @@ class App extends React.Component {
         }
     }
 
-    dispatch(action) {
-        // Dispatches an action
-        store.dispatch(action);
-    }
-
-    emit() {
-        // Emits a socket event
-        socket.emit.apply(this, Array.prototype.slice.call(arguments));
-    }
-
     render() {
         if (this.state == undefined) {
             return <span className="icon-loading" />;
@@ -127,21 +117,21 @@ class App extends React.Component {
                 <Explorer 
                     data={this.state.explorer} 
                     user={this.state.user} 
-                    emit={this.emit} 
-                    dispatch={this.dispatch}
+                    emit={socket.emit} 
+                    dispatch={store.dispatch}
                 />
                 <Document 
                     data={this.state.document} 
-                    emit={this.emit} 
+                    emit={socket.emit} 
                     folders={this.state.explorer.folders} 
-                    dispatch={this.dispatch}
+                    dispatch={store.dispatch}
                 />
                 <Modal
                     data={this.state} 
-                    emit={this.emit} 
-                    dispatch={this.dispatch}
+                    emit={socket.emit} 
+                    dispatch={store.dispatch}
                 />
-                <Notification data={this.state.notification} dispatch={this.dispatch} />
+                <Notification data={this.state.notification} dispatch={store.dispatch} />
             </div>
         );
     }
