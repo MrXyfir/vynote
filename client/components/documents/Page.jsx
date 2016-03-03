@@ -22,7 +22,7 @@ export default class Page extends React.Component {
 	onChange(e) {
 		e.id = this.props.data.id;
 	
-		this.props.emit("update document content", e, (err) => {
+		this.props.socket.emit("update document content", e, (err) => {
 			if (err) {
 				this.props.dispatch(saveError());
 			}

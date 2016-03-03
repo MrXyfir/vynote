@@ -53,7 +53,7 @@ export default class ExplorerObject extends React.Component {
 		let type = this.props.isDoc ? 2 : 1;
 		let id = this.props.data[type == 2 ? "doc_id" : "folder_id"]
 		
-		this.props.emit("delete object", type, id, (err, msg) => {
+		this.props.socket.emit("delete object", type, id, (err, msg) => {
 			if (err) {
 				this.props.dispatch(error(msg));
 			}
@@ -78,7 +78,7 @@ export default class ExplorerObject extends React.Component {
 		
 			// Note document
 			if (this.props.data.doc_type == 1) {
-				this.props.emit("get note elements", this.props.data.doc_id, "", (err, res) => {
+				this.props.socket.emit("get note elements", this.props.data.doc_id, "", (err, res) => {
 					if (err) {
 						this.props.dispatch(error("Could not load note"));
 					}
@@ -93,7 +93,7 @@ export default class ExplorerObject extends React.Component {
 			}
 			// Other document
 			else {
-				this.props.emit("get document content", this.props.data.doc_id, "", (err, res) => {
+				this.props.socket.emit("get document content", this.props.data.doc_id, "", (err, res) => {
 					if (err) {
 						this.props.dispatch(error("Could not load document"));
 					}

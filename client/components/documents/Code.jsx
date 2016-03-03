@@ -19,7 +19,7 @@ export default class Code extends React.Component {
 	onChange(e) {
 		e.id = this.props.data.id;
 		
-		this.props.emit("update document content", e, (err) => {
+		this.props.socket.emit("update document content", e, (err) => {
 			if (err) {
 				this.props.dispatch(saveError());
 			}
@@ -33,7 +33,7 @@ export default class Code extends React.Component {
 	onSetSyntax() {
 		const syntax = this.refs.syntax.value; 
 		
-		this.props.emit("set document syntax", this.props.data.id, syntax, (err) => {
+		this.props.socket.emit("set document syntax", this.props.data.id, syntax, (err) => {
 			if (!err) {
 				this.props.dispatch(setSyntax(syntax));
 			}

@@ -13,7 +13,7 @@ export default class Explorer extends React.Component {
 				<DirectoryAddress data={this.props.data} dispatch={this.props.dispatch} />
 				<ControlBar 
 					data={this.props.data} 
-					emit={this.props.emit} 
+					socket={this.props.socket} 
 					dispatch={this.props.dispatch}
 				/>
 				<div className="explorer-objects">{
@@ -24,7 +24,7 @@ export default class Explorer extends React.Component {
 						return (
 							<ExplorerObject
 								data={this.props.data[isDoc ? "documents" : "folders"][child.id]} 
-								emit={this.props.emit} 
+								socket={this.props.socket} 
 								isDoc={isDoc} 
                                 hover={this.props.data.hover} 
 								dispatch={this.props.dispatch}
@@ -34,7 +34,7 @@ export default class Explorer extends React.Component {
 				}</div>
 				<UserInput 
 					data={this.props.data} 
-					emit={this.props.emit} 
+					socket={this.props.socket} 
 					dispatch={this.props.dispatch} 
 					subscription={this.props.user.subscription}
 				/>

@@ -27,7 +27,7 @@ export default class Modal extends React.Component {
 				view = (
 					<DocumentControls 
 						data={this.props.data} 
-						emit={this.props.emit} 
+						socket={this.props.socket} 
 						dispatch={this.props.dispatch}
 					/>
 				); break;

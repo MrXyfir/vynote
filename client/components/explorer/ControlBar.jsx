@@ -44,7 +44,7 @@ export default class ControlBar extends React.Component {
 	
 	onRefresh() {
 		// Refresh entire filesystem
-		this.props.emit("get filesystem", (res) => {
+		this.props.socket.emit("get filesystem", (res) => {
 			this.props.dispatch(loadFileSystem(
                 buildExplorerObject(res, this.props.data.scope)
             ));

@@ -28,7 +28,7 @@ export default class DocumentControls extends React.Component {
 				view = (
 					<Contributors
 						data={this.props.data} 
-						emit={this.props.emit} 
+						socket={this.props.socket} 
 						dispatch={this.props.dispatch}
 					/>
 				); break;
@@ -37,7 +37,7 @@ export default class DocumentControls extends React.Component {
 				view = (
 					<Export
 						data={this.props.data} 
-						emit={this.props.emit} 
+						socket={this.props.socket} 
 						dispatch={this.props.dispatch}
 					/>
 				); break;
@@ -46,7 +46,7 @@ export default class DocumentControls extends React.Component {
 				view = (
 					<Import
 						data={this.props.data} 
-						emit={this.props.emit} 
+						socket={this.props.socket} 
 						dispatch={this.props.dispatch}
 					/>
 				); break;
@@ -55,7 +55,7 @@ export default class DocumentControls extends React.Component {
 				view = (
 					<VersionControl
 						data={this.props.data} 
-						emit={this.props.emit} 
+						socket={this.props.socket} 
 						dispatch={this.props.dispatch}
 					/>
 				);

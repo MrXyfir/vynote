@@ -21,13 +21,13 @@ export default class VersionControl extends React.Component {
 	}
 	
 	componentWillMount() {
-		this.props.emit("list contributors", this.props.data.document.doc_id, contributors => {
+		this.props.socket.emit("list contributors", this.props.data.document.doc_id, contributors => {
 			this.props.dispatch(loadContributors(contributors));
 		});
 	}
 	
 	onAddContributor(email) {
-		this.props.emit(
+		this.props.socket.emit(
 			"add contributor", this.props.data.document.doc_id, email,
 			(err, res) => {
 				if (err) {
@@ -44,7 +44,7 @@ export default class VersionControl extends React.Component {
 	onRemoveContributor() {
 		let user = this.props.data.modal.selectedContributor;
 	
-		this.props.emit(
+		this.props.socket.emit(
 			"remove contributor", this.props.data.document.doc_id, user,
 			(err) => {
 				if (err) {
@@ -74,7 +74,7 @@ export default class VersionControl extends React.Component {
 			}
 		};
 	
-		this.props.emit("set user permissions", data, (err) => {
+		this.props.socket.emit("set user permissions", data, (err) => {
 			if (err) {
 				this.props.dispatch(error("Error setting permissions"));
 			}

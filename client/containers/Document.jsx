@@ -24,7 +24,7 @@ export default class Document extends React.Component {
         let key = this.refs.key.value;
         
         // Attempt to load document's content with type/id/key
-        this.props.emit(event, this.props.data.id, key, (err, content) => {
+        this.props.socket.emit(event, this.props.data.id, key, (err, content) => {
             if (err) {
                 this.props.dispatch(accessError());
                 
@@ -76,13 +76,13 @@ export default class Document extends React.Component {
         
             switch (this.props.data.type) {
                 case 1:
-                    view = <Note data={this.props.data} emit={this.props.emit} dispatch={this.props.dispatch} />;
+                    view = <Note data={this.props.data} socket={this.props.socket} dispatch={this.props.dispatch} />;
                     break;
                 case 2:
-                    view = <Page data={this.props.data} emit={this.props.emit} dispatch={this.props.dispatch} />;
+                    view = <Page data={this.props.data} socket={this.props.socket} dispatch={this.props.dispatch} />;
                     break;
                 case 3:
-                    view = <Code data={this.props.data} emit={this.props.emit} dispatch={this.props.dispatch} />;
+                    view = <Code data={this.props.data} socket={this.props.socket} dispatch={this.props.dispatch} />;
             }
             
             return (

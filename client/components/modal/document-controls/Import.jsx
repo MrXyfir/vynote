@@ -32,7 +32,7 @@ export default class Import extends React.Component {
 		}
 		
 		if (this.props.data.document.doc_type == 1) {
-			this.props.emit(
+			this.props.socket.emit(
 				"import notes", this.props.data.document.doc_id, 
 				this.refs.ace.editor.getValue().split("\r\n"),
 				(err, msg) => {
@@ -40,7 +40,7 @@ export default class Import extends React.Component {
 						this.props.dispatch(error(msg || "An unknown error occured"));
 					}
 					else {
-						this.props.emit(
+						this.props.socket.emit(
 							"get note elements",
 							this.props.data.document.doc_id,
 							this.props.data.document.encrypt,
@@ -67,7 +67,7 @@ export default class Import extends React.Component {
 				content: this.refs.ace.editor.getValue()
 			};
 			
-			this.props.emit("update document content", data, (err) => {
+			this.props.socket.emit("update document content", data, (err) => {
 				if (err) {
 					location.reload();
 				}

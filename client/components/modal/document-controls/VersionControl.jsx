@@ -28,13 +28,13 @@ export default class VersionControl extends React.Component {
 	}
 	
 	componentWillMount() {
-		this.props.emit("list versions", this.props.data.document.doc_id, versions => {
+		this.props.socket.emit("list versions", this.props.data.document.doc_id, versions => {
 			this.props.dispatch(loadVersions(versions));
 		});
 	}
 	
 	onLoadVersion(name) {
-		this.props.emit("load version", this.props.data.document.doc_id, name, (err, msg) => {
+		this.props.socket.emit("load version", this.props.data.document.doc_id, name, (err, msg) => {
 			if (err) {
 				this.props.dispatch(error(msg));
 			}
@@ -45,7 +45,7 @@ export default class VersionControl extends React.Component {
 				);
 			
 				// Load documents new content and push to state
-				this.props.emit(
+				this.props.socket.emit(
 					event,
 					this.props.data.document.doc_id,
 					this.props.data.document.encrypt,
@@ -70,7 +70,7 @@ export default class VersionControl extends React.Component {
 	}
 	
 	onDeleteVersion(name) {
-		this.props.emit(
+		this.props.socket.emit(
 			"delete version", this.props.data.document.doc_id, name,
 			(err) => {
 				if (err) {
@@ -87,7 +87,7 @@ export default class VersionControl extends React.Component {
 	onCreateVersion() {
 		let name = this.refs.name.value;
 		
-		this.props.emit(
+		this.props.socket.emit(
 			"create version", this.props.data.document.doc_id, name,
 			(err, msg) => {
 				if (err) {

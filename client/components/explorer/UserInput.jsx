@@ -54,7 +54,7 @@ export default class UserInput extends React.Component {
 			name: this.refs.input.innerHTML
 		};
 	
-		this.props.emit("create object", data, (err, res) => {
+		this.props.socket.emit("create object", data, (err, res) => {
 			if (err) {
 				this.props.dispatch(error(res));
 				
@@ -86,7 +86,7 @@ export default class UserInput extends React.Component {
 			),
 		};
 		
-		this.props.emit("create object", data, (err, res) => {
+		this.props.socket.emit("create object", data, (err, res) => {
 			if (err) {
 				this.props.dispatch(error(res));
 			}
@@ -110,7 +110,7 @@ export default class UserInput extends React.Component {
 			id: this.props.data.userInput.objId 
 		};
 	
-		this.props.emit("rename object", data, (err, msg) => {
+		this.props.socket.emit("rename object", data, (err, msg) => {
 			if (err) {
 				this.props.dispatch(error(msg));
 			}
@@ -132,7 +132,7 @@ export default class UserInput extends React.Component {
 				id: this.props.data.userInput.objId, to
 			};
 		
-			this.props.emit("move object to folder", data, (err, msg) => {
+			this.props.socket.emit("move object to folder", data, (err, msg) => {
 				if (err) {
 					this.props.dispatch(error(msg));
 				}
