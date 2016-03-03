@@ -53,8 +53,11 @@ export default class Document extends React.Component {
     }
 
     render() {
+        if (this.props.data.doc_type == 0) {
+            return <div />;
+        }
         // Document is encrypted and user has not provided key
-        if (this.props.data.encrypted && this.props.data.encrypt === "") {
+        else if (this.props.data.encrypted && this.props.data.encrypt === "") {
             return (
                 <div className="document-encrypted">
                     <h3>Encryption Key</h3>
