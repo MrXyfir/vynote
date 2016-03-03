@@ -198,14 +198,13 @@ export default class UserInput extends React.Component {
 	}
 	
 	render() {
-		let inputTitle = "", inputDescription = "", inputContent = "", inputExtended;
+		let inputTitle = "", inputContent = "", inputExtended;
 	
 		// Set variables for input area
 		// Returns empty div if userInput has no action
 		switch (this.props.data.userInput.action) {
 			case CREATE_DOCUMENT:
 				inputTitle = "Create Document";
-				inputDescription = "Configure a new document";
 				inputContent = "New Document - " + Date.now().toString().substr(-6);
 				inputExtended = (
 					<div className="explorer-user-input-extended">
@@ -234,7 +233,6 @@ export default class UserInput extends React.Component {
 			
 			case CREATE_FOLDER:
 				inputTitle = "Create Folder";
-				inputDescription = "Configure a new folder";
 				inputContent = "New Folder - " + Date.now().toString().substr(-6);
 				inputExtended = (
 					(Date.now() > this.props.subscription)
@@ -247,7 +245,6 @@ export default class UserInput extends React.Component {
 				
 			case RENAME_OBJECT:
 				inputTitle = "Rename";
-				inputDescription = "Rename a " + (this.props.data.userInput.objType === 1 ? "folder" : "document");
 				inputContent = (
 					this.props.data.userInput.objType === 1
 					? this.props.data.folders[this.props.data.userInput.objId].name
@@ -256,7 +253,6 @@ export default class UserInput extends React.Component {
 				
 			case MOVE_OBJECT:
 				inputTitle = "Move";
-				inputDescription = "Move a " + (this.props.data.userInput.objType === 1 ? "folder" : "document");
 				inputContent = this.props.data.scopeParents.map(dir => {
 					return dir.name;
 				}).join("/") + "/" + this.props.data.folders[this.props.data.scope].name;
@@ -268,10 +264,7 @@ export default class UserInput extends React.Component {
 	
 		return (
 			<div className="explorer-user-input">
-				<div className="explorer-user-input-head">
-					<span className="explorer-user-input-title">{inputTitle}</span>
-					<span className="explorer-user-input-description">{inputDescription}</span>
-				</div>
+                <span className="explorer-user-input-title">{inputTitle}</span>
 				{inputExtended}
 				<div 
 					ref="input"
