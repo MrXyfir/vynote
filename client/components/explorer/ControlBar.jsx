@@ -4,7 +4,7 @@ import { triggerCreateFolder, triggerCreateDocument } from "../../actions/explor
 import { navigateToFolder, loadFileSystem } from "../../actions/explorer/";
 import { error } from "../../actions/notification";
 
-import { buildExplorerObject } from "../../lib/explorer/build";
+import buildExplorerObject from "../../lib/explorer/build";
 
 export default class ControlBar extends React.Component {
 	
@@ -45,9 +45,9 @@ export default class ControlBar extends React.Component {
 	onRefresh() {
 		// Refresh entire filesystem
 		this.props.emit("get filesystem", (res) => {
-			res = buildExplorerObject(res, this.props.data.scope);
-			
-			this.props.dispatch(loadFileSystem(res));
+			this.props.dispatch(loadFileSystem(
+                buildExplorerObject(res, this.props.data.scope)
+            ));
 		});
 	}
 	
