@@ -4,7 +4,7 @@ import userInput from "./user-input";
 // Action types
 import {
 	LOAD_FILESYSTEM, UPDATE_SCOPE, CREATE_FOLDER, CREATE_DOCUMENT,
-	DELETE_OBJECT, RENAME_OBJECT, MOVE_OBJECT
+	DELETE_OBJECT, RENAME_OBJECT, MOVE_OBJECT, HOVER_OBJECT
 } from "../../constants/action-types/explorer/";
 
 // Lib modules
@@ -107,7 +107,12 @@ export default function (state, action) {
 						// Update doc's parent_id
 						temp.documents[action.data.id].parent_id = action.data.to;
 					}
-					return temp;
+                    return temp;
+                    
+                case HOVER_OBJECT:
+                    return Object.assign({}, state, { hover: {
+                        objType: action.objType, id: action.id
+                    } });
 					
 				default:
 					return state;

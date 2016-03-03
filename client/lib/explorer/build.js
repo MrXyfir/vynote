@@ -8,7 +8,10 @@ export default function (temp, scope = 0) {
         },
 		documents: {},
 		scopeParents: [],
-		userInput: { action: "" },
+        userInput: { action: "" },
+        hover: {
+            objType: 0, id: 0
+        },
 		scope
 	};
 	

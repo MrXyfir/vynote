@@ -26,6 +26,7 @@ export default class Explorer extends React.Component {
 								data={this.props.data[isDoc ? "documents" : "folders"][child.id]} 
 								emit={this.props.emit} 
 								isDoc={isDoc} 
+                                hover={this.props.data.hover} 
 								dispatch={this.props.dispatch}
 							/>
 						);

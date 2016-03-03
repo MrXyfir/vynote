@@ -1,6 +1,6 @@
 import {
 	LOAD_FILESYSTEM, UPDATE_SCOPE, DELETE_OBJECT, CREATE_FOLDER, CREATE_DOCUMENT,
-	RENAME_OBJECT, MOVE_OBJECT
+	RENAME_OBJECT, MOVE_OBJECT, HOVER_OBJECT
 } from "../../constants/action-types/explorer/";
 
 export function createFolder(data) {
@@ -43,4 +43,10 @@ export function moveObject(data) {
 	return {
 		type: MOVE_OBJECT, data
 	};
+}
+
+export function hoverObject(objType, id) {
+    return {
+        type: HOVER_OBJECT, objType, id
+    };
 }

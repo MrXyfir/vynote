@@ -5,7 +5,9 @@ import {
 	triggerRenameObject, triggerMoveObject
 } from "../../actions/explorer/user-input";
 import { error } from "../../actions/notification";
-import { navigateToFolder, deleteObject } from "../../actions/explorer/";
+import {
+    navigateToFolder, deleteObject, hoverObject
+} from "../../actions/explorer/";
 import { loadDocument } from "../../actions/documents/";
 
 // Constants
@@ -18,24 +20,20 @@ export default class ExplorerObject extends React.Component {
 
 	constructor(props) {
 		super(props);
-		
-		this.state = { showControls: false };
         
         this.onMouseOver = this.onMouseOver.bind(this);
-        this.onMouseOut = this.onMouseOut.bind(this);
         this.onRename = this.onRename.bind(this);
         this.onDelete = this.onDelete.bind(this);
         this.onMove = this.onMove.bind(this);
         this.onOpen = this.onOpen.bind(this);
 	}
-	
-	onMouseOver() {
-		this.setState({ showControls: true });
-	}
-	
-	onMouseOut() {
-		this.setState({ showControls: false });
-	}
+
+    onMouseOver() {
+        this.props.dispatch(hoverObject(
+            (this.props.isDoc ? 2 : 1),
+			this.props.data[this.props.isDoc ? "doc_id" : "folder_id"]
+        ));
+    }
 
 	onRename() {
 		triggerRenameObject(
@@ -113,27 +111,31 @@ export default class ExplorerObject extends React.Component {
 	}
 
 	render() {
-		let icon = "";
+		let icon = "", type, id;
 		if (this.props.isDoc) {
 			switch (this.props.data.doc_type) {
 				case 1: icon = "nested-note"; break;
 				case 2: icon = "doc-text"; break;
 				case 3: icon = "file-code";
 			}
+            type = 2;
+            id = this.props.data.doc_id; 
 		}
 		else {
 			icon = "folder";
+            type = 1;
+            id = this.props.data.folder_id;
 		}
-	
+    
 		return (
 			<div 
 				className={"explorer-object-" + (this.props.isDoc ? "document" : "folder")}
-				onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} 
+				onMouseOver={this.onMouseOver} 
 			>
 				<span className={"icon-" + icon} style={{color: colors[this.props.data.color]}} />
 				<span className="object-name" onClick={this.props.onOpen}>{this.props.data.name}</span>
 				{
-					this.state.showControls
+					(type == this.props.hover.objType && id == this.props.hover.id)
 					? (
 						<div className="object-controls">
 							<span className="icon-edit" title="Rename" onClick={this.onRename} />
