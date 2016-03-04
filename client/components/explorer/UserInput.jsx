@@ -188,6 +188,7 @@ export default class UserInput extends React.Component {
 	
 	onKeyPress(e) {
 		if (e.key === "Enter") {
+            e.preventDefault();
 			// Call appropriate handler function based on action
 			switch (this.props.data.userInput.action) {
 				case CREATE_DOCUMENT:
