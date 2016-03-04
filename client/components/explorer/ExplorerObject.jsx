@@ -36,17 +36,17 @@ export default class ExplorerObject extends React.Component {
     }
 
 	onRename() {
-		triggerRenameObject(
+		this.props.dispatch(triggerRenameObject(
 			(this.props.isDoc ? 2 : 1),
 			this.props.data[this.props.isDoc ? "doc_id" : "folder_id"]
-		);
+		));
 	}
 	
 	onMove() {
-		triggerMoveObject(
+		this.props.dispatch(triggerMoveObject(
 			(this.props.isDoc ? 2 : 1),
 			this.props.data[this.props.isDoc ? "doc_id" : "folder_id"]
-		);
+		));
 	}
 	
 	onDelete() {
