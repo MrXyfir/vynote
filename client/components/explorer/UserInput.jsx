@@ -51,7 +51,7 @@ export default class UserInput extends React.Component {
 				? this.refs.color.value
 				: 7
 			),
-			name: this.refs.input.innerHTML
+			name: this.refs.input.value
 		};
 	
 		this.props.socket.emit("create object", data, (err, res) => {
@@ -78,7 +78,7 @@ export default class UserInput extends React.Component {
 	onCreateFolder() {
 		let data = {
 			objType: 1, folder: this.props.data.scope,
-			name: this.refs.input.innerHTML,
+			name: this.refs.input.value,
 			color: (
 				(Date.now() > this.props.subscription)
 				? this.refs.color.value
@@ -106,7 +106,7 @@ export default class UserInput extends React.Component {
 	onRenameObject() {
 		const data = {
 			objType: this.props.data.userInput.objType,
-			name: this.refs.input.innerHTML,
+			name: this.refs.input.value,
 			id: this.props.data.userInput.objId 
 		};
 	
@@ -124,7 +124,9 @@ export default class UserInput extends React.Component {
 	}
 	
 	onMoveObject() {
-		let directory = this.refs.input.innerHTML.split('/');
+		let directory = this.refs.input.value.charAt(0) == '/'
+            ? this.refs.input.value.substring(1).split('/') 
+            : this.refs.input.value.split('/');
 		
 		const move = (to) => {
 			const data = {
@@ -164,7 +166,7 @@ export default class UserInput extends React.Component {
 				if (i == 0) return;
 				
 				for (let child in this.props.data.children[folder]) {
-					if (this.props.data.folders[child].name == dir) {
+					if (child.type == 1 && this.props.data.folders[child.id].name == dir) {
 						folder = child;
 						break;
 					}
@@ -265,18 +267,20 @@ export default class UserInput extends React.Component {
 				break;
 			
 			default:
-				return <div></div>;
+				return <div />;
 		}
 	
 		return (
 			<div className="explorer-user-input">
                 <span className="explorer-user-input-title">{inputTitle}</span>
-				<div 
+				<input 
 					ref="input"
+                    type="text"
+                    autoFocus="true" 
 					className="explorer-user-input-text" 
 					onKeyPress={this.onKeyPress} 
-					contentEditable={true}
-				>{inputContent}</div>
+                    defaultValue={inputContent} 
+				/>
                 {inputExtended}
                 <span className="icon-close" onClick={this.onClose} />
 			</div>

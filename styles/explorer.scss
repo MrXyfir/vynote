@@ -64,9 +64,9 @@
     outline: $black solid 1px;
     padding: 0.4em;
     width: 97vw;
-    top: 92%;
+    top: 90%;
     
-    * {
+    span, div, input, select {
         margin-left: 0.4em;
         display: inline-block;
     }
@@ -76,9 +76,6 @@
     }
     
     .explorer-user-input-text {
-        background-color: $llgray;
-        outline: $black solid 1px;
-        padding: 0.2em;
         width: 40vw;
     }
     
