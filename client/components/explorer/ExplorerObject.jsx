@@ -133,7 +133,7 @@ export default class ExplorerObject extends React.Component {
 				onMouseOver={this.onMouseOver} 
 			>
 				<span className={"icon-" + icon} style={{color: colors[this.props.data.color]}} />
-				<span className="object-name" onClick={this.props.onOpen}>{this.props.data.name}</span>
+				<span className="object-name" onClick={this.onOpen}>{this.props.data.name}</span>
 				{
 					(type == this.props.hover.objType && id == this.props.hover.id)
 					? (
