@@ -27,7 +27,7 @@
 
 .explorer-objects {
     
-    .explorer-object-document, .explorer-object-folder {
+    div[class^="explorer-object-"] {
         
         display: table;
         
@@ -37,6 +37,10 @@
         
         .object-name {
             display: table-cell;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 10em;
         }
         
         .object-controls {
@@ -45,6 +49,10 @@
             text-align: right;
         }
         
+    }
+    
+    div[class^="explorer-object-"]:hover {
+        background-color: rgba(186,186,186,0.4);
     }
     
 }
