@@ -33,14 +33,14 @@ export default class UserInput extends React.Component {
     }
     
 	onCreateDocument() {
-		if (this.refs.docType.value === 0) {
+		if (this.refs.docType.value == 0) {
 			this.props.dispatch(error("You must select a document type"));
 			return;
 		}
 	
 		let data = {
 			objType: 2, folder: this.props.data.scope,
-			docType: this.refs.docType.value,
+			docType: +this.refs.docType.value,
 			encrypt: (
 				(Date.now() > this.props.subscription)
 				? this.refs.key.value
@@ -53,7 +53,7 @@ export default class UserInput extends React.Component {
 			),
 			name: this.refs.input.value
 		};
-	
+        
 		this.props.socket.emit("create object", data, (err, res) => {
 			if (err) {
 				this.props.dispatch(error(res));
@@ -66,7 +66,7 @@ export default class UserInput extends React.Component {
 					contributor: false, syntax: 7, color: data.color,
 					folder_id: data.folder
 				};
-			
+                
 				this.props.dispatch(createDocument(data));
 				this.props.dispatch(success(`Document '${data.name}' created`)); 
 			}
