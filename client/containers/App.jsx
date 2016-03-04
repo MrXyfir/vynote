@@ -52,7 +52,7 @@ class App extends React.Component {
                     action: ""
                 },
                 notification: {
-                    status: "", message: ""
+                    status: "clear", message: ""
                 },
                 user: {
                     shortcuts: {}, config: {}, subscription: 0
