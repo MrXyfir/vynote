@@ -112,7 +112,10 @@ export default class ExplorerObject extends React.Component {
 
 	render() {
 		let icon = "", type, id;
-		if (this.props.isDoc) {
+        if (this.props.data === undefined) {
+            return <div />;
+        }
+		else if (this.props.isDoc) {
 			switch (this.props.data.doc_type) {
 				case 1: icon = "nested-note"; break;
 				case 2: icon = "doc-text"; break;
