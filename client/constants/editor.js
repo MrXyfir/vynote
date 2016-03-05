@@ -185,8 +185,8 @@ export const getSyntaxFile = (syntax) => {
 
     // Return set mode file or convert name to file
     return "ace/mode/" + (
-        (themes[theme][1] !== undefined)
-        ? themes[theme][1]
-        : themes[theme][0].toLowerCase()
+        (syntaxes[syntax][1] !== undefined)
+        ? syntaxes[syntax][1]
+        : syntaxes[syntax][0].toLowerCase()
     );
 };

@@ -15,8 +15,8 @@ export default class Ace extends React.Component {
 	componentDidMount() {
 		this.editor = ace.edit(this.props.id || "ace-editor");
 		
-		this.editor.getSession().setMode(`ace/mode/${getSyntaxFile(this.props.data.syntax)}`);
-		this.editor.setTheme(`ace/theme/${getThemeFile(this.props.data.theme)}`);
+		this.editor.getSession().setMode(getSyntaxFile(this.props.data.syntax));
+		this.editor.setTheme(getThemeFile(this.props.data.theme));
 		this.editor.setShowPrintMargin(false);
 		this.editor.setFontSize(16);
 		this.editor.on('change', this.onChange);
