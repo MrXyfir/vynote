@@ -1,4 +1,5 @@
 ﻿// Reducers
+import user from "./user/";
 import modal from "./modal/";
 import document from "./document/";
 import explorer from "./explorer/";
@@ -14,6 +15,7 @@ export default function (state, action) {
         return {};
 
     return {
+        user: user(state.user, action),
         modal: modal(state.modal, action),
         document: document(state.document, action),
         explorer: explorer(state.explorer, action),
