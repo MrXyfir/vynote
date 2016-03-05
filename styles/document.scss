@@ -2,6 +2,7 @@
     width: 80vw;
     height: 95vh;
     margin: auto;
+    margin-left: 20vw;
 }
 
 .document-head {
@@ -27,4 +28,10 @@
         font-weight: bold;
     }
     
+}
+
+#ace-editor {
+    width: 77vw;
+    height: 83vh;
+    margin: auto;
 }
