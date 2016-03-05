@@ -77,8 +77,8 @@ export default function (state, action) {
 						temp.documents[action.data.id].name = action.data.name;
 					return temp;
 					
-				case MOVE_OBJECT:
-					temp = JSON.parse(JSON.stringify(state));
+                case MOVE_OBJECT:
+                    temp = JSON.parse(JSON.stringify(state));
 					if (action.data.objType == 1) {
 						// Delete folder as child from previous parent
 						temp.children[temp.folders[action.data.id].parent_id] =
@@ -87,9 +87,15 @@ export default function (state, action) {
 								return child.type == 2 || child.id != action.data.id;
 							});
 						// Add folder as child to new parent
-						temp.children[action.data.to].push(
-							{ type: 1, id: action.data.id }
-						);
+                        if (temp.children[action.data.to] === undefined) {
+                            temp.children[action.data.to] = [{ type: 1, id: action.data.id }];
+                        }
+                        else {
+                            temp.children[action.data.to].push(
+                                { type: 1, id: action.data.id }
+                            );
+                        }
+                        
 						// Update folder's parent_id
 						temp.folders[action.data.id].parent_id = action.data.to;
 					}
@@ -100,11 +106,18 @@ export default function (state, action) {
 								// Return all folders, return doc where id doesn't match
 								return child.type == 1 || child.id != action.data.id;
 							});
-						// Add doc as child to new parent
-						temp.children[action.data.to].push(
-							{ type: 2, id: action.data.id }
-						);
-						// Update doc's parent_id
+						
+                        if (temp.children[action.data.to] === undefined) {
+                            temp.children[action.data.to] = [{ type: 2, id: action.data.id }];
+                        }
+                        else {
+                            // Add doc as child to new parent
+                            temp.children[action.data.to].push(
+                                { type: 2, id: action.data.id }
+                            );
+                        }
+						
+                        // Update doc's parent_id
 						temp.documents[action.data.id].parent_id = action.data.to;
 					}
                     return temp;

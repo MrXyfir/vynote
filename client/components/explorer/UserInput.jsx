@@ -127,13 +127,16 @@ export default class UserInput extends React.Component {
 		let directory = this.refs.input.value.charAt(0) == '/'
             ? this.refs.input.value.substring(1).split('/') 
             : this.refs.input.value.split('/');
+       
+        if (directory[directory.length - 1] == "")
+            directory.pop();
 		
 		const move = (to) => {
 			const data = {
 				objType: this.props.data.userInput.objType,
 				id: this.props.data.userInput.objId, to
 			};
-		
+            
 			this.props.socket.emit("move object to folder", data, (err, msg) => {
 				if (err) {
 					this.props.dispatch(error(msg));
@@ -164,13 +167,12 @@ export default class UserInput extends React.Component {
 			// (the folder to move object to)
 			directory.forEach((dir, i) => {
 				if (i == 0) return;
-				
-				for (let child in this.props.data.children[folder]) {
+                
+				this.props.data.children[folder].forEach(child => {
 					if (child.type == 1 && this.props.data.folders[child.id].name == dir) {
-						folder = child;
-						break;
-					}
-				}
+						folder = child.id;
+                    }
+				});
 			});
 			
 			// Don't move object
