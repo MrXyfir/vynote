@@ -26,7 +26,7 @@ export default class ControlBar extends React.Component {
 	onCreateDocument() {
 		if (this.props.data.scope === 0) {
 			// Cannot create documents in root
-			this.props.dispatch(error("Cannot create documents in root folder"));
+			this.props.dispatch(error("Cannot create documents in home folder"));
 		}
 		else {
 			// UserInput will handle creation process

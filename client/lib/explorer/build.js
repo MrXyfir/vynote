@@ -1,7 +1,7 @@
 export default function (temp, scope = 0) {
 	let explorer = {
         folders: {
-            0: { name: "Root" }
+            0: { name: "Home" }
         },
         children: {
             0: []

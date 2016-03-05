@@ -153,7 +153,7 @@ export default class UserInput extends React.Component {
 		// User wants to move object to root
 		if (directory.length == 1) {
 			if (this.props.data.userInput.objType == 2) {
-				this.props.dispatch(error("Cannot move documents to root"));
+				this.props.dispatch(error("Cannot move documents to home folder"));
 				this.props.dispatch(closeUserInput());
 			}
 			else {
