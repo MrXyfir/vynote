@@ -63,7 +63,7 @@ export default class UserInput extends React.Component {
 				data = {
 					doc_type: data.docType, doc_id: res, name: data.name,
 					encrypt: data.encrypt, encrypted: data.encrypt != "",
-					contributor: false, syntax: 7, color: data.color,
+					contributor: false, syntax: 70, color: data.color,
 					folder_id: data.folder
 				};
                 

@@ -36,7 +36,7 @@
 ];
 
 export const getThemeFile = (theme) => {
-    theme = themes[theme] === undefined ? 0 : theme;
+    theme = themes[theme] === undefined ? 6 : theme;
 
     // Return set theme file or convert name to file
     return "ace/theme/" + (
@@ -181,7 +181,7 @@ export const syntaxes = [
 ];
 
 export const getSyntaxFile = (syntax) => {
-    syntax = syntaxes[syntax] === undefined ? 0 : syntax;
+    syntax = syntaxes[syntax] === undefined ? 70 : syntax;
 
     // Return set mode file or convert name to file
     return "ace/mode/" + (

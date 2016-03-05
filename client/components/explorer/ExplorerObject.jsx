@@ -71,7 +71,7 @@ export default class ExplorerObject extends React.Component {
 				// Document container will require encryption key when
 				// encrypted == true && encrypt == ""
 				this.props.dispatch(loadDocument(
-					Object.assign({}, this.props.data, { encrypt: "" })
+					Object.assign({}, this.props.data, { encrypt: "", theme: 6 })
 				));
 				return;
 			}
@@ -99,7 +99,7 @@ export default class ExplorerObject extends React.Component {
 					}
 					else {
 						this.props.dispatch(loadDocument(
-							Object.assign({}, this.props.data, { content: res })
+							Object.assign({}, this.props.data, { content: res, theme: 6 })
 						));
 					}
 				});

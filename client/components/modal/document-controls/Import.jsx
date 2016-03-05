@@ -84,8 +84,8 @@ export default class Import extends React.Component {
 		const data = {
 			encrypted: false,
 			content: "",
-			syntax: this.props.data.document.syntax || 69,
-			theme: this.props.data.document.theme || 6,
+			syntax: this.props.data.document.syntax === undefined ? 70 : this.props.data.document.syntax,
+			theme: this.props.data.document.theme === undefined ? 6 : this.props.data.document.theme,
 		};
 	
 		return (
