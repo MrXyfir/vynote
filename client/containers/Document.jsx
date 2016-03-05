@@ -98,7 +98,7 @@ export default class Document extends React.Component {
                             ]</span>
                             {" - "}
                             <span title="Created">[
-                                {(new Date()).toLocaleString(this.props.data.created)}
+                                {(new Date(this.props.data.created * 1000)).toLocaleString()}
                             ]</span> 
                         </div>
                         <div className="document-icons">
