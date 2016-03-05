@@ -17,7 +17,7 @@ export default class Code extends React.Component {
 	}
 	
 	onChange(e) {
-		e.id = this.props.data.id;
+		e.doc = this.props.data.doc_id;
 		
 		this.props.socket.emit("update document content", e, (err) => {
 			if (err) {
@@ -31,9 +31,10 @@ export default class Code extends React.Component {
 	}
 	
 	onSetSyntax() {
-		const syntax = this.refs.syntax.value; 
+		const syntax = +this.refs.syntax.value; 
 		
-		this.props.socket.emit("set document syntax", this.props.data.id, syntax, (err) => {
+		this.props.socket.emit("set document syntax", this.props.data.doc_id, syntax, (err) => {
+            console.log("error status ", err);
 			if (!err) {
 				this.props.dispatch(setSyntax(syntax));
 			}
@@ -41,7 +42,7 @@ export default class Code extends React.Component {
 	}
 	
 	onSetTheme() {
-		this.props.dispatch(setTheme(this.refs.theme.value));
+		this.props.dispatch(setTheme(+this.refs.theme.value));
 	}
 	
 	render() {
