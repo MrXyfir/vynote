@@ -5,7 +5,8 @@ import code from "./code";
 
 // Action types
 import {
-	SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT
+    SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT,
+    TOGGLE_INFO
 } from "../../constants/action-types/documents/";
 
 export default function (state, action) {
@@ -45,7 +46,10 @@ export default function (state, action) {
 						return state;
 				
 				case LOAD_DOCUMENT:
-					return action.document;		
+                    return action.document;
+                    
+                case TOGGLE_INFO:
+                    return Object.assign({}, state, { showInfo: !state.showInfo });	
 				
 				default:
 					return state;

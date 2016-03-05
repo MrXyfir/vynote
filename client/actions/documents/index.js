@@ -2,7 +2,8 @@ import {
 	ERROR, SUCCESS
 } from "../../constants/action-types/notifications";
 import {
-	SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT
+    SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT,
+    TOGGLE_INFO
 } from "../../constants/action-types/documents/";
 import {
 	DOCUMENT_CONTROLS
@@ -55,3 +56,9 @@ export function openDocumentControls() {
 		type: DOCUMENT_CONTROLS
 	};
 };
+
+export function toggleShowDocInfo() {
+    return {
+        type: TOGGLE_INFO
+    };
+}
