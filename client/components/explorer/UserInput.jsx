@@ -42,12 +42,12 @@ export default class UserInput extends React.Component {
 			objType: 2, folder: this.props.data.scope,
 			docType: +this.refs.docType.value,
 			encrypt: (
-				(Date.now() > this.props.subscription)
+				(this.props.subscription > Date.now())
 				? this.refs.key.value
 				: ""
 			),
 			color: (
-				(Date.now() > this.props.subscription)
+				(this.props.subscription > Date.now())
 				? this.refs.color.value
 				: 7
 			),
@@ -80,7 +80,7 @@ export default class UserInput extends React.Component {
 			objType: 1, folder: this.props.data.scope,
 			name: this.refs.input.value,
 			color: (
-				(Date.now() > this.props.subscription)
+				(this.props.subscription > Date.now())
 				? this.refs.color.value
 				: 7
 			),
@@ -226,7 +226,7 @@ export default class UserInput extends React.Component {
 						</select>
 						
 						{
-							(Date.now() > this.props.subscription)
+							(this.props.subscription > Date.now())
 							? <select ref="color" defaultValue="7">{
 								colors.map((color, i) => { return <option value={i}>{color}</option>; })
 							  }</select>
@@ -234,7 +234,7 @@ export default class UserInput extends React.Component {
 						}
 						
 						{
-							(Date.now() > this.props.subscription)
+							(this.props.subscription > Date.now())
 							? <input type="text" placeholder="Encryption Key" ref="key" />
 							: <span></span>
 						}
@@ -245,7 +245,7 @@ export default class UserInput extends React.Component {
 				inputTitle = "Create Folder";
 				inputContent = "New Folder - " + Date.now().toString().substr(-6);
 				inputExtended = (
-					(Date.now() > this.props.subscription)
+					(this.props.subscription > Date.now())
 					? <div className="explorer-user-input-extended"><select ref="color" defaultValue="7">{
 						colors.map((color, i) => { return <option value={i}>{color}</option>; })
 					  }</select></div>
