@@ -7,7 +7,8 @@ import Code from "../components/documents/Code";
 
 // Actions creators
 import {
-    accessError, loadContent, setEncryptionKey, openDocumentControls
+    accessError, loadContent, setEncryptionKey, openDocumentControls,
+    toggleShowDocInfo
 } from "../actions/documents/";
 
 // Modules
@@ -16,8 +17,17 @@ import getScopeParents from "../lib/explorer/scope-parents";
 
 // Constants
 import { syntaxes } from "../constants/editor";
+import docTypes from "../constants/doc-types";
 
 export default class Document extends React.Component {
+
+    constructor(props) {
+        super(props);
+        
+        this.onSetEncryptionKey = this.onSetEncryptionKey.bind(this);
+        this.onOpenDocControls = this.onOpenDocControls.bind(this);
+        this.onToggleDocInfo = this.onToggleDocInfo.bind(this);
+    }
 
     onSetEncryptionKey() {
         let event = this.props.data.doc_type === 1 ? "get note elements" : "get document content";
@@ -51,6 +61,10 @@ export default class Document extends React.Component {
     onOpenDocControls() {
         this.props.dispatch(openDocumentControls());
     }
+    
+    onToggleDocInfo() {
+        this.props.dispatch(toggleShowDocInfo());
+    }
 
     render() {
         if (this.props.data.doc_type == 0) {
@@ -72,7 +86,7 @@ export default class Document extends React.Component {
         }
         // Output appropriate component to handle document
         else {
-            let view;
+            let view, info;
         
             switch (this.props.data.doc_type) {
                 case 1:
@@ -85,38 +99,50 @@ export default class Document extends React.Component {
                     view = <Code data={this.props.data} socket={this.props.socket} dispatch={this.props.dispatch} />;
             }
             
+            if (this.props.data.showInfo) {
+                info = (
+                    <table className="document-info">
+                        <tr>
+                            <th>Type</th><th>Name</th><th>Created</th><th>Folder</th><th></th>
+                        </tr>
+                        <tr>
+                            <td className="type">{
+                                docTypes[this.props.data.doc_type]
+                            }</td>
+                            <td className="name">{
+                                this.props.data.name
+                            }</td>
+                            <td className="created">
+                                {(new Date(this.props.data.created * 1000)).toLocaleString()}
+                            </td>
+                            <td className="folder">{
+                                getScopeParents(this.props.folders, this.props.data.folder_id)
+                                .map(folder => { return folder.name; })
+                                .join("/") + "/" + this.props.folders[this.props.data.folder_id].name
+                            }</td>
+                            <td className="icons">
+                                <span 
+                                    className={this.props.data.contributor ? "icon-users" : ""}
+                                    title={this.props.data.contributor ? "Multi-User Document" : ""}
+                                />
+                                <span 
+                                    className={"icon-" + (this.props.data.encrypted ? "lock" : "unlocked")}
+                                    title={this.props.data.encrypted ? "Encrypted" : "Unencrypted"} 
+                                />
+                            </td>
+                        </tr>
+                    </table>
+                );
+            }
+            
             return (
                 <div className="document-container">
                     <div className="document-head">
-                        <div className="document-info">
-                            <span title="Document Type">[
-                                {this.props.data.doc_type == 1 ? "Note" : (this.props.data.doc_type == 2 ? "Page" : "Code")}
-                            ]</span>
-                            {" - "}
-                            <span title="Document Name">[
-                                {this.props.data.name}
-                            ]</span>
-                            {" - "}
-                            <span title="Created">[
-                                {(new Date(this.props.data.created * 1000)).toLocaleString()}
-                            ]</span> 
-                        </div>
-                        <div className="document-icons">
-                            <span 
-                                className={this.props.data.contributor ? "icon-users" : ""}
-                                title={this.props.data.contributor ? "Multi-User Document" : ""}
-                            />
-                            <span 
-                                className={"icon-" + (this.props.data.encrypted ? "lock" : "unlocked")}
-                                title={this.props.data.encrypted ? "Encrypted" : "Unencrypted"} 
-                            />
-                        </div>
-                        <div className="document-location">{
-                            getScopeParents(this.props.folders, this.props.data.folder_id)
-                                .map(folder => {
-                                    return folder.name;
-                                }).join("/") + "/" + this.props.folders[this.props.data.folder_id].name
-                        }</div>
+                        {info}
+                        
+                        <a onClick={this.onToggleDocInfo}>{
+                            this.props.data.showInfo ? "Hide Info" : "Show Info"
+                        }</a>
                         <a onClick={this.onOpenDocControls}>Document Controls</a>
                     </div>
                     
