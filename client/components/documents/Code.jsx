@@ -24,7 +24,7 @@ export default class Code extends React.Component {
 				this.props.dispatch(saveError());
 			}
 			else {
-				this.props.dispatch(saveContent(e));
+				this.props.dispatch(saveContent(e.content));
 				this.props.dispatch(saveSuccess());
 			}
 		});
