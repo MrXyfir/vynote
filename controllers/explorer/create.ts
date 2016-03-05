@@ -40,7 +40,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                     return;
                 }
 
-                data.color = (Date.now() > socket.session.subscription) ? data.color : 7;
+                data.color = (Date.now() > socket.session.subscription) ? 7 : data.color;
                 data.name = !data.name.match(/^[\w\d- .,#$%&()]{1,50}$/) ? "New Folder" : data.name;
 
                 sql = "INSERT INTO folders SET ?";
@@ -66,11 +66,11 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                     return;
                 }
 
-                data.color = (Date.now() > socket.session.subscription) ? data.color : 7;
+                data.color = (Date.now() > socket.session.subscription) ? 7 : data.color;
                 data.name = !data.name.match(/^[\w\d- .,#$%&()]{1,50}$/) ? "New File" : data.name;
 
                 // data.encrypt is encrypt("KEY", userEncKey), used to verify encryption keys
-                let encrypt: string = (data.encrypt.length > 0 && Date.now() > socket.session.subscription)
+                let encrypt: string = (data.encrypt.length > 0 && socket.session.subscription > Date.now())
                     ? data.encrypt : "";
 
                 sql = "INSERT INTO documents SET ?";
@@ -78,7 +78,8 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                     user_id: socket.session.uid, doc_type: data.docType,
                     created: Math.round(new Date().getTime() / 1000),
                     folder_id: data.folder, name: data.name,
-                    encrypt: encrypt, color: data.color
+                    encrypt: encrypt, color: data.color,
+                    syntax: 70
                 };
             }
 
