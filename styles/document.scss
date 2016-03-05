@@ -1,6 +1,7 @@
 .document-container {
     width: 80vw;
     height: 95vh;
+    margin: auto;
 }
 
 .document-head {
@@ -9,6 +10,21 @@
     
     .document-info, .document-icons {
         display: inline;
+    }
+    
+}
+
+.document-settings {
+    
+    text-align: center;
+    
+    select {
+        display: inline-block;
+        margin: 0.4em;
+    }
+    
+    label {
+        font-weight: bold;
     }
     
 }
