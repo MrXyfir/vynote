@@ -37,9 +37,10 @@ export default class Notification extends React.Component {
 		this._clear();
 	
 		return (
-			<div className={`notification notification-${this.props.data.status}`}>{
-				this.props.data.message
-			}</div>
+			<div className={`notification notification-${this.props.data.status}`}>
+                <span className={"icon icon-" + this.props.data.status} />
+                <span className="message">{this.props.data.message}</span>
+            </div>
 		);
 	}
 

@@ -90,3 +90,19 @@ input[type=text], input[type=password], input[type=email], input[type=number], i
 	display: block;
 	margin: 1em auto;
 }
+
+.notification {
+    
+    width: 100vw;
+    height: 3vh;
+    position: absolute;
+    bottom: 0%;
+    z-index: 5;
+    background-color: $gray;
+    color: $llgray;
+    
+    span {
+        margin-left: 0.4em;
+    }
+    
+}
