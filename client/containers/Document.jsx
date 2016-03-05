@@ -20,11 +20,11 @@ import { syntaxes } from "../constants/editor";
 export default class Document extends React.Component {
 
     onSetEncryptionKey() {
-        let event = this.props.data.type === 1 ? "get note elements" : "get document content";
+        let event = this.props.data.doc_type === 1 ? "get note elements" : "get document content";
         let key = this.refs.key.value;
         
         // Attempt to load document's content with type/id/key
-        this.props.socket.emit(event, this.props.data.id, key, (err, content) => {
+        this.props.socket.emit(event, this.props.data.doc_id, key, (err, content) => {
             if (err) {
                 this.props.dispatch(accessError());
                 
@@ -34,7 +34,7 @@ export default class Document extends React.Component {
             // Load content into state and set encryption key
             else {
                 // Convert content to note object
-                if (this.props.data.type === 1) {
+                if (this.props.data.doc_type === 1) {
                     content = toNoteObject(content);
                     content.scope = 0;
                 }
@@ -74,7 +74,7 @@ export default class Document extends React.Component {
         else {
             let view;
         
-            switch (this.props.data.type) {
+            switch (this.props.data.doc_type) {
                 case 1:
                     view = <Note data={this.props.data} socket={this.props.socket} dispatch={this.props.dispatch} />;
                     break;
