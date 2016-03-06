@@ -39,7 +39,7 @@ export default class Page extends React.Component {
 		if (this.props.data.preview)
 			document = <div dangerouslySetInnerHTML={{__html: marked(this.props.data.content)}}></div>;
 		else
-			document = <Editor onChange={this.onChange} data={this.props.data} />;
+			document = <Editor onChange={this.onChange} data={this.props.data} shortcuts={this.props.shortcuts} />;
 	
 		return (
 			<div className={"document document-page-" + (this.props.data.preview ? "preview" : "edit")}>

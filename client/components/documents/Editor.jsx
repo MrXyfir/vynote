@@ -68,8 +68,8 @@ export default class Ace extends React.Component {
                 let line = editor.session.doc.getLine(row);
             
                 // Replace shortcuts in line
-                Object.keys(this.props.user.shortcuts).forEach(sc => {
-                    line = line.replace("${" + sc + "}", this.props.user.shortcuts[sc]);
+                Object.keys(this.props.shortcuts || {}).forEach(sc => {
+                    line = line.replace("${" + sc + "}", this.props.shortcuts[sc]);
                 });
             
                 // Write new line

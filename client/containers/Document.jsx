@@ -90,13 +90,32 @@ export default class Document extends React.Component {
         
             switch (this.props.data.doc_type) {
                 case 1:
-                    view = <Note data={this.props.data} socket={this.props.socket} dispatch={this.props.dispatch} />;
-                    break;
+                    view = (
+                        <Note 
+                            data={this.props.data} 
+                            socket={this.props.socket} 
+                            dispatch={this.props.dispatch} 
+                            shortcuts={this.props.shortcuts}
+                        />
+                    ); break;
                 case 2:
-                    view = <Page data={this.props.data} socket={this.props.socket} dispatch={this.props.dispatch} />;
-                    break;
+                    view = (
+                        <Page 
+                            data={this.props.data} 
+                            socket={this.props.socket} 
+                            dispatch={this.props.dispatch} 
+                            shortcuts={this.props.shortcuts}
+                        />
+                    ); break;
                 case 3:
-                    view = <Code data={this.props.data} socket={this.props.socket} dispatch={this.props.dispatch} />;
+                    view = (
+                        <Code 
+                            data={this.props.data} 
+                            socket={this.props.socket} 
+                            dispatch={this.props.dispatch} 
+                            shortcuts={this.props.shortcuts}
+                        />
+                    ); break;
             }
             
             if (this.props.data.showInfo) {
