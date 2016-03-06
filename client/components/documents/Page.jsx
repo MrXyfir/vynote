@@ -20,14 +20,14 @@ export default class Page extends React.Component {
 	}
 	
 	onChange(e) {
-		e.id = this.props.data.id;
-	
+		e.doc = this.props.data.doc_id;
+		
 		this.props.socket.emit("update document content", e, (err) => {
 			if (err) {
 				this.props.dispatch(saveError());
 			}
 			else {
-				this.props.dispatch(saveContent(e));
+				this.props.dispatch(saveContent(e.content));
 				this.props.dispatch(saveSuccess());
 			}
 		});
@@ -43,9 +43,9 @@ export default class Page extends React.Component {
 	
 		return (
 			<div className={"document document-page-" + (this.props.data.preview ? "preview" : "edit")}>
-				<button className="btn btn-primary" onClick={this.onTogglePreview}>{
+				<a onClick={this.onTogglePreview}>{
 					this.props.data.preview ? "Edit Mode" : "Preview Mode"
-				}</button>
+				}</a>
 				{document}
 			</div>
 		);
