@@ -9,6 +9,7 @@ export default class Ace extends React.Component {
 	constructor(props) {
 		super(props);
         
+        this._addCommands = this._addCommands.bind(this);
         this.onChange = this.onChange.bind(this);
 	}
 	
