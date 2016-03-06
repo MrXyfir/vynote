@@ -8,7 +8,9 @@ import { error } from "../../actions/notification";
 import {
     navigateToFolder, deleteObject, hoverObject
 } from "../../actions/explorer/";
-import { loadDocument } from "../../actions/documents/";
+import {
+    loadDocument, deleteDocument
+} from "../../actions/documents/";
 
 // Constants
 import colors from "../../constants/colors";
@@ -59,6 +61,10 @@ export default class ExplorerObject extends React.Component {
 			}
 			else {
 				this.props.dispatch(deleteObject(type, id));
+                
+                if (this.props.isDoc) {
+                    this.props.dispatch(deleteDocument(id));
+                }
 			}
 		});
 	}
