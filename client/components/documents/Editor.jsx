@@ -40,6 +40,14 @@ export default class Ace extends React.Component {
 	componentWillUnmount() {
 		clearTimeout(this.timeout);
 	
+        this.props.onChange({
+            action: "OVERWRITE", content: (
+                (this.props.data.encrypted) 
+                ? encrypt(this.editor.getValue(), this.props.data.encrypt)
+                : this.editor.getValue()
+            )
+        });
+    
 		this.editor.destroy();
 		this.editor = null;
 	}
