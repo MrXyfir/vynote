@@ -25,3 +25,6 @@
 .icon-lock:before { content: '\e817'; } /* '' */
 .icon-unlocked:before { content: '\e818'; } /* '' */
 .icon-close:before { content: '\e819'; } /* '' */
+.icon-error:before { content: '\e81a'; } /* '' */
+.icon-warning:before { content: '\e81b'; } /* '' */
+.icon-success:before { content: '\e81c'; } /* '' */

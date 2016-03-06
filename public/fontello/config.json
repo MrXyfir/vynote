@@ -161,6 +161,24 @@
       "css": "nested-note",
       "code": 59413,
       "src": "iconic"
+    },
+    {
+      "uid": "3ab229dd9bccaaaf6c71096da4b72c04",
+      "css": "error",
+      "code": 59418,
+      "src": "elusive"
+    },
+    {
+      "uid": "97902f87200ce74d181044df02a0458d",
+      "css": "warning",
+      "code": 59419,
+      "src": "entypo"
+    },
+    {
+      "uid": "b4cc17a45ed7d179a2cc815e2da7a383",
+      "css": "success",
+      "code": 59420,
+      "src": "iconic"
     }
   ]
 }
