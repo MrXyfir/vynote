@@ -21,7 +21,7 @@ gulp.task("css", function () {
         .pipe(postcss([
             precss({}),
             ap({browsers: "last 1 version, > 10%"}),
-            nano()
+            nano({ autoprefixer: false, zindex: false })
         ]))
 		.pipe(!isDev ? gzip() : gutil.noop())
 		.pipe(gulp.dest("./public/css"));
