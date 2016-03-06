@@ -26,6 +26,8 @@ export default class Ace extends React.Component {
 			? decrypt(this.props.data.content, this.props.data.encrypt)
 			: this.props.data.content
 		);
+        
+        this._addCommands();
 	}
     
     shouldComponentUpdate(nProps, nState) {
@@ -51,6 +53,31 @@ export default class Ace extends React.Component {
 		this.editor.destroy();
 		this.editor = null;
 	}
+    
+    _addCommands() {
+        // Search for and replace shortcuts with full text in line
+        // when user types a '}' character
+        this.editor.commands.addCommand({
+            name: 'shortcut',
+            bindKey: {win: '}',  mac: '}'},
+            exec: (editor) => {
+                editor.insert('}');
+                
+                let row  = editor.getCursorPosition().row;
+                let line = editor.session.doc.getLine(row);
+            
+                // Replace shortcuts in line
+                Object.keys(this.props.user.shortcuts).forEach(sc => {
+                    line = line.replace("${" + sc + "}", this.props.user.shortcuts[sc]);
+                });
+            
+                // Write new line
+                editor.session.doc.insertLines(row, [line]);
+                // Remove old line
+                editor.session.doc.removeLines(row + 1, row + 1);
+            }
+        });
+    }
 	
 	onChange(e) {
 		clearTimeout(this.timeout);
