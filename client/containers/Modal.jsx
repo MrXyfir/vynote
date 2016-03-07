@@ -13,7 +13,7 @@ export default class Modal extends React.Component {
 	}
 
 	onClose() {
-		this.props.dispatch(close);
+		this.props.dispatch(close());
 	}
 
 	render() {
@@ -22,7 +22,7 @@ export default class Modal extends React.Component {
 		}
 		
 		let view;
-		switch (this.props.data.model.action.split('/')[1]) {
+		switch (this.props.data.modal.action.split('/')[1]) {
 			case "DOCUMENT_CONTROLS":
 				view = (
 					<DocumentControls 

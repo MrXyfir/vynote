@@ -9,7 +9,7 @@ export default function (state, action) {
 	
 	if (actionType[0] == "MODAL") {
 		if (actionType.length > 2) {
-			switch(actionType[2]) {
+			switch(actionType[1]) {
 				case "DOCUMENT_CONTROLS":
 					return documentControls(state, action);
 					
