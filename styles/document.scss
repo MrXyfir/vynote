@@ -15,7 +15,16 @@
     
     .document-info {
         
-        margin: auto;
+        position: absolute;
+        top: 8%;
+        z-index: 5;
+        background-color: white;
+        border: 1px solid black;
+        left: 50%;
+        width: 60vw;
+        margin-left: -20%;
+        padding: 0.5em;
+        box-shadow: 0.1em 0.1em 0.4em black;
         
         td {
             padding: 0em 0.2em;
@@ -42,6 +51,11 @@
 
 #ace-editor {
     width: 98%;
-    height: 83vh;
     margin: auto;
+}
+.document-code > #ace-editor {
+    height: 89vh;
+}
+.document-page-edit > #ace-editor {
+    height: 91vh;
 }
