@@ -64,18 +64,14 @@ export default class DocumentControls extends React.Component {
 		return (
 			<div className="document-controls">
 				<div className="tabs">
-					<span onClick={() => {this.onClickTab(1)}}>Version Control</span>
+					<a onClick={this.onClickTab.bind(this, 1)}>Version Control</a>
 					{
 						this.props.data.document.contributor
-						? <span className="tab-hidden" />
-						: <span onClick={() => {this.onClickTab(2)}}>Contributors</span> 
+						? <a className="tab-hidden" />
+						: <a onClick={this.onClickTab(this, 2)}>Contributors</a> 
 					}
-					<span onClick={() => {this.onClickTab(3)}}>Export</span>
-					{
-						this.props.data.document.doc_type == 1
-						? <span onClick={() => {this.onClickTab(4)}}>Import</span>
-						: <span className="tab-hidden" /> 
-					}
+					<a onClick={this.onClickTab.bind(this, 3)}>Export</a>
+					<a onClick={this.onClickTab.bind(this, 4)}>Import</a>
 				</div>
 				{view}
 			</div>
