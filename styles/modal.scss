@@ -25,7 +25,7 @@
 
 .document-controls {
     
-    .document-version-create > input {
+    .document-version-create > input, .document-contributor-add > input {
         text-align: center;
         display: inline;
     }
@@ -48,6 +48,43 @@
             }
             
         }   
+        
+    }
+    
+    .document-contributors {
+        
+        .document-contributor-list {
+            
+            height: 25vh;
+            overflow-y: auto;
+            
+            .document-contributor-list-user {
+                padding: 0.3em;
+            }
+            
+            .selected {
+                text-decoration: underline;
+            }
+            
+        }
+        
+        .document-contributor-selected {
+            
+            background-color: $llgray;
+            width: 70%;
+            margin: auto;
+            padding: 1em;
+            border-radius: 0.5em;
+            
+            .user-email {
+                margin: 0em;
+            }
+            
+            .user-permissions {
+                margin: 1em 0em;
+            }
+            
+        }
         
     }
     
