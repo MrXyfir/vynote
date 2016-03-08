@@ -10,6 +10,8 @@ export default class Modal extends React.Component {
 
 	constructor(props) {
 		super(props);
+        
+        this.onClose = this.onClose.bind(this);
 	}
 
 	onClose() {
