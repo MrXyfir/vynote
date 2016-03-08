@@ -51,7 +51,10 @@ export = (socket: SocketIO.Socket, doc: number, email: string, fn: Function) => 
             cn.query(sql, vars, (err, result) => {
                 cn.release();
 
-                fn(!!err || !result.affectedRows);
+                if (!!err || !result.affectedRows)
+                    fn(true);
+                else
+                    fn(false, rows[0].user_id);
             });
         }
     }));
