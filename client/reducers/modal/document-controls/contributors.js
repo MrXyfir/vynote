@@ -11,16 +11,18 @@ export default function (state, action) {
 		
 		case REMOVE_CONTRIBUTOR:
 			return Object.assign({}, state, {
-				versions: state.contributors.filter(user => {
+				contributors: state.contributors.filter(user => {
 					return user.user_id != action.user;
-				})
+				}), selectedContributor: 0
 			});
 		
 		case ADD_CONTRIBUTOR:
 			return Object.assign({}, state, {
 				contributors: [{
-					user_id: action.uid, email: action.email,
-					can_write: true, can_delete: true, can_update: true
+                    user_id: action.uid, email: action.email,
+                    permission: {
+                        write: true, delete: true, update: true
+                    }
 				}].concat(state.contributors)
 			});
 		
@@ -32,10 +34,8 @@ export default function (state, action) {
 			temp.contributors.forEach((user, i) => {
 				if (user.user_id == action.data.user) {
 					temp.contributors[i] = {
-						user_id: action.data.user, email: user.email,
-						can_write: action.data.permissions.write,
-						can_delete: action.data.permissions.delete,
-						can_update: action.data.permissions.update,
+                        user_id: action.data.user, email: user.email,
+                        permission: action.data.permissions
 					};
 				}
 			});

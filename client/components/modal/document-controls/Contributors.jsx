@@ -32,7 +32,9 @@ export default class VersionControl extends React.Component {
 		});
 	}
 	
-	onAddContributor(email) {
+	onAddContributor() {
+        const email = this.refs.email.value;
+        
 		this.props.socket.emit(
 			"add contributor", this.props.data.document.doc_id, email,
 			(err, res) => {
@@ -114,14 +116,15 @@ export default class VersionControl extends React.Component {
 				<div className="document-contributor-selected">
 					<h3 className="user-email">{user.email}</h3>
 					<div className="user-permissions">
-						<input type="checkbox" defaultValue={user.can_write} ref="permWrite" />Write
-						<input type="checkbox" defaultValue={user.can_update} ref="permUpdate" />Update
-						<input type="checkbox" defaultValue={user.can_delete} ref="permDelete" />Delete
-						
-						<button onClick={this.onSetPermissions}>Set Permissions</button>
+						<input type="checkbox" defaultChecked={user.permission.write} ref="permWrite" />Write
+						<input type="checkbox" defaultChecked={user.permission.update} ref="permUpdate" />Update
+						<input type="checkbox" defaultChecked={user.permission.delete} ref="permDelete" />Delete
 					</div>
 					
-					<button onClick={this.onRemoveContributor} className="btn-danger">
+                    <button onClick={this.onSetPermissions} className="btn-sm btn-primary">
+                        Set Permissions
+                    </button>
+					<button onClick={this.onRemoveContributor} className="btn-sm btn-danger">
 						Remove Contributor
 					</button>
 				</div>
