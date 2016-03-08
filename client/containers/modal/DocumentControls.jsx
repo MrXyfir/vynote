@@ -76,7 +76,7 @@ export default class DocumentControls extends React.Component {
 					{
 						this.props.data.document.contributor
 						? <a className="tab-hidden" />
-						: <a onClick={this.onClickTab(this, 2)}>Contributors</a> 
+						: <a onClick={this.onClickTab.bind(this, 2)}>Contributors</a> 
 					}
 					<a onClick={this.onClickTab.bind(this, 3)}>Export</a>
 					<a onClick={this.onClickTab.bind(this, 4)}>Import</a>
