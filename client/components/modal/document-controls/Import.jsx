@@ -26,7 +26,7 @@ export default class Import extends React.Component {
 	}
 	
 	onImport() {
-		if (Date.now() > this.props.user.subscription) {
+		if (Date.now() > this.props.data.user.subscription) {
 			this.props.dispatch(error("Free members cannot import documents"));
 			return;
 		}
@@ -34,7 +34,7 @@ export default class Import extends React.Component {
 		if (this.props.data.document.doc_type == 1) {
 			this.props.socket.emit(
 				"import notes", this.props.data.document.doc_id, 
-				this.refs.ace.editor.getValue().split("\r\n"),
+				this.refs.ace.editor.session.doc.getAllLines(),
 				(err, msg) => {
 					if (err) {
 						this.props.dispatch(error(msg || "An unknown error occured"));
