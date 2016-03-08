@@ -130,8 +130,10 @@ export default class VersionControl extends React.Component {
 					this.props.data.modal.versions.map(version => {
 						return (
 							<div className="document-version-list-item">
-								<span title="Version Name">{version.name}</span>
-								<span title="Created">{version.created}</span>
+								<span title="Version Name" className="name">{version.name}</span>
+								<span title="Created" className="created">{
+                                    (new Date(version.created)).toLocaleString()
+                                }</span>
 								<div className="document-version-controls">
 									<span 
 										title="Revert to Version" 
