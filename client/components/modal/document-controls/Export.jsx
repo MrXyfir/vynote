@@ -45,7 +45,7 @@ export default class Export extends React.Component {
 		return (
 			<div className="document-export">
 				<p>Convert and download a local version of this document.</p>
-				<button onClick={this.onExport}>Export Document</button>
+				<button className="btn-primary" onClick={this.onExport}>Export Document</button>
 			</div>
 		);
 	}
