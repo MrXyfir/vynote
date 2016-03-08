@@ -6,6 +6,14 @@ import Contributors from "../../components/modal/document-controls/Contributors"
 import Export from "../../components/modal/document-controls/Export";
 import Import from "../../components/modal/document-controls/Import";
 
+// Action types
+import {
+    VERSIONS, CONTRIBUTORS, IMPORT, EXPORT
+} from "../../constants/action-types/modal/document-controls/";
+
+// Action creators
+import { changeTab } from "../../actions/modal/document-controls/";
+
 export default class DocumentControls extends React.Component {
 
 	constructor(props) {
@@ -14,10 +22,10 @@ export default class DocumentControls extends React.Component {
 	
 	onClickTab(tab) {
 		switch(tab) {
-			case 1: return;
-			case 2: return;
-			case 3: return;
-			case 4: return;
+			case 1: return this.props.dispatch(changeTab(VERSIONS));
+			case 2: return this.props.dispatch(changeTab(CONTRIBUTORS));
+			case 3: return this.props.dispatch(changeTab(EXPORT));
+			case 4: return this.props.dispatch(changeTab(IMPORT));
 		}
 	}
 
