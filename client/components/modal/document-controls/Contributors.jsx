@@ -21,8 +21,14 @@ export default class VersionControl extends React.Component {
 	}
 	
 	componentWillMount() {
-		this.props.socket.emit("list contributors", this.props.data.document.doc_id, contributors => {
-			this.props.dispatch(loadContributors(contributors));
+		this.props.socket.emit("list contributors", this.props.data.document.doc_id, (err, contributors) => {
+            if (err){
+                this.props.dispatch(loadContributors([]));
+                this.props.dispatch(error("Could not load contributors"));
+            }
+            else {
+                this.props.dispatch(loadContributors(contributors));
+            }
 		});
 	}
 	
