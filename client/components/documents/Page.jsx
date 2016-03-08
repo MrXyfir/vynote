@@ -42,7 +42,7 @@ export default class Page extends React.Component {
 			document = <Editor onChange={this.onChange} data={this.props.data} shortcuts={this.props.shortcuts} />;
 	
 		return (
-			<div className={"document document-page-" + (this.props.data.preview ? "preview" : "edit")}>
+			<div className={"document document-page-" + (!this.props.data.preview ? "preview" : "edit")}>
 				<a onClick={this.onTogglePreview}>{
 					!this.props.data.preview ? "Edit Mode" : "Preview Mode"
 				}</a>
