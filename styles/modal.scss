@@ -22,3 +22,33 @@
     }
     
 }
+
+.document-controls {
+    
+    .document-version-create > input {
+        text-align: center;
+        display: inline;
+    }
+    
+    .document-version-list {
+        
+        height: 40vh;
+        overflow-y: auto;
+        
+        .document-version-list-item {
+            
+            padding: 0.5em;
+            
+            .name {
+                font-weight: bold;
+            }
+            
+            .created {
+                display: block;
+            }
+            
+        }   
+        
+    }
+    
+}
