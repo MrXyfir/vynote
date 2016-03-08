@@ -104,14 +104,14 @@ export default class VersionControl extends React.Component {
 		}
 		
 		let selectedContributor;
-		if (this.props.data.modal.selectedContributor != undefined) {
+		if (!!this.props.data.modal.selectedContributor) {
 			let user;
 			this.props.data.modal.contributors.forEach(contributor => {
 				if (contributor.user_id == this.props.data.modal.selectedContributor) {
 					user = contributor;
 				}
 			});
-			
+            
 			selectedContributor = (
 				<div className="document-contributor-selected">
 					<h3 className="user-email">{user.email}</h3>
