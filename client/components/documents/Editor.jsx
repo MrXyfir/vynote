@@ -18,9 +18,11 @@ export default class Ace extends React.Component {
 		
 		this.editor.getSession().setMode(getSyntaxFile(this.props.data.syntax));
 		this.editor.setTheme(getThemeFile(this.props.data.theme));
-		this.editor.setShowPrintMargin(false);
-		this.editor.setFontSize(16);
+		this.editor.setFontSize(this.props.fontSize || "1em");
 		this.editor.on('change', this.onChange);
+        
+        this.editor.session.setOption("wrap", "free");
+        this.editor.setShowPrintMargin(false);
 		
 		this.editor.setValue(
 			(this.props.data.encrypted) 
