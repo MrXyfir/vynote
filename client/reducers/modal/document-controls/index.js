@@ -5,17 +5,22 @@ import versions from "./versions";
 export default function (state, action) {
 	let actionType = action.type.split('/');
 	
-	switch (actionType[2]) {
-        case "OPEN":
-            return { action: "MODAL/DOCUMENT_CONTROLS/VERSIONS" }
-        
-		case "VERSIONS":
-			return versions(state, action);
-		
-		case "CONTRIBUTORS":
-			return contributors(state, action);
-			
-		default:
-			return state;
-	}
+    if (actionType[2] == "OPEN") {
+        if (actionType[3] === undefined)
+            return { action: "MODAL/DOCUMENT_CONTROLS/VERSIONS" };
+        else
+            return { action: "MODAL/DOCUMENT_CONTROLS/" + actionType[3] };
+    }
+    else {
+        switch (actionType[2]) {
+            case "VERSIONS":
+                return versions(state, action);
+            
+            case "CONTRIBUTORS":
+                return contributors(state, action);
+                
+            default:
+                return state;
+        }
+    }
 }
