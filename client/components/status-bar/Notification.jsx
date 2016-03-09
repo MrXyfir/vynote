@@ -1,6 +1,6 @@
 import React from "react";
 
-import { clear } from "../actions/notification";
+import { clear } from "../../actions/notification";
 
 export default class Notification extends React.Component {
 
