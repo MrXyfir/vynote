@@ -11,7 +11,8 @@ import Document from "./Document";
 import Modal from "./Modal";
 
 // Non-container React componenents
-import Notification from "../components/Notification";
+import Notification from "../components/status-bar/Notification";
+import QuickLinks from "../componenents/status-bar/QuickLinks";
 
 // io returns a socket.io connection after creating event listeners
 import io from "../sockets/";
@@ -132,7 +133,10 @@ class App extends React.Component {
                     socket={socket} 
                     dispatch={store.dispatch}
                 />
-                <Notification data={this.state.notification} dispatch={store.dispatch} />
+                <div className="status-bar">
+                    <QuickLinks dispatch={store.dispatch} />
+                    <Notification data={this.state.notification} dispatch={store.dispatch} />
+                </div>
             </div>
         );
     }
