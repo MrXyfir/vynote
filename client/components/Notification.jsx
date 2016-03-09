@@ -26,10 +26,14 @@ export default class Notification extends React.Component {
 	
 	_clear() {
 		if (this.props.data.status != "clear") {
+            let timeout = {
+                error: 7000, warning: 5000, success: 3500, info: 3500
+            };
+            
 			// Clear notification after 7 seconds
 			this.timeout = setTimeout(() => {
 				this.props.dispatch(clear());
-			}, 7000);
+			}, timeout[this.props.data.status]);
 		}
 	}
 
@@ -37,7 +41,10 @@ export default class Notification extends React.Component {
 		this._clear();
 	
 		return (
-			<div className={`notification notification-${this.props.data.status}`}>
+			<div 
+                className={`notification notification-${this.props.data.status}`} 
+                onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}
+            >
                 <span className={"icon icon-" + this.props.data.status} />
                 <span className="message">{this.props.data.message}</span>
             </div>
