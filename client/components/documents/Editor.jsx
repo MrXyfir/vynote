@@ -24,11 +24,13 @@ export default class Ace extends React.Component {
         this.editor.session.setOption("wrap", "free");
         this.editor.setShowPrintMargin(false);
 		
+        this.silent = true;
 		this.editor.setValue(
 			(this.props.data.encrypted) 
 			? decrypt(this.props.data.content, this.props.data.encrypt)
 			: this.props.data.content
 		);
+        this.silent = false;
         
         this._addCommands();
 	}
@@ -45,13 +47,15 @@ export default class Ace extends React.Component {
 	componentWillUnmount() {
 		clearTimeout(this.timeout);
 	
-        this.props.onChange({
-            action: "OVERWRITE", content: (
-                (this.props.data.encrypted) 
-                ? encrypt(this.editor.getValue(), this.props.data.encrypt)
-                : this.editor.getValue()
-            )
-        });
+        if (this.changed) {
+            this.props.onChange({
+                action: "OVERWRITE", content: (
+                    (this.props.data.encrypted) 
+                    ? encrypt(this.editor.getValue(), this.props.data.encrypt)
+                    : this.editor.getValue()
+                )
+            });
+        }
     
 		this.editor.destroy();
 		this.editor = null;
@@ -83,6 +87,8 @@ export default class Ace extends React.Component {
     }
 	
 	onChange(e) {
+        if (this.silent) return;
+        
 		clearTimeout(this.timeout);
 	
 		this.timeout = setTimeout(() => {
@@ -93,12 +99,16 @@ export default class Ace extends React.Component {
 					: this.editor.getValue()
 				)
 			});
+            
+            this.changed = false;
 		}, 5000);
+        
+        this.changed = true;
 	}
 
 	render() {
 		return (
-			<div id={this.props.id || "ace-editor"}></div>
+			<div id={this.props.id || "ace-editor"} />
 		);
 	}
 	
