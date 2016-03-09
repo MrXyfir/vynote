@@ -1,0 +1,3 @@
+export const SETTINGS = "MODAL/USER/OPEN/SETTINGS";
+export const ACCOUNT = "MODAL/USER/OPEN/ACCOUNT";
+export const HELP = "MODAL/USER/OPEN/HELP";
