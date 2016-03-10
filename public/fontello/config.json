@@ -179,6 +179,18 @@
       "css": "success",
       "code": 59420,
       "src": "iconic"
+    },
+    {
+      "uid": "7e4164950ffa4990961958b2d6318658",
+      "css": "info",
+      "code": 59421,
+      "src": "entypo"
+    },
+    {
+      "uid": "de9a631a7d18106aea1c89ba51b1990a",
+      "css": "help",
+      "code": 59422,
+      "src": "entypo"
     }
   ]
 }

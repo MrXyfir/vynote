@@ -28,3 +28,5 @@
 .icon-error:before { content: '\e81a'; } /* '' */
 .icon-warning:before { content: '\e81b'; } /* '' */
 .icon-success:before { content: '\e81c'; } /* '' */
+.icon-info:before { content: '\e81d'; } /* '' */
+.icon-help:before { content: '\e81e'; } /* '' */
