@@ -11,7 +11,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
         return;
     }
 
-    if (data.content.toString().length > 300) {
+    if (data.content.toString().length > 500) {
         fn(false);
         return;
     }
