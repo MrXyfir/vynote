@@ -12,7 +12,7 @@ import Modal from "./Modal";
 
 // Non-container React componenents
 import Notification from "../components/status-bar/Notification";
-import QuickLinks from "../componenents/status-bar/QuickLinks";
+import QuickLinks from "../components/status-bar/QuickLinks";
 
 // io returns a socket.io connection after creating event listeners
 import io from "../sockets/";
