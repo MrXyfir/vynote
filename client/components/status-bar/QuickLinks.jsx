@@ -8,7 +8,7 @@ import {
     ACCOUNT, HELP, SETTINGS
 } from "../../constants/action-types/modal/user/";
 
-export default class Notification extends React.Component {
+export default class QuickLinks extends React.Component {
 
 	constructor(props) {
 		super(props);
