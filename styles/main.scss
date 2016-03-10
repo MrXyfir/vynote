@@ -91,7 +91,7 @@ input[type=text], input[type=password], input[type=email], input[type=number], i
 	margin: 1em auto;
 }
 
-.notification {
+.status-bar {
     
     width: 100vw;
     height: 3vh;
@@ -100,9 +100,31 @@ input[type=text], input[type=password], input[type=email], input[type=number], i
     z-index: 4;
     background-color: $gray;
     color: $llgray;
+    display: table;
     
-    span {
-        margin-left: 0.4em;
+    .quick-links {
+        
+        width: 21%;
+        display: table-cell;
+        
+        a {
+            color: $llgray;
+            margin-right: 0.4em;
+        }
+        a:hover {
+            color: $black;
+        }
+        
+    }
+    
+    .notification {
+        
+        display: table-cell;
+        
+        span {
+            margin-left: 0.4em;
+        }
+        
     }
     
 }
