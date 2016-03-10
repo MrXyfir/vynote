@@ -32,7 +32,7 @@ export default class QuickLinks extends React.Component {
                 <span className="icon-user" />
                 <a onClick={this.onOpen.bind(this, 1)}>Account</a>
                 
-                <span className="icon-info" />
+                <span className="icon-help" />
                 <a onClick={this.onOpen.bind(this, 2)}>Help</a>
                 
                 <span className="icon-settings" />
