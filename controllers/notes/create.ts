@@ -1,7 +1,9 @@
-﻿import db = require("../../lib/db");
+﻿import mergeChanges = require("../../lib/note/merge-changes");
+import db = require("../../lib/db");
 
 interface IData {
-    note: number, parent: number, content: string
+    id: string, note: number, parent: string, content: string,
+    action?: string, version?: number
 }
 
 export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
@@ -10,62 +12,58 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
         fn(true);
         return;
     }
-    
-    if (data.content.toString().length > 500) {
-        fn(false);
-        return;
-    };
 
-    // Get the highest note_id value for doc_id
-    let sql: string = "SELECT IFNULL(MAX(note_id), 0) as id FROM note_elements WHERE doc_id = ?";
+    let sql: string = `
+        SELECT (
+            SELECT COUNT(doc_id) FROM documents 
+            WHERE (doc_id = ? AND user_id = ?) OR doc_id IN (
+                SELECT doc_id FROM document_contributors WHERE doc_id = ? AND user_id = ? AND can_write = 1
+            )
+        ) as has_access, (
+            SELECT COUNT(doc_id) FROM document_changes WHERE doc_id = ?
+        ) as version_count, (
+            SELECT MIN(version) FROM document_changes WHERE doc_id = ?
+        ) as oldest_version
+    `;
     
     db(cn => cn.query(sql, [data.note], (err, rows) => {
         if (err) {
             cn.release();
             fn(true);
         }
+        else if (rows[0].has_access == 0) {
+            cn.release();
+            fn(true, "You do not have write access for this note");
+        }
         else {
-            let id: number = rows[0].id, vars: any[] = [];
+            data.action = "CREATE";
 
-            // Insert into note_elements if user owns document
-            // or is a contributor with write access
+            let version = Date.now();
+            let change = JSON.stringify(data);
+
             sql = `
-                INSERT INTO note_elements (doc_id, parent_id, note_id, content)
-                SELECT doc_id, ?, ?, ? FROM documents
-                WHERE (doc_id = ? AND user_id = ?) OR (doc_id IN (
-                    SELECT doc_id FROM document_contributors 
-                    WHERE doc_id = ? AND user_id = ? AND can_write = 1
-                ))
+                INSERT INTO document_changes (doc_id, version, change_object) VALUES (?, ?, ?)
             `;
+            cn.query(sql, [data.note, version, change], (err, result) => {
+                if (err || !result.affectedRows) {
+                    cn.release();
+                    fn(true);
+                }
+                else {
+                    data.version = version;
+                    fn(false, version);
+                    socket.broadcast.to(''+data.note).emit("create note element", data);
 
-            // Attempts to insert up to 3 times in case of conflicting
-            // doc_id-note_id index
-            const insert = () => {
-                vars = [
-                    data.parent, ++id, data.content,
-                    data.note, socket.session.uid,
-                    data.note, socket.session.uid
-                ];
-
-                cn.query(sql, vars, (err, result) => {
-                    if (err || !result.affectedRows) {
-                        if (id >= rows[0].id + 3) {
-                            cn.release();
-                            fn(true);
-                        }
-                        else {
-                            insert();
-                        }
-                    }
-                    else {
+                    // If oldest version is over 30 minutes old, merge changes with document
+                    if (Date.now() > (new Date(rows[0].oldest_version + (1800000))).getTime())
+                        mergeChanges(data.note, cn);
+                    // If 100+ changes, merge changes with document
+                    else if (rows[0].version_count >= 100)
+                        mergeChanges(data.note, cn);
+                    else
                         cn.release();
-                        fn(false, id);
-                        socket.broadcast.to(''+data.note).emit("create element", data);
-                    }
-                });
-            };
-
-            insert();
+                }
+            });
         }
     }));
 
