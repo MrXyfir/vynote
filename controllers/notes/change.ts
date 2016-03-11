@@ -30,8 +30,14 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
             SELECT MIN(version) FROM document_changes WHERE doc_id = ?
         ) as oldest_version
     `;
+    let vars = [
+        data.doc, socket.session.uid,
+        data.doc, socket.session.uid,
+        data.doc,
+        data.doc
+    ];
     
-    db(cn => cn.query(sql, [data.doc], (err, rows) => {
+    db(cn => cn.query(sql, vars, (err, rows) => {
         if (err) {
             cn.release();
             fn(true);
