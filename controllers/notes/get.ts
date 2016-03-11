@@ -1,64 +1,51 @@
 ﻿import db = require("../../lib/db");
 
-export = (socket: SocketIO.Socket, note: number, encrypt: string, fn: Function) => {
+export = (socket: SocketIO.Socket, doc: number, encrypt: string, fn: Function) => {
 
     db(cn => {
-        // Release connection, output to client, ?join room
-        const finish = (output: any[], err: boolean) => {
-            cn.release();
-            fn(err, output);
-
-            if (!err) socket.join(''+note);
-        };
-
-        // Grab note elements where doc_id is in documents or document_contributors with user's ID
+        // Check if user has access to document
         let sql: string = `
-            SELECT parent_id, note_id, content, flags FROM note_elements 
-            WHERE doc_id IN (
-                SELECT doc_id FROM documents WHERE doc_id = ? AND user_id = ? AND encrypt = ?
-            ) 
-            OR doc_id IN (
-                SELECT doc_id FROM document_contributors WHERE doc_id = ? AND user_id = ? AND encrypt = ?
-            )
+            SELECT (
+                SELECT COUNT(doc_id) FROM documents WHERE (
+                    doc_id = ? AND user_id = ? AND encrypt = ?
+                )
+                OR doc_id IN (
+                    SELECT doc_id FROM document_contributors WHERE doc_id = ? AND user_id = ? AND encrypt = ?
+                )
+            ) as has_access
         `;
         // Encrypt is blank for all non-encrypted files
         // Encrypt should be equal to encrypt("KEY", userEncKey) for encrypted files
         let vars = [
-            note, socket.session.uid, encrypt,
-            note, socket.session.uid, encrypt
+            doc, socket.session.uid, encrypt,
+            doc, socket.session.uid, encrypt
         ];
 
         cn.query(sql, vars, (err, rows) => {
             if (err) {
-                finish([], true);
+                cn.release();
+                fn(true);
             }
-            // Determine if no rows because note has no elements
-            // or because user cannot access note
-            else if (!rows.length) {
-                sql = `
-                    SELECT COUNT(doc_id) as has_access FROM documents 
-                    WHERE (doc_id = ? AND user_id = ? AND encrypt = ?)
-                    OR (doc_id IN (
-                        SELECT doc_id FROM document_contributors WHERE doc_id = ? AND user_id = ? AND encrypt = ?
-                    ))
-                `;
-                vars = [
-                    note, socket.session.uid, encrypt,
-                    note, socket.session.uid, encrypt
-                ];
-
-                cn.query(sql, vars, (err, rows) => {
-                    // User does not have access to note
-                    if (err || rows[0].has_access != 1)
-                        finish([], true);
-                    // User has access to note but it has no elements yet
-                    else
-                        finish([], false);
-                });
+            else if (rows[0].has_access == 0) {
+                cn.release();
+                fn(true, "You do not have access to this document");
             }
-            // Return elements and have user join room
             else {
-                finish(rows, false);
+                sql = "SELECT content FROM document_content WHERE doc_id = ?";
+                cn.query(sql, [doc], (err, rows) => {
+                    sql = `
+                        SELECT change_object, version FROM document_changes WHERE doc_id = ?
+                        ORDER BY version ASC
+                    `;
+                    cn.query(sql, [doc], (err, changes) => {
+                        cn.release();
+                        fn(false, {
+                            content: rows[0].content, changes
+                        });
+
+                        socket.join(''+doc);
+                    });
+                });
             }
         });
     });
