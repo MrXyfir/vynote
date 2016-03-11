@@ -91,8 +91,8 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                 else {
                     let id: number = result.insertId;
 
-                    // Create row in document_content for non-note document
-                    if (data.objType == 2 && data.docType != 1) {
+                    // Create row in document_content for documents
+                    if (data.objType == 2) {
                         sql = "INSERT INTO document_content SET ?";
                         cn.query(sql, { doc_id: id }, (err, result) => {
                             cn.release();
