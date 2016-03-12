@@ -20,15 +20,15 @@ export default class Note extends React.Component {
                 <div className="note-scoped-element">
                     <span className="icon-add" onClick={this.onAddChildElement} />
                     <span className="content">{
-                        this.props.data.content.notes[this.props.data.scope].content > 23
-                        ? this.props.data.content.notes[this.props.data.scope].content.substr(0, 20) + "..."
-                        : this.props.data.content.notes[this.props.data.scope].content
+                        this.props.data.content[this.props.data.render.scope].content > 23
+                        ? this.props.data.content[this.props.data.render.scope].content.substr(0, 20) + "..."
+                        : this.props.data.content[this.props.data.render.scope].content
                     }</span>
                 </div>
                 
                 <Elements
                     emit={this.props.emit} 
-                    scope={this.props.data.content.scope} 
+                    scope={this.props.data.render.scope} 
                     dispatch={this.props.dispatch}
                 />
             </div>

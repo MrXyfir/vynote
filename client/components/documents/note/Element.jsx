@@ -31,21 +31,20 @@ export default class Element extends React.Component {
     
     render() {
         // Only show elements that contain search query
-        if (this.props.data.content.filter.search != "") {
+        if (this.props.data.render.filter.search != "") {
             if (
-                this.props.data.content.notes[this.props.id].content.indexOf(
-                    this.props.data.content.filter.search
+                this.props.data.content[this.props.id].content.indexOf(
+                    this.props.data.render.filter.search
                 ) == -1
             ) return <div className="note-element-hidden" />;
         }
         
         // User only wants to show elements that contain a listed flag
-        if (this.props.data.content.filter.flags.length > 0) {
+        if (this.props.data.render.filter.flags.length > 0) {
             let hasFlag = false;
             
-            this.props.data.content.notes[this.props.id]
-            .content.flags.forEach(f1 => {
-                this.props.data.content.filter.flags.forEach(f2 => {
+            this.props.data.content[this.props.id].flags.forEach(f1 => {
+                this.props.data.render.filter.flags.forEach(f2 => {
                     if (f1 == f2) hasFlag = true;
                 });
             });
@@ -57,9 +56,9 @@ export default class Element extends React.Component {
             <div className="note-element">
                 <div className="note-controls">
                     {
-                        this.props.id == this.props.data.content.hovering
+                        this.props.id == this.props.data.render.hovering
                         ? (
-                            this.props.data.content.notes[this.props.id].showChildren
+                            this.props.data.render.showChildren.indexOf(this.props.id) > -1
                             ? (<span onClick={this.onToggleShowChildren}>-</span>)
                             : (<span onClick={this.onToggleShowChildren}>+</span>)
                         )
@@ -74,7 +73,7 @@ export default class Element extends React.Component {
                     />
                     
                     {
-                        this.props.id == this.props.data.content.controls
+                        this.props.id == this.props.data.render.controls
                         ? (
                             <div className="controls-extended">
                                 Delete
@@ -89,13 +88,13 @@ export default class Element extends React.Component {
                 </div>
             
                 {
-                    this.props.id == this.props.data.content.editing
+                    this.props.id == this.props.data.render.editing
                     ? (
                         <div 
                             className="editing" 
                             contentEditable={true} 
                             dangerouslySetInnerHTML={{
-                                __html: this.props.data.content.notes[this.props.id].content
+                                __html: this.props.data.content[this.props.id].content
                             }}
                         />
                     )
@@ -105,7 +104,7 @@ export default class Element extends React.Component {
                             onClick={this.onEdit} 
                             dangerouslySetInnerHTML={
                                 {__html: marked(
-                                    this.props.data.content.notes[this.props.id].content,
+                                    this.props.data.content[this.props.id].content,
                                     { sanitize: true }
                                 )}
                             }
@@ -114,7 +113,7 @@ export default class Element extends React.Component {
                 }
                 
                 {
-                    this.props.data.content.notes[this.props.id].showChildren
+                    this.props.data.render.showChildren.indexOf(this.props.id) > -1
                     ? (
                         <Elements
                             emit={this.props.emit} 

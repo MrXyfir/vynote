@@ -11,8 +11,7 @@ export default class Elements extends React.Component {
     render() {
         return (
             <div className="note-elements">{
-                this.props.data.content.children[this.props.scope]
-                .map(child => {
+                this.props.data.content[this.props.scope].children.map(child => {
                     return (
                         <Element 
                             id={child} 
