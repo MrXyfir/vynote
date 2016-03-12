@@ -1,8 +1,5 @@
-﻿import db = require("../../lib/db");
-
-// Convert note_elements rows to object via to-object, then to text
-import buildNoteObject = require("../../lib/notes-convert/to-object");
-import objectToText = require("../../lib/notes-convert/to-text");
+﻿import mergeChanges = require("../../lib/note/merge-changes");
+import db = require("../../lib/db");
 
 export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
 
@@ -28,14 +25,18 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
             ))
         ) as owns_document, (
             SELECT doc_type FROM documents WHERE doc_id = ?
-        ) as doc_type
+        ) as doc_type, (
+            SELECT COUNT(doc_id) FROM document_changes WHERE doc_id = ?
+        ) as changes
     `;
     let vars = [
-        doc,
-        doc, name,
-        doc, socket.session.uid,
-        doc, socket.session.uid,
-        doc
+        doc, // get doc type
+        doc, // get version count
+        doc, name, // version exists
+        doc, socket.session.uid, // owns doc
+        doc, socket.session.uid, // has access
+        doc, // doc type
+        doc // changes count
     ];
 
     db(cn => cn.query(sql, vars, (err, rows) => {
@@ -56,22 +57,40 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
             fn(true, "You do not own or have access to this document");
         }
         else {
-            sql = `
-                INSERT INTO document_versions (doc_id, name, content) 
-                SELECT ?, ?, (
-                    SELECT content FROM document_content WHERE doc_id = ?
-                )
-            `;
-            vars = [
-                doc, name,
-                doc
-            ];
+            const createVersion = () => {
+                sql = `
+                    INSERT INTO document_versions (doc_id, name, content) 
+                    SELECT ?, ?, (
+                        SELECT content FROM document_content WHERE doc_id = ?
+                    )
+                `;
+                vars = [
+                    doc, name,
+                    doc
+                ];
 
-            cn.query(sql, vars, (err, result) => {
-                cn.release();
+                cn.query(sql, vars, (err, result) => {
+                    cn.release();
 
-                fn(!!err || !result.affectedRows);
-            });
+                    fn(!!err || !result.affectedRows);
+                });
+            };
+
+            // Merge document changes if needed
+            if (rows[0].doc_type == 1 && rows[0].changes > 0) {
+                mergeChanges(doc, cn, err => {
+                    if (err) {
+                        cn.release();
+                        fn(true);
+                    }
+                    else {
+                        createVersion();
+                    }
+                });
+            }
+            else {
+                createVersion();
+            }
         }
     }));
 };
