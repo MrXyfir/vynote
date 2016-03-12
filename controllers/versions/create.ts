@@ -56,45 +56,22 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
             fn(true, "You do not own or have access to this document");
         }
         else {
-            // Non-note document
-            if (rows[0].doc_type != 1) {
-                sql = `
-                    INSERT INTO document_versions (doc_id, name, content) 
-                    SELECT ?, ?, (
-                        SELECT content FROM document_content WHERE doc_id = ?
-                    )
-                `;
-                vars = [
-                    doc, name,
-                    doc
-                ];
+            sql = `
+                INSERT INTO document_versions (doc_id, name, content) 
+                SELECT ?, ?, (
+                    SELECT content FROM document_content WHERE doc_id = ?
+                )
+            `;
+            vars = [
+                doc, name,
+                doc
+            ];
 
-                cn.query(sql, vars, (err, result) => {
-                    cn.release();
+            cn.query(sql, vars, (err, result) => {
+                cn.release();
 
-                    fn(!!err || !result.affectedRows);
-                });
-            }
-            
-            // Note document
-            else {
-                sql = `SELECT parent_id, note_id, content FROM note_elements WHERE doc_id = ?`;
-                cn.query(sql, [doc], (err, rows) => {
-                    sql = `
-                        INSERT INTO document_versions (doc_id, name, content) 
-                        VALUES (?, ?, ?)
-                    `;
-                    vars = [
-                        doc, name, objectToText(buildNoteObject(rows))
-                    ];
-
-                    cn.query(sql, vars, (err, result) => {
-                        cn.release();
-
-                        fn(!!err || !result.affectedRows);
-                    });
-                });
-            }
+                fn(!!err || !result.affectedRows);
+            });
         }
     }));
 };
