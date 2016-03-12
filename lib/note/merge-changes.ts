@@ -3,14 +3,21 @@ import deleteElement = require("./delete-element");
 import updateContent = require("./update-content");
 import setFlags = require("./set-flags");
 
-export = (doc: number, cn: any) => {
+export = (doc: number, cn: any, fn: Function) => {
+
+    const finish = (err: boolean) => {
+        if (fn === undefined)
+            cn.release();
+        else
+            fn(err);
+    };
 
     let sql: string = `
         SELECT * FROM document_changes WHERE doc_id = ?
     `;
     cn.query(sql, [doc], (err, changes) => {
         if (err || !changes.length) {
-            cn.release();
+            finish(true);
             return;
         }
 
@@ -43,11 +50,11 @@ export = (doc: number, cn: any) => {
             sql = "UPDATE document_content SET content = ? WHERE doc_id = ?";
             cn.query(sql, [JSON.stringify(notes), doc], (err, result) => {
                 if (err || !result.affectedRows) {
-                    cn.release();
+                    finish(true);
                 }
                 else {
                     sql = "DELETE FROM document_changes WHERE doc_id = ?";
-                    cn.query(sql, [doc], (err, result) => cn.release());
+                    cn.query(sql, [doc], (err, result) => finish(false));
                 }
             });
         });
