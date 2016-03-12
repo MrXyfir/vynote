@@ -3,7 +3,7 @@ import deleteElement = require("./delete-element");
 import updateContent = require("./update-content");
 import setFlags = require("./set-flags");
 
-export = (doc: number, cn: any, fn: Function) => {
+export = (doc: number, cn: any, fn?: Function) => {
 
     const finish = (err: boolean) => {
         if (fn === undefined)
