@@ -93,8 +93,18 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
 
                     // Create row in document_content for documents
                     if (data.objType == 2) {
+                        let insert = {
+                            doc_id: id, content: ""
+                        };
+
+                        if (data.docType == 1) {
+                            insert.content = JSON.stringify({
+                                home: { content: "Home", children: [] }
+                            });
+                        }
+
                         sql = "INSERT INTO document_content SET ?";
-                        cn.query(sql, { doc_id: id }, (err, result) => {
+                        cn.query(sql, insert, (err, result) => {
                             cn.release();
 
                             fn(false, id);
