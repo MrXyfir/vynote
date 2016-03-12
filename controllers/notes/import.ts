@@ -48,9 +48,7 @@ export = (socket: SocketIO.Socket, note: number, content: string[], fn: Function
                         cn.release();
                         fn(false);
 
-                        socket.broadcast.to('' + note).emit("note change", {
-                            action: "OVERWRITE", content: insert
-                        });
+                        socket.broadcast.to(''+note).emit("note change", { action: "RELOAD" });
                     });
                 }
             });
