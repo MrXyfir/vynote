@@ -1,5 +1,4 @@
-﻿import toSql = require("../../lib/notes-convert/to-sql");
-import db = require("../../lib/db");
+﻿import db = require("../../lib/db");
 
 export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
 
@@ -51,9 +50,19 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
             ];
 
             cn.query(sql, vars, (err, result) => {
-                cn.release();
+                if (!!err || !result.affectedRows) {
+                    cn.release();
+                    fn(true);
+                }
+                else {
+                    sql = "DELETE FROM document_changes WHERE doc_id = ?";
+                    cn.query(sql, [doc], (err, result) => {
+                        cn.release();
 
-                fn(!!err || !result.affectedRows);
+                        fn(false);
+                        socket.broadcast.to(''+doc).emit("note change", { action: "RELOAD" });
+                    });
+                }
             });
         }
     }));
