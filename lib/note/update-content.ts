@@ -2,8 +2,8 @@
     id: string, content: string
 }
 
-export = (note: any, data: IData) => {
+export = (notes: any, data: IData) => {
 
-    note.notes[data.id].content = data.content;
+    notes[data.id].content = data.content;
 
 }

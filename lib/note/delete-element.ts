@@ -1,11 +1,11 @@
 ﻿interface IData { id: string }
 
-export = (note: any, data: IData) => {
+export = (notes: any, data: IData) => {
 
-    let parent: string = note.notes[data.id].parent;
+    let parent: string = notes[data.id].parent;
 
     // Remove data.id from children of parent
-    note.notes[parent].children = note.notes[parent].children.filter(child => {
+    notes[parent].children = notes[parent].children.filter(child => {
         return child != data.id;
     });
 
@@ -15,7 +15,7 @@ export = (note: any, data: IData) => {
     const getChildren = (id: string): string[] => {
         let c: string[] = [];
 
-        note.notes[id].children.forEach(child => {
+        notes[id].children.forEach(child => {
             c.concat(getChildren(child));
         });
 
@@ -25,10 +25,10 @@ export = (note: any, data: IData) => {
 
     // Delete child elements in children[]
     children.forEach(child => {
-        delete note.notes[child];
+        delete notes[child];
     });
 
     // Delete data.id
-    delete note.notes[data.id];
+    delete notes[data.id];
 
 }
