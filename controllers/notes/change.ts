@@ -12,7 +12,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
         fn(true);
         return;
     }
-    if (["CREATE", "DELETE", "UPDATE"].indexOf(data.action) == -1) {
+    if (["CREATE", "DELETE", "UPDATE", "SET_FLAGS"].indexOf(data.action) == -1) {
         fn(true, "Invalid action");
         return;
     }
