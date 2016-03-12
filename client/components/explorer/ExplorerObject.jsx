@@ -11,12 +11,10 @@ import {
 import {
     loadDocument, deleteDocument
 } from "../../actions/documents/";
+import { initializeRenderObject } from "../../actions/documents/note";
 
 // Constants
 import colors from "../../constants/colors";
-
-// Modules
-import buildNoteObject from "../../../lib/notes-convert/to-object";
 
 export default class ExplorerObject extends React.Component {
 
@@ -84,16 +82,17 @@ export default class ExplorerObject extends React.Component {
 		
 			// Note document
 			if (this.props.data.doc_type == 1) {
-				this.props.socket.emit("get note elements", this.props.data.doc_id, "", (err, res) => {
+				this.props.socket.emit("get note object", this.props.data.doc_id, "", (err, res) => {
 					if (err) {
 						this.props.dispatch(error("Could not load note"));
 					}
 					else {
 						this.props.dispatch(loadDocument(
 							Object.assign({}, this.props.data, {
-								content: buildNoteObject(res)
+								content: JSON.parse(res)
 							})
 						));
+                        this.props.dispatch(initializeRenderObject());
 					}
 				});
 			}

@@ -10,9 +10,9 @@ import {
     accessError, loadContent, setEncryptionKey, openDocumentControls,
     toggleShowDocInfo
 } from "../actions/documents/";
+import { initializeRenderObject } from "../actions/documents/note";
 
 // Modules
-import toNoteObject from "../../lib/notes-convert/to-object";
 import getScopeParents from "../lib/explorer/scope-parents";
 
 // Constants
@@ -30,7 +30,7 @@ export default class Document extends React.Component {
     }
 
     onSetEncryptionKey() {
-        let event = this.props.data.doc_type === 1 ? "get note elements" : "get document content";
+        let event = this.props.data.doc_type === 1 ? "get note object" : "get document content";
         let key = this.refs.key.value;
         
         // Attempt to load document's content with type/id/key
@@ -43,14 +43,15 @@ export default class Document extends React.Component {
             }
             // Load content into state and set encryption key
             else {
-                // Convert content to note object
-                if (this.props.data.doc_type === 1) {
-                    content = toNoteObject(content);
-                    content.scope = 0;
-                }
+                if (this.props.data.doc_type === 1)
+                    content = JSON.parse(content);
                 
                 // Load content into state
                 this.props.dispatch(loadContent(content));
+                
+                // Set state.document.render{} if note document
+                if (this.props.data.doc_type === 1)
+                    this.props.dispatch(initializeRenderObject());
                 
                 // Set document encryption key
                 this.props.dispatch(setEncryptionKey(key));
