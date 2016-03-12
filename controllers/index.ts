@@ -16,7 +16,7 @@ function call(file: string, socket: SocketIO.Socket, args: IArguments) {
 export = (socket: SocketIO.Socket) => {
         
     /* Note Element Events */
-    socket.on("get note elements"   , function () { call("./notes/get", socket, arguments); });
+    socket.on("get note object"     , function () { call("./notes/get", socket, arguments); });
     socket.on("change note element" , function () { call("./notes/change", socket, arguments); });
     socket.on("import notes"        , function () { call("./notes/import", socket, arguments); });
 
