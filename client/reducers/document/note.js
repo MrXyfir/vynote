@@ -1,6 +1,7 @@
 // Action types
 import {
-    INITIALIZE_RENDER, CHANGE_SCOPE
+    INITIALIZE_RENDER, CHANGE_SCOPE, SET_SEARCH_QUERY,
+    SET_FLAGS, TOGGLE_SHOW_FLAG_FILTER
 } from "../../constants/action-types/documents/note";
 
 // Modules
@@ -33,6 +34,31 @@ export default function (state, action) {
                     showChildren: [], editing: "", hovering: "", controls: "",
                     filter: state.render.filter, showFlagFilter: false
                 }
+            });
+            
+        case SET_SEARCH_QUERY:
+            return Object.assign({}, state, {
+                render: Object.assign({}, state.render, {
+                    filter: {
+                        search: action.query, flags: state.render.filter.flags
+                    }
+                })
+            });
+            
+        case SET_FLAGS:
+            return Object.assign({}, state, {
+                render: Object.assign({}, state.render, {
+                    filter: {
+                        flags: action.flags, search: state.render.filter.search
+                    }
+                })
+            });
+            
+        case TOGGLE_SHOW_FLAG_FILTER:
+            return Object.assign({}, state, {
+                render: Object.assign({}, state.render, {
+                    showFlagFilter: !state.render.showFlagFilter
+                })
             });
         
         default:
