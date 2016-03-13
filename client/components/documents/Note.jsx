@@ -6,7 +6,9 @@ import Elements from "./note/Elements";
 import Parents from "./note/Parents";
 
 // Action creators
-import { addElement } from "../../actions/documents/note";
+import {
+    addElement, editElement
+} from "../../actions/documents/note";
 
 // Modules
 import generateID from "../../lib/note/generate-id";
@@ -20,10 +22,12 @@ export default class Note extends React.Component {
     }
     
     onAddElement() {
+        let id = generateID(this.props.data.content); 
+        
         this.props.dispatch(addElement(
-            this.props.data.render.scope,
-            generateID(this.props.data.content)
+            this.props.data.render.scope, id
         ));
+        this.props.dispatch(editElement(id))
     }
     
     render() {
