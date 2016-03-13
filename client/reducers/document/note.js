@@ -21,7 +21,8 @@ export default function (state, action) {
                         search: ""
                     },
                     showChildren: [],
-                    editing: "", hovering: "", controls: ""
+                    editing: "", hovering: "", controls: "",
+                    showFlagFilter: false
                 }
             });
             
@@ -30,7 +31,7 @@ export default function (state, action) {
                 render: {
                     scope: action.id, scopeParents: scopeParents(state.content, action.id),
                     showChildren: [], editing: "", hovering: "", controls: "",
-                    filter: state.render.filter
+                    filter: state.render.filter, showFlagFilter: false
                 }
             });
         
