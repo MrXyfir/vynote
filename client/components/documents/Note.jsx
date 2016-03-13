@@ -50,6 +50,7 @@ export default class Note extends React.Component {
                 </div>
                 
                 <Elements
+                    data={this.props.data} 
                     emit={this.props.emit} 
                     scope={this.props.data.render.scope} 
                     dispatch={this.props.dispatch}
