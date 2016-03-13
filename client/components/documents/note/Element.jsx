@@ -1,32 +1,96 @@
 import React from "react";
 
+// Components
+import ElementControls from "./ElementControls";
 import Elements from "./Elements";
+
+// Action creators
+import {
+    addElement, updateElementContent, editElement,
+    deleteElement
+} from "../../../actions/documents/note";
+import { error } from "../../../actions/notification";
+
+// Modules
+import generateID from "../../../lib/note/generate-id";
 
 export default class Element extends React.Component {
     
     constructor(props) {
         super(props);
         
-        this.onShowExtendedControls = this.onShowExtendedControls.bind(this);
-        this.onToggleShowChildren = this.onToggleShowChildren.bind(this);
-        this.onScopeToElement = this.onScopeToElement.bind(this);
+        this._focusEditElement = this._focusEditElement.bind(this);
+        this.onInput = this.onInput.bind(this);
         this.onEdit = this.onEdit.bind(this);
     }
     
-    onShowExtendedControls() {
-        
+    componentDidMount() {
+        this._focusEditElement();
     }
     
-    onToggleShowChildren() {
-        
+    componentDidUpdate() {
+        this._focusEditElement();
     }
     
-    onScopeToElement() {
-        
+    onInput(e) {
+        // Save element content
+        if (e.which == 13) {
+            e.preventDefault();
+            
+            let data = {
+                action: "CREATE", parent: this.props.data.content[this.props.id].parent,
+                content: document.querySelector(".note-element > .editing").innerHTML,
+                id: this.props.id, doc: this.props.data.doc_id
+            };
+            
+            this.props.emit("change note element", data, (err, res) => {
+                if (err) {
+                    this.props.dispatch(error(res));
+                }
+                else {
+                    // Generate ID for new sibling element
+                    let id = generateID(this.props.data.content);
+                    
+                    // Update element's content
+                    this.props.dispatch(updateElementContent(
+                        this.props.id, data.content
+                    ));
+                    // Create a new sibling element
+                    this.props.dispatch(addElement(
+                        this.props.data.content[this.props.id].parent, id
+                    ));
+                    // Set editing for new sibling
+                    this.props.dispatch(editElement(id));
+                }
+            });
+        }
+        // Delete element
+        else if (e.which == 8) {
+            if (!document.querySelector(".note-element > .editing").innerHTML.length) {
+                let data = {
+                    action: "DELETE", id: this.props.id
+                };
+                
+                this.props.emit("change note element", data, (err, res) => {
+                    if (err) {
+                        this.props.dispatch(error(res));
+                    }
+                    else {
+                        this.props.dispatch(deleteElement(data.id));
+                    }
+                });
+            }
+        }
     }
     
     onEdit() {
-        
+        this.props.dispatch(editElement(this.props.id));
+    }
+    
+    _focusEditElement() {
+        if (this.props.id == this.props.data.render.editing) {
+            document.querySelector(".note-element > .editing").focus();
+        }
     }
     
     render() {
@@ -54,44 +118,19 @@ export default class Element extends React.Component {
         
         return (
             <div className="note-element">
-                <div className="note-controls">
-                    {
-                        this.props.id == this.props.data.render.hovering
-                        ? (
-                            this.props.data.render.showChildren.indexOf(this.props.id) > -1
-                            ? (<span onClick={this.onToggleShowChildren}>-</span>)
-                            : (<span onClick={this.onToggleShowChildren}>+</span>)
-                        )
-                        : (
-                            <span className="hidden" />
-                        )
-                    }
-                    <span 
-                        onClick={this.onScopeToElement}
-                        className="icon-circle" 
-                        onContextMenu={this.onShowExtendedControls} 
-                    />
-                    
-                    {
-                        this.props.id == this.props.data.render.controls
-                        ? (
-                            <div className="controls-extended">
-                                Delete
-                                Flags
-                                Add Child
-                            </div>
-                        )
-                        : (
-                            <span className="hidden" />
-                        )
-                    }
-                </div>
+                <ElementControls
+                    id={this.props.id} 
+                    data={this.props.data} 
+                    emit={this.props.emit} 
+                    dispatch={this.props.dispatch}
+                />
             
-                {
+                { // Output content in an editable or markdown-rendered element
                     this.props.id == this.props.data.render.editing
                     ? (
                         <div 
                             className="editing" 
+                            onKeyUp={this.onInput} 
                             contentEditable={true} 
                             dangerouslySetInnerHTML={{
                                 __html: this.props.data.content[this.props.id].content
@@ -112,17 +151,18 @@ export default class Element extends React.Component {
                     )
                 }
                 
-                {
+                { // Optionally output element's children
                     this.props.data.render.showChildren.indexOf(this.props.id) > -1
                     ? (
                         <Elements
+                            data={this.props.data}
                             emit={this.props.emit} 
                             scope={this.props.id} 
                             dispatch={this.props.dispatch}
                         />
                     )
                     : (
-                        <div className="note-elements-hidden" />
+                        <div className="hidden" />
                     )
                 }
             </div>
