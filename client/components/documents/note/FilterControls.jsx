@@ -48,7 +48,7 @@ export default class FilterControls extends React.Component {
                 <a onClick={this.onToggleShowFlagFilter}>Filter by Flags</a>
                 
                 {
-                    this.props.data.render.showFlagFilters
+                    this.props.data.render.showFlagFilter
                     ? (
                         <div className="flag-filters">
                             {flags.map((flag, i) => {
