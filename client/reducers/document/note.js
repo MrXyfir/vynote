@@ -1,8 +1,8 @@
 // Action types
 import {
-    INITIALIZE_RENDER, CHANGE_SCOPE, SET_SEARCH_QUERY,
-    SET_FLAGS, TOGGLE_SHOW_FLAG_FILTER, ADD_ELEMENT,
-    EDIT_ELEMENT
+    INITIALIZE_RENDER, CHANGE_SCOPE, SET_SEARCH_QUERY, SET_FLAGS,
+    TOGGLE_SHOW_FLAG_FILTER, UPDATE_ELEMENT_CONTENT,
+    EDIT_ELEMENT, DELETE_ELEMENT, ADD_ELEMENT
 } from "../../constants/action-types/documents/note";
 
 // Modules
@@ -80,6 +80,28 @@ export default function (state, action) {
                     editing: action.id
                 })
             });
+            
+        case UPDATE_ELEMENT_CONTENT:
+            return Object.assign({}, state, {
+                content: Object.assign({}, state.content, {
+                    [action.id]: Object.assign({}, state.content[action.id], {
+                        content: action.content
+                    })
+                })
+            });
+            
+        case DELETE_ELEMENT:
+            return (() => {
+                let temp = Object.assign({}, state);
+                
+                delete temp.content[action.id];
+
+                temp.content[temp.content[action.id].parent].children.splice(
+                    temp.content[temp.content[action.id].parent].children.indexOf(action.id), 1
+                );
+                
+                return temp;
+            }).call();
         
         default:
             return state;

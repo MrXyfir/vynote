@@ -1,7 +1,7 @@
 import {
-    INITIALIZE_RENDER, CHANGE_SCOPE, SET_SEARCH_QUERY,
-    SET_FLAGS, TOGGLE_SHOW_FLAG_FILTER, ADD_ELEMENT,
-    EDIT_ELEMENT
+    INITIALIZE_RENDER, CHANGE_SCOPE, SET_SEARCH_QUERY, SET_FLAGS,
+    TOGGLE_SHOW_FLAG_FILTER, UPDATE_ELEMENT_CONTENT,
+    EDIT_ELEMENT, DELETE_ELEMENT, ADD_ELEMENT
 } from "../../constants/action-types/documents/note";
 
 export function initializeRenderObject() {
@@ -43,5 +43,17 @@ export function addElement(parent, id) {
 export function editElement(id) {
     return {
         type: EDIT_ELEMENT, id
+    };
+}
+
+export function updateElementContent(id, content) {
+    return {
+        type: UPDATE_ELEMENT_CONTENT, id, content
+    };
+}
+
+export function deleteElement(id) {
+    return {
+        type: DELETE_ELEMENT, id
     };
 }
