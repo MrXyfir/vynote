@@ -62,12 +62,16 @@ export default function (state, action) {
             });
             
         case ADD_ELEMENT:
-            let temp = JSON.parse(JSON.stringify(state));
-            temp.content[action.id] = {
-                parent: action.parent, content: "", flags: [], children: []
-            };
-            temp.content[action.parent].push(action.id);
-            return temp;
+            return Object.assign({}, state, {
+                content: Object.assign({}, state.content, {
+                    [action.id]: {
+                        parent: action.parent, content: "", flags: [], children: []
+                    },
+                    [action.parent]: Object.assign({}, state.content[action.parent], {
+                        children: state.content[action.parent].concat(action.id)
+                    })
+                })
+            });
         
         default:
             return state;
