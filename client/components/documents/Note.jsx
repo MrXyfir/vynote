@@ -5,10 +5,19 @@ import FilterControls from "./note/FilterControls";
 import Elements from "./note/Elements";
 import Parents from "./note/Parents";
 
+// Action creators
+import { addElement } from "../../actions/documents/note";
+
 export default class Note extends React.Component {
     
     constructor(props) {
         super(props);
+        
+        this.onAddElement = this.onAddElement.bind(this);
+    }
+    
+    onAddElement() {
+        this.props.dispatch(addElement(this.props.data.render.scope));
     }
     
     render() {
@@ -18,10 +27,14 @@ export default class Note extends React.Component {
                 <Parents dispatch={this.props.dispatch} data={this.props.data} />
                 
                 <div className="note-scoped-element">
-                    <span className="icon-add" onClick={this.onAddChildElement} />
+                    <span 
+                        title="Add Child"
+                        onClick={this.onAddElement}
+                        className="icon-add"  
+                    />
                     <span className="content">{
-                        this.props.data.content[this.props.data.render.scope].content > 23
-                        ? this.props.data.content[this.props.data.render.scope].content.substr(0, 20) + "..."
+                        this.props.data.content[this.props.data.render.scope].content > 53
+                        ? this.props.data.content[this.props.data.render.scope].content.substr(0, 50) + "..."
                         : this.props.data.content[this.props.data.render.scope].content
                     }</span>
                 </div>
