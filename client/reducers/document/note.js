@@ -1,7 +1,7 @@
 // Action types
 import {
     INITIALIZE_RENDER, CHANGE_SCOPE, SET_SEARCH_QUERY,
-    SET_FLAGS, TOGGLE_SHOW_FLAG_FILTER
+    SET_FLAGS, TOGGLE_SHOW_FLAG_FILTER, ADD_ELEMENT
 } from "../../constants/action-types/documents/note";
 
 // Modules
@@ -60,6 +60,14 @@ export default function (state, action) {
                     showFlagFilter: !state.render.showFlagFilter
                 })
             });
+            
+        case ADD_ELEMENT:
+            let temp = JSON.parse(JSON.stringify(state));
+            temp.content[action.id] = {
+                parent: action.parent, content: "", flags: [], children: []
+            };
+            temp.content[action.parent].push(action.id);
+            return temp;
         
         default:
             return state;
