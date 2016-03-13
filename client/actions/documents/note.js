@@ -1,6 +1,7 @@
 import {
     INITIALIZE_RENDER, CHANGE_SCOPE, SET_SEARCH_QUERY,
-    SET_FLAGS, TOGGLE_SHOW_FLAG_FILTER, ADD_ELEMENT
+    SET_FLAGS, TOGGLE_SHOW_FLAG_FILTER, ADD_ELEMENT,
+    EDIT_ELEMENT
 } from "../../constants/action-types/documents/note";
 
 export function initializeRenderObject() {
@@ -36,5 +37,11 @@ export function toggleShowFlagFilter() {
 export function addElement(parent, id) {
     return {
         type: ADD_ELEMENT, parent, id
+    };
+}
+
+export function editElement(id) {
+    return {
+        type: EDIT_ELEMENT, id
     };
 }

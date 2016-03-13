@@ -1,7 +1,8 @@
 // Action types
 import {
     INITIALIZE_RENDER, CHANGE_SCOPE, SET_SEARCH_QUERY,
-    SET_FLAGS, TOGGLE_SHOW_FLAG_FILTER, ADD_ELEMENT
+    SET_FLAGS, TOGGLE_SHOW_FLAG_FILTER, ADD_ELEMENT,
+    EDIT_ELEMENT
 } from "../../constants/action-types/documents/note";
 
 // Modules
@@ -70,6 +71,13 @@ export default function (state, action) {
                     [action.parent]: Object.assign({}, state.content[action.parent], {
                         children: state.content[action.parent].concat(action.id)
                     })
+                })
+            });
+            
+        case EDIT_ELEMENT:
+            return Object.assign({}, state, {
+                render: Object.assign({}, state.render, {
+                    editing: action.id
                 })
             });
         
