@@ -14,7 +14,7 @@ export default class Note extends React.Component {
     render() {
         return (
             <div className="document-note">
-                <FilterControls dispatch={this.props.dispatch} />
+                <FilterControls data={this.props.data} dispatch={this.props.dispatch} />
                 <Parents dispatch={this.props.dispatch} data={this.props.data} />
                 
                 <div className="note-scoped-element">
