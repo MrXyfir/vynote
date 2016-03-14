@@ -1,5 +1,6 @@
 // Action types
 import {
+    TOGGLE_SHOW_CHILDREN, SHOW_ELEMENT_CONTROLS, SET_ELEMENT_FLAGS,
     INITIALIZE_RENDER, CHANGE_SCOPE, SET_SEARCH_QUERY, SET_FLAGS,
     TOGGLE_SHOW_FLAG_FILTER, UPDATE_ELEMENT_CONTENT,
     EDIT_ELEMENT, DELETE_ELEMENT, ADD_ELEMENT
@@ -102,6 +103,33 @@ export default function (state, action) {
                 
                 return temp;
             }).call();
+            
+        case SHOW_ELEMENT_CONTROLS:
+            return Object.assign({}, state, {
+                render: Object.assign({}, state.render, {
+                    controls: action.id
+                })
+            });
+            
+        case SET_ELEMENT_FLAGS:
+            return Object.assign({}, state, {
+                content: Object.assign({}, state.content, {
+                    [action.id]: Object.assign({}, state.content[action.id], {
+                        flags: action.flags
+                    })
+                })
+            });
+        
+        case TOGGLE_SHOW_CHILDREN:
+            return Object.assign({}, state, {
+                render: Object.assign({}, state.render, {
+                    showChildren: (
+                        state.render.showChildren.indexOf(action.id) > -1
+                        ? state.render.showChildren.filter(id => { return id != action.id; })
+                        : state.render.showChildren.concat(action.id)
+                    )
+                })
+            });
         
         default:
             return state;
