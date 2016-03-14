@@ -7,7 +7,7 @@ import Elements from "./Elements";
 // Action creators
 import {
     addElement, updateElementContent, editElement,
-    deleteElement
+    deleteElement, elementCreated
 } from "../../../actions/documents/note";
 import { error } from "../../../actions/notification";
 
@@ -38,10 +38,15 @@ export default class Element extends React.Component {
             e.preventDefault();
             
             let data = {
-                action: "CREATE", parent: this.props.data.content[this.props.id].parent,
                 content: document.querySelector(".note-element > .editing").innerHTML,
-                id: this.props.id, doc: this.props.data.doc_id
+                action: "UPDATE", id: this.props.id, doc: this.props.data.doc_id
             };
+            
+            // Element has only been created locally
+            if (this.props.data.content[this.props.id].create) {
+                data.parent = this.props.data.content[this.props.id].parent;
+                data.action = "CREATE";
+            }
             
             this.props.emit("change note element", data, (err, res) => {
                 if (err) {
@@ -61,12 +66,22 @@ export default class Element extends React.Component {
                     ));
                     // Set editing for new sibling
                     this.props.dispatch(editElement(id));
+                    
+                    // Element has been fully created
+                    if (this.props.data.content[this.props.id].create)
+                        this.props.dispatch(elementCreated(this.props.id));
                 }
             });
         }
         // Delete element
         else if (e.which == 8) {
             if (!document.querySelector(".note-element > .editing").innerHTML.length) {
+                // Element was only created locally
+                if (this.props.data.content[this.props.id].create) {
+                    this.props.dispatch(deleteElement(data.id));
+                    return;
+                }
+                
                 let data = {
                     action: "DELETE", id: this.props.id
                 };
