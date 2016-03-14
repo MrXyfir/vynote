@@ -50,7 +50,7 @@ export default class ElementControls extends React.Component {
             });
             
             // Update element's flags
-            if (changed) {
+            if (changed && !this.props.data.content[this.props.id].create) {
                 let data = {
                     action: "SET_FLAGS", doc: this.props.data.document.doc_id,
                     id: this.props.id, content: flags.map((flag, i) => {
@@ -81,6 +81,13 @@ export default class ElementControls extends React.Component {
     }
     
     onAddChild() {
+        if (this.props.data.content[this.props.id].create) {
+            this.props.dispatch(error(
+                "You cannot create a child on an element with no content"
+            ));
+            return;
+        }
+        
         let id = generateID(this.props.data.content);
         
         // Create child element
@@ -96,7 +103,24 @@ export default class ElementControls extends React.Component {
     }
     
     onDelete() {
-        this.props.dispatch(deleteElement(this.props.id));
+        // Element was only created locally
+        if (this.props.data.content[this.props.id].create) {
+            this.props.dispatch(deleteElement(data.id));
+            return;
+        }
+        
+        let data = {
+            action: "DELETE", id: this.props.id
+        };
+        
+        this.props.emit("change note element", data, (err, res) => {
+            if (err) {
+                this.props.dispatch(error(res));
+            }
+            else {
+                this.props.dispatch(deleteElement(data.id));
+            }
+        });
     }
     
     render() {
