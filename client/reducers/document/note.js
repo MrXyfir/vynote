@@ -1,8 +1,8 @@
 // Action types
 import {
+    TOGGLE_SHOW_FLAG_FILTER, UPDATE_ELEMENT_CONTENT, ELEMENT_CREATED,
     TOGGLE_SHOW_CHILDREN, SHOW_ELEMENT_CONTROLS, SET_ELEMENT_FLAGS,
     INITIALIZE_RENDER, CHANGE_SCOPE, SET_SEARCH_QUERY, SET_FLAGS,
-    TOGGLE_SHOW_FLAG_FILTER, UPDATE_ELEMENT_CONTENT,
     EDIT_ELEMENT, DELETE_ELEMENT, ADD_ELEMENT
 } from "../../constants/action-types/documents/note";
 
@@ -67,7 +67,8 @@ export default function (state, action) {
             return Object.assign({}, state, {
                 content: Object.assign({}, state.content, {
                     [action.id]: {
-                        parent: action.parent, content: "", flags: [], children: []
+                        parent: action.parent, content: "", flags: [], children: [],
+                        create: true
                     },
                     [action.parent]: Object.assign({}, state.content[action.parent], {
                         children: state.content[action.parent].concat(action.id)
@@ -130,6 +131,13 @@ export default function (state, action) {
                     )
                 })
             });
+            
+        case ELEMENT_CREATED:
+            return (() => {
+                let temp = Object.assign({}, state);
+                delete temp.content[action.id].create;
+                return temp;
+            }).call();
         
         default:
             return state;

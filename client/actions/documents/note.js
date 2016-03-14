@@ -1,7 +1,7 @@
 import {
+    TOGGLE_SHOW_FLAG_FILTER, UPDATE_ELEMENT_CONTENT, ELEMENT_CREATED,
     TOGGLE_SHOW_CHILDREN, SHOW_ELEMENT_CONTROLS, SET_ELEMENT_FLAGS,
     INITIALIZE_RENDER, CHANGE_SCOPE, SET_SEARCH_QUERY, SET_FLAGS,
-    TOGGLE_SHOW_FLAG_FILTER, UPDATE_ELEMENT_CONTENT,
     EDIT_ELEMENT, DELETE_ELEMENT, ADD_ELEMENT
 } from "../../constants/action-types/documents/note";
 
@@ -74,5 +74,11 @@ export function showElementControls(id) {
 export function setElementFlags(id, flags) {
     return {
         type: SET_ELEMENT_FLAGS, id, flags
+    };
+}
+
+export function elementCreated(id) {
+    return {
+        type: ELEMENT_CREATED, id
     };
 }
