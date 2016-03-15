@@ -13,7 +13,7 @@ export default class FilterControls extends React.Component {
     constructor(props) {
         super(props);
         
-        this.onOpenFlagFilter = this.onOpenFlagFilter.bind(this);
+        this.onToggleShowFlagFilter = this.onToggleShowFlagFilter.bind(this);
         this.onSetFlags = this.onSetFlags.bind(this);
         this.onSearch = this.onSearch.bind(this);
     }
