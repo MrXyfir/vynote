@@ -45,7 +45,9 @@ export default class FilterControls extends React.Component {
         return (
             <div className="note-filter-controls">
                 <input type="text" placeholder="Search" onChange={this.onSearch} />
-                <a onClick={this.onToggleShowFlagFilter}>Filter by Flags</a>
+                <button onClick={this.onToggleShowFlagFilter} className="btn-sm btn-secondary">
+                    Filter by Flags
+                </button>
                 
                 {
                     this.props.data.render.showFlagFilter
