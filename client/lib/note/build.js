@@ -3,7 +3,11 @@ let deleteElement = require("./delete-element");
 let updateContent = require("./update-content");
 let setFlags = require("./set-flags");
 
-export default function (notes, changes) {
+import { decrypt } from "../crypto";
+
+export default function (notes, changes, key = "") {
+    
+    let encrypted = (key === "");
     
     notes = JSON.parse(notes);
     
@@ -21,6 +25,12 @@ export default function (notes, changes) {
                 return setFlags(notes, co);
         }
     });
+    
+    if (encrypted) {
+        Object.keys(notes).forEach(key => {
+            notes[key].content = decrypt(notes[key].content, key);
+        });
+    }
     
     return notes;
     
