@@ -7,7 +7,7 @@ import {
 } from "../../constants/action-types/documents/note";
 
 // Modules
-import scopeParents from "../../lib/note/scopeParents";
+import scopeParents from "../../lib/note/scope-parents";
 
 // Other constants
 import flags from "../../constants/flags";
