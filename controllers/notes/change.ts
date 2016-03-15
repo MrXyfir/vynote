@@ -63,8 +63,10 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                     fn(false, version);
                     socket.broadcast.to(''+data.doc).emit("note change", data);
 
+                    if (rows[0].version_count == 0)
+                        cn.release();
                     // If oldest version is over 30 minutes old, merge changes with document
-                    if (Date.now() > (new Date(rows[0].oldest_version + (1800000))).getTime())
+                    else if (Date.now() > (new Date(rows[0].oldest_version + (1800000))).getTime())
                         mergeChanges(data.doc, cn);
                     // If 100+ changes, merge changes with document
                     else if (rows[0].version_count >= 100)
