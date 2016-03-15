@@ -16,6 +16,9 @@ import { initializeRenderObject } from "../../actions/documents/note";
 // Constants
 import colors from "../../constants/colors";
 
+// Modules
+import buildNote from "../../lib/note/build";
+
 export default class ExplorerObject extends React.Component {
 
 	constructor(props) {
@@ -89,7 +92,7 @@ export default class ExplorerObject extends React.Component {
 					else {
 						this.props.dispatch(loadDocument(
 							Object.assign({}, this.props.data, {
-								content: JSON.parse(res)
+								content: buildNote(res.content, res.changes)
 							})
 						));
                         this.props.dispatch(initializeRenderObject());

@@ -14,6 +14,7 @@ import { initializeRenderObject } from "../actions/documents/note";
 
 // Modules
 import getScopeParents from "../lib/explorer/scope-parents";
+import buildNote from "../lib/note/build";
 
 // Constants
 import { syntaxes } from "../constants/editor";
@@ -44,7 +45,7 @@ export default class Document extends React.Component {
             // Load content into state and set encryption key
             else {
                 if (this.props.data.doc_type === 1)
-                    content = JSON.parse(content);
+                    content = buildNote(content.content, content.changes);
                 
                 // Load content into state
                 this.props.dispatch(loadContent(content));
