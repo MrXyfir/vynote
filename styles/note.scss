@@ -1,0 +1,19 @@
+.document-note {
+    margin-left: 2em;
+}
+
+.note-filter-controls {
+    
+    text-align: center;
+    background-color: $lllgray;
+    border: 1px solid $lgray;
+    width: 80%;
+    margin: 1em auto;
+    
+   input {
+       text-align: center;
+       display: inline;
+       margin: 0.5em;
+   }
+    
+}
