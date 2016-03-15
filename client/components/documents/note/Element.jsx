@@ -126,7 +126,7 @@ export default class Element extends React.Component {
             ) return <div className="note-element-hidden" />;
         }
         
-        // User only wants to show elements that contain a listed flag
+        // Hide element if it contains an excluded flag
         if (this.props.data.render.filter.flags.length > 0) {
             let hasFlag = false;
             
@@ -136,7 +136,7 @@ export default class Element extends React.Component {
                 });
             });
             
-            if (!hasFlag) return <div className="note-element-hidden" />;
+            if (hasFlag) return <div className="note-element-hidden" />;
         }
         
         return (

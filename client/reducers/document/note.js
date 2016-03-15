@@ -9,9 +9,6 @@ import {
 // Modules
 import scopeParents from "../../lib/note/scope-parents";
 
-// Other constants
-import flags from "../../constants/flags";
-
 export default function (state, action) {
     switch (action.type) {
         case INITIALIZE_RENDER:
@@ -20,8 +17,7 @@ export default function (state, action) {
                     scope: "home",
                     scopeParents: [],
                     filter: {
-                        flags: flags.slice(1),
-                        search: ""
+                        flags: [0], search: ""
                     },
                     showChildren: [],
                     editing: "", hovering: "", controls: "",
