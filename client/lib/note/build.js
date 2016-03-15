@@ -1,7 +1,7 @@
-let createElement = require("./create-element");
-let deleteElement = require("./delete-element");
-let updateContent = require("./update-content");
-let setFlags = require("./set-flags");
+let createElement = require("../../../lib/note/create-element");
+let deleteElement = require("../../../lib/note/delete-element");
+let updateContent = require("../../../lib/note/update-content");
+let setFlags = require("../../../lib/note/set-flags");
 
 import { decrypt } from "../crypto";
 
