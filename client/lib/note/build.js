@@ -7,7 +7,7 @@ import { decrypt } from "../crypto";
 
 export default function (notes, changes, key = "") {
     
-    let encrypted = (key === "");
+    let encrypted = (key.length > 0);
     
     notes = JSON.parse(notes);
     
