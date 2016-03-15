@@ -45,7 +45,7 @@ export default class Document extends React.Component {
             // Load content into state and set encryption key
             else {
                 if (this.props.data.doc_type === 1)
-                    content = buildNote(content.content, content.changes);
+                    content = buildNote(content.content, content.changes, key);
                 
                 // Load content into state
                 this.props.dispatch(loadContent(content));
