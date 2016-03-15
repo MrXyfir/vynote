@@ -31,6 +31,10 @@ export default class Note extends React.Component {
     }
     
     render() {
+        if (this.props.data.render === undefined) {
+            return <div />;
+        }
+        
         return (
             <div className="document-note">
                 <FilterControls data={this.props.data} dispatch={this.props.dispatch} />
