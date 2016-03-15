@@ -16,6 +16,7 @@ export = (notes: any, data: IData) => {
         let c: string[] = [];
 
         notes[id].children.forEach(child => {
+            c.push(child);
             c.concat(getChildren(child));
         });
 
