@@ -13,6 +13,7 @@ import { error } from "../../../actions/notification";
 
 // Modules
 import generateID from "../../../lib/note/generate-id";
+import { encrypt } from "../../../lib/crypto";
 
 export default class Element extends React.Component {
     
@@ -38,8 +39,15 @@ export default class Element extends React.Component {
             e.preventDefault();
             
             let data = {
-                content: document.querySelector(".note-element > .editing").innerHTML,
-                action: "UPDATE", id: this.props.id, doc: this.props.data.doc_id
+                action: "UPDATE", id: this.props.id, doc: this.props.data.doc_id,
+                content: (
+                    this.props.data.encrypted
+                    ? encrypt(
+                        document.querySelector(".note-element > .editing").innerHTML,
+                        this.props.data.encrypt
+                    )
+                    : document.querySelector(".note-element > .editing").innerHTML
+                )
             };
             
             // Element has only been created locally
