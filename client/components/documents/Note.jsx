@@ -47,7 +47,7 @@ export default class Note extends React.Component {
                         className="icon-add"  
                     />
                     <span className="content">{
-                        this.props.data.content[this.props.data.render.scope].content > 53
+                        this.props.data.content[this.props.data.render.scope].content.length > 53
                         ? this.props.data.content[this.props.data.render.scope].content.substr(0, 50) + "..."
                         : this.props.data.content[this.props.data.render.scope].content
                     }</span>
