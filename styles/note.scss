@@ -17,3 +17,72 @@
    }
     
 }
+
+.note-elements {
+    margin-left: 2em;
+}
+
+.note-element {
+    
+    display: table;
+    
+    * {
+        display: table-cell;
+    }
+    
+    .view, .edit {
+        margin-left: 0.5em;
+    }
+    
+}
+
+.note-controls {
+    
+    .highlight {
+        color: rgba(0,0,0,0.4);
+    }
+    
+    .controls-extended {
+        position: absolute;
+        background-color: $gray;
+        border: 1px solid $lgray;
+        color: $lllgray;
+        width: 10em;
+        height: 9em;
+        padding: 0.2em;
+        line-height: 80%;
+        font-size: 80%;
+    }
+    
+    .controls-extended > * {
+        display: block;
+        border-bottom: 1px solid $lgray;
+        width: 90%;
+        margin: auto;
+        margin-bottom: 0.3em;
+        padding-bottom: 0.2em;
+    }
+    
+    .controls-extended > .icon-close {
+        position: absolute;
+        text-align: right;
+        border: none;
+    }
+    
+    .flags {
+        
+        height: 5em;
+        overflow-y: auto;
+        
+        .flag {
+            
+            display: block;
+            
+            * {
+                display: inline;
+            }
+            
+        }
+    }
+    
+}
