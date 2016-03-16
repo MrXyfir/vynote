@@ -85,24 +85,37 @@ export default class Element extends React.Component {
         // Delete element
         else if (e.which == 8) {
             if (!document.querySelector(".note-element > .editing").innerHTML.length) {
-                // Element was only created locally
-                if (this.props.data.content[this.props.id].create) {
-                    this.props.dispatch(deleteElement(this.props.id));
-                    return;
-                }
+                // Prevent backspace from navigating to previous page
+                e.preventDefault();
                 
-                let data = {
-                    action: "DELETE", id: this.props.id
+                const del = (id) => {
+                    let parent  = this.props.data.content[id].parent;
+                    let index   = this.props.data.content[parent].children.indexOf(id);
+                    let sibling = this.props.data.content[parent].children[index - 1];
+                    
+                    this.props.dispatch(deleteElement(id));
+                    
+                    // Set 'editing' to element's older sibling (if available)
+                    if (sibling !== undefined) this.props.dispatch(editElement(sibling));
                 };
                 
-                this.props.socket.emit("change note element", data, (err, res) => {
-                    if (err) {
-                        this.props.dispatch(error(res));
-                    }
-                    else {
-                        this.props.dispatch(deleteElement(data.id));
-                    }
-                });
+                // Element was only created locally
+                if (this.props.data.content[this.props.id].create) {
+                    del(this.props.id);
+                }
+                // Delete event must be emitted
+                else {
+                    let data = {
+                        action: "DELETE", id: this.props.id
+                    };
+                    
+                    this.props.socket.emit("change note element", data, (err, res) => {
+                        if (err)
+                            this.props.dispatch(error(res));
+                        else
+                            del(data.id);
+                    });
+                }
             }
         }
     }
