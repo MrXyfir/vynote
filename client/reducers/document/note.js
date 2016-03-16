@@ -67,7 +67,7 @@ export default function (state, action) {
                         create: true
                     },
                     [action.parent]: Object.assign({}, state.content[action.parent], {
-                        children: state.content[action.parent].concat(action.id)
+                        children: state.content[action.parent].children.concat(action.id)
                     })
                 })
             });
