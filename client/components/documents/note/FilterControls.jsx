@@ -46,7 +46,7 @@ export default class FilterControls extends React.Component {
             <div className="note-filter-controls">
                 <input type="text" placeholder="Search" onChange={this.onSearch} />
                 <button onClick={this.onToggleShowFlagFilter} className="btn-sm btn-secondary">
-                    Hide Elements by Flags
+                    Hide by Flags
                 </button>
                 
                 {
