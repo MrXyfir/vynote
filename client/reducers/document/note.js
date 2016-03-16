@@ -90,13 +90,36 @@ export default function (state, action) {
             
         case DELETE_ELEMENT:
             return (() => {
+                let parent = state.content[action.id].parent;
                 let temp = Object.assign({}, state);
-                
-                delete temp.content[action.id];
 
-                temp.content[temp.content[action.id].parent].children.splice(
-                    temp.content[temp.content[action.id].parent].children.indexOf(action.id), 1
-                );
+                // Remove element from children of parent
+                temp.content[parent].children = temp.content[parent].children.filter(child => {
+                    return child != action.id;
+                });
+
+                let children = [];
+
+                // Populate children[] with ids of all children elements
+                const getChildren = (id) => {
+                    let c = [];
+
+                    temp.content[id].children.forEach(child => {
+                        c.push(child);
+                        c.concat(getChildren(child));
+                    });
+
+                    return c;
+                };
+                children = getChildren(action.id);
+
+                // Delete child elements in children[]
+                children.forEach(child => {
+                    delete temp.content[child];
+                });
+
+                // Delete element
+                delete temp.content[action.id];
                 
                 return temp;
             }).call();
