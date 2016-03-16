@@ -1,5 +1,6 @@
 .document-note {
-    margin-left: 2em;
+    width: 80%;
+    margin: auto;
 }
 
 .note-filter-controls {
@@ -7,7 +8,6 @@
     text-align: center;
     background-color: $lllgray;
     border: 1px solid $lgray;
-    width: 80%;
     margin: 1em auto;
     
    input {
@@ -20,26 +20,47 @@
 
 .note-elements {
     margin-left: 2em;
+    position: relative;
 }
 
 .note-element {
     
-    display: table;
+    position: relative;
     
-    * {
-        display: table-cell;
+    .note-controls, .view, .editing, .view > * {
+        display: inline;
     }
     
-    .view, .edit {
+    .view, .editing {
         margin-left: 0.5em;
+    }
+    
+    .editing {
+        outline: none;
     }
     
 }
 
 .note-controls {
     
+    position: relative;
+    
     .highlight {
         color: rgba(0,0,0,0.4);
+    }
+    
+    .toggle-show-children {
+        position: absolute;
+        font-weight: bold;
+        top: -10%;
+    }
+    
+    .show {
+        left: -40%;
+    }
+    
+    .hide {
+        left: -28%;
     }
     
     .controls-extended {
@@ -52,6 +73,7 @@
         padding: 0.2em;
         line-height: 80%;
         font-size: 80%;
+        z-index: 1;
     }
     
     .controls-extended > * {
@@ -83,6 +105,47 @@
             }
             
         }
+    }
+    
+}
+
+.note-scoped-element {
+    
+    margin: 1em 0em;
+    display: table;
+    
+    .icon-add {
+        display: table-cell;
+        vertical-align: middle;
+    }
+    
+    .content {
+        font-size: 1.8em;
+        color: $ddgray;
+        display: table-cell;
+    }
+    
+}
+
+.note-parents {
+    
+    color: $dgray;
+    padding-bottom: 1em;
+    border-bottom: solid 0.1em $lgray;
+    font-size: 110%;
+    
+    .note-parent {
+        
+        display: inline;
+        
+        .content {
+            font-weight: bold;
+        }
+        
+        .separator {
+            margin: 0.3em;
+        }
+        
     }
     
 }
