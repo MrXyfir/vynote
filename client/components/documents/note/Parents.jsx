@@ -23,7 +23,7 @@ export default class Parents extends React.Component {
                                 ? this.props.data.content[parent].content.substr(0, 20) + "..."
                                 : this.props.data.content[parent].content 
                             }</span>
-                            <span>{">"}</span>
+                            <span className="separator">{">"}</span>
                         </div>
                     );
                 })
