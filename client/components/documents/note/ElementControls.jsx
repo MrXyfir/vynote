@@ -62,7 +62,7 @@ export default class ElementControls extends React.Component {
                 }).filter(val => { return val; })
             };
             
-            this.props.emit("change note element", data, (err, res) => {
+            this.props.socket.emit("change note element", data, (err, res) => {
                 if (err) {
                     this.props.dispatch(error(res));
                 }
@@ -121,7 +121,7 @@ export default class ElementControls extends React.Component {
             action: "DELETE", id: this.props.id
         };
         
-        this.props.emit("change note element", data, (err, res) => {
+        this.props.socket.emit("change note element", data, (err, res) => {
             if (err) {
                 this.props.dispatch(error(res));
             }

@@ -16,7 +16,7 @@ export default class Elements extends React.Component {
                         <Element 
                             id={child} 
                             data={this.props.data} 
-                            emit={this.props.emit} 
+                            socket={this.props.socket} 
                             dispatch={this.props.dispatch}
                         />
                     );

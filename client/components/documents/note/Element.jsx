@@ -57,7 +57,7 @@ export default class Element extends React.Component {
                 data.action = "CREATE";
             }
             
-            this.props.emit("change note element", data, (err, res) => {
+            this.props.socket.emit("change note element", data, (err, res) => {
                 if (err) {
                     this.props.dispatch(error(res));
                 }
@@ -95,7 +95,7 @@ export default class Element extends React.Component {
                     action: "DELETE", id: this.props.id
                 };
                 
-                this.props.emit("change note element", data, (err, res) => {
+                this.props.socket.emit("change note element", data, (err, res) => {
                     if (err) {
                         this.props.dispatch(error(res));
                     }
@@ -145,7 +145,7 @@ export default class Element extends React.Component {
                 <ElementControls
                     id={this.props.id} 
                     data={this.props.data} 
-                    emit={this.props.emit} 
+                    socket={this.props.socket} 
                     dispatch={this.props.dispatch}
                 />
             
@@ -180,7 +180,7 @@ export default class Element extends React.Component {
                     ? (
                         <Elements
                             data={this.props.data}
-                            emit={this.props.emit} 
+                            socket={this.props.socket} 
                             scope={this.props.id} 
                             dispatch={this.props.dispatch}
                         />
