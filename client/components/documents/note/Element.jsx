@@ -87,7 +87,7 @@ export default class Element extends React.Component {
             if (!document.querySelector(".note-element > .editing").innerHTML.length) {
                 // Element was only created locally
                 if (this.props.data.content[this.props.id].create) {
-                    this.props.dispatch(deleteElement(data.id));
+                    this.props.dispatch(deleteElement(this.props.id));
                     return;
                 }
                 
@@ -154,7 +154,7 @@ export default class Element extends React.Component {
                     ? (
                         <div 
                             className="editing" 
-                            onKeyUp={this.onInput} 
+                            onKeyDown={this.onInput} 
                             contentEditable={true} 
                             dangerouslySetInnerHTML={{
                                 __html: this.props.data.content[this.props.id].content
