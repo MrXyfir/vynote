@@ -15,6 +15,17 @@
        display: inline;
        margin: 0.5em;
    }
+   
+   .flag-filters {   
+        position: absolute;
+        background-color: $lllgray;
+        z-index: 2;
+        padding: 0.3em;
+        border: solid 0.1em $lgray;
+        left: 62.5%;
+        width: 10em;
+        text-align: left;
+   }
     
 }
 
