@@ -14,23 +14,23 @@ export default class FilterControls extends React.Component {
         super(props);
         
         this.onToggleShowFlagFilter = this.onToggleShowFlagFilter.bind(this);
-        this.onSetFlags = this.onSetFlags.bind(this);
         this.onSearch = this.onSearch.bind(this);
     }
     
     onToggleShowFlagFilter() {
+        // Update flags if user is closing flag filter
+        if (this.props.data.render.showFlagFilter) {
+            let showFlags = [];
+        
+            flags.forEach((flag, i) => {
+                if (this.refs[`flag-${i}`].checked)
+                    showFlags.push(i);
+            });
+            
+            this.props.dispatch(setFlags(showFlags));
+        }
+        
         this.props.dispatch(toggleShowFlagFilter());
-    }
-    
-    onSetFlags() {
-        let showFlags = [];
-        
-        flags.forEach((flag, i) => {
-            if (this.refs[`flag-${i}`].checked)
-                showFlags.push(i);
-        });
-        
-        this.props.dispatch(setFlags(showFlags));
     }
     
     onSearch(e) {
@@ -67,10 +67,6 @@ export default class FilterControls extends React.Component {
                                     </div>
                                 );
                             })}
-                            
-                            <button onClick={this.props.onSetFlags} className="btn-primary btn-sm">
-                                Update Flags
-                            </button>
                         </div>
                     )
                     : (
