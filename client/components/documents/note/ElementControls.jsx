@@ -142,11 +142,23 @@ export default class ElementControls extends React.Component {
                     this.props.id == this.props.data.render.hovering
                     ? (
                         this.props.data.render.showChildren.indexOf(this.props.id) > -1
-                        ? (<span onClick={this.onToggleShowChildren} title="Hide Children">-</span>)
-                        : (<span onClick={this.onToggleShowChildren} title="Show Children">+</span>)
+                        ? (
+                            <span 
+                                title="Hide Children"
+                                onClick={this.onToggleShowChildren} 
+                                className="toggle-show-children hide" 
+                            >-</span>
+                        )
+                        : (
+                            <span 
+                                title="Show Children"
+                                onClick={this.onToggleShowChildren} 
+                                className="toggle-show-children show" 
+                            >+</span>
+                        )
                     )
                     : (
-                        <span className="hidden" />
+                        <span className="toggle-show-children" />
                     )
                 }
                 <span
