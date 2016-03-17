@@ -2,7 +2,8 @@ import {
     TOGGLE_SHOW_FLAG_FILTER, UPDATE_ELEMENT_CONTENT, ELEMENT_CREATED,
     TOGGLE_SHOW_CHILDREN, SHOW_ELEMENT_CONTROLS, SET_ELEMENT_FLAGS,
     INITIALIZE_RENDER, CHANGE_SCOPE, SET_SEARCH_QUERY, SET_FLAGS,
-    EDIT_ELEMENT, DELETE_ELEMENT, ADD_ELEMENT, HOVER_ELEMENT
+    EDIT_ELEMENT, DELETE_ELEMENT, ADD_ELEMENT, HOVER_ELEMENT,
+    MOVE_ELEMENT
 } from "../../constants/action-types/documents/note";
 
 export function initializeRenderObject() {
@@ -87,4 +88,10 @@ export function hoverElement(id) {
     return {
         type: HOVER_ELEMENT, id
     };
+}
+
+export function moveElement(id, parent, index = -1) {
+    return {
+        type: MOVE_ELEMENT, id, parent, index
+    }
 }

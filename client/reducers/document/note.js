@@ -3,7 +3,8 @@ import {
     TOGGLE_SHOW_FLAG_FILTER, UPDATE_ELEMENT_CONTENT, ELEMENT_CREATED,
     TOGGLE_SHOW_CHILDREN, SHOW_ELEMENT_CONTROLS, SET_ELEMENT_FLAGS,
     INITIALIZE_RENDER, CHANGE_SCOPE, SET_SEARCH_QUERY, SET_FLAGS,
-    EDIT_ELEMENT, DELETE_ELEMENT, ADD_ELEMENT, HOVER_ELEMENT
+    EDIT_ELEMENT, DELETE_ELEMENT, ADD_ELEMENT, HOVER_ELEMENT,
+    MOVE_ELEMENT
 } from "../../constants/action-types/documents/note";
 
 // Modules
@@ -162,6 +163,26 @@ export default function (state, action) {
             return (() => {
                 let temp = Object.assign({}, state);
                 delete temp.content[action.id].create;
+                return temp;
+            }).call();
+            
+        case MOVE_ELEMENT:
+            return (() => {
+                let temp = Object.assign({}, state);
+                
+                let oldParent = temp.content[action.id].parent;
+                
+                // Remove element from oldParent.children[]
+                temp.content[oldParent].children = temp.content[oldParent].children.filter(child => {
+                    return child != action.id;
+                });
+                
+                // Add element to its parent.children[] at appropriate location
+                if (action.index > -1)
+                    temp.content[action.parent].children.splice(action.index, 0, action.id);
+                else
+                    temp.content[action.parent].children.push(action.id);
+                
                 return temp;
             }).call();
         
