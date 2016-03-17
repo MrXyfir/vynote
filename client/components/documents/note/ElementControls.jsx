@@ -113,22 +113,20 @@ export default class ElementControls extends React.Component {
     onDelete() {
         // Element was only created locally
         if (this.props.data.content[this.props.id].create) {
-            this.props.dispatch(deleteElement(data.id));
-            return;
+            this.props.dispatch(deleteElement(this.props.id));
         }
-        
-        let data = {
-            action: "DELETE", id: this.props.id
-        };
-        
-        this.props.socket.emit("change note element", data, (err, res) => {
-            if (err) {
-                this.props.dispatch(error(res));
-            }
-            else {
-                this.props.dispatch(deleteElement(data.id));
-            }
-        });
+        else {
+            let data = {
+                doc: this.props.data.doc_id, action: "DELETE", id: this.props.id
+            };
+            
+            this.props.socket.emit("change note element", data, (err, res) => {
+                if (err)
+                    this.props.dispatch(error(res));
+                else
+                    this.props.dispatch(deleteElement(data.id));
+            });
+        }
     }
     
     render() {
