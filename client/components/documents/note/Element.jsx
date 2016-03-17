@@ -21,9 +21,11 @@ export default class Element extends React.Component {
     constructor(props) {
         super(props);
         
+        this._saveElementContent = this._saveElementContent.bind(this);
         this._focusEditElement = this._focusEditElement.bind(this);
         this.onInput = this.onInput.bind(this);
         this.onEdit = this.onEdit.bind(this);
+        this.onBlur = this.onBlur.bind(this);
     }
     
     componentDidMount() {
@@ -39,83 +41,40 @@ export default class Element extends React.Component {
         if (e.which == 13) {
             e.preventDefault();
             
-            let data = {
-                action: "UPDATE", id: this.props.id, doc: this.props.data.doc_id,
-                content: (
-                    this.props.data.encrypted
-                    ? encrypt(
-                        document.querySelector(".note-element > .editing").innerHTML,
-                        this.props.data.encrypt
-                    )
-                    : document.querySelector(".note-element > .editing").innerHTML
-                )
-            };
-            
-            // Element has only been created locally
-            if (this.props.data.content[this.props.id].create) {
-                data.parent = this.props.data.content[this.props.id].parent;
-                data.action = "CREATE";
-            }
-            
-            this.props.socket.emit("change note element", data, (err, res) => {
-                if (err) {
-                    this.props.dispatch(error(res));
-                }
-                else {
-                    // Generate ID for new sibling element
-                    let id = generateID(this.props.data.content);
-                    
-                    // Update element's content
-                    this.props.dispatch(updateElementContent(
-                        this.props.id, data.content
-                    ));
-                    // Create a new sibling element
-                    this.props.dispatch(addElement(
-                        this.props.data.content[this.props.id].parent, id
-                    ));
-                    // Set editing for new sibling
-                    this.props.dispatch(editElement(id));
-                    
-                    // Element has been fully created
-                    if (this.props.data.content[this.props.id].create)
-                        this.props.dispatch(elementCreated(this.props.id));
-                }
-            });
+            this._saveElementContent(true);
         }
         // Delete element
-        else if (e.which == 8) {
-            if (!document.querySelector(".note-element > .editing").innerHTML.length) {
-                // Prevent backspace from navigating to previous page
-                e.preventDefault();
+        else if (e.which == 8 && !document.querySelector(".note-element > .editing").innerHTML.length) {
+            // Prevent backspace from navigating to previous page
+            e.preventDefault();
+            
+            const del = (id) => {
+                let parent  = this.props.data.content[id].parent;
+                let index   = this.props.data.content[parent].children.indexOf(id);
+                let sibling = this.props.data.content[parent].children[index - 1];
                 
-                const del = (id) => {
-                    let parent  = this.props.data.content[id].parent;
-                    let index   = this.props.data.content[parent].children.indexOf(id);
-                    let sibling = this.props.data.content[parent].children[index - 1];
-                    
-                    this.props.dispatch(deleteElement(id));
-                    
-                    // Set 'editing' to element's older sibling (if available)
-                    if (sibling !== undefined) this.props.dispatch(editElement(sibling));
+                this.props.dispatch(deleteElement(id));
+                
+                // Set 'editing' to element's older sibling (if available)
+                if (sibling !== undefined) this.props.dispatch(editElement(sibling));
+            };
+            
+            // Element was only created locally
+            if (this.props.data.content[this.props.id].create) {
+                del(this.props.id);
+            }
+            // Delete event must be emitted
+            else {
+                let data = {
+                    doc: this.props.data.doc_id, action: "DELETE", id: this.props.id
                 };
                 
-                // Element was only created locally
-                if (this.props.data.content[this.props.id].create) {
-                    del(this.props.id);
-                }
-                // Delete event must be emitted
-                else {
-                    let data = {
-                        action: "DELETE", id: this.props.id
-                    };
-                    
-                    this.props.socket.emit("change note element", data, (err, res) => {
-                        if (err)
-                            this.props.dispatch(error(res));
-                        else
-                            del(data.id);
-                    });
-                }
+                this.props.socket.emit("change note element", data, (err, res) => {
+                    if (err)
+                        this.props.dispatch(error(res));
+                    else
+                        del(data.id);
+                });
             }
         }
     }
@@ -124,10 +83,61 @@ export default class Element extends React.Component {
         this.props.dispatch(editElement(this.props.id));
     }
     
+    onBlur() {
+        this._saveElementContent();
+    }
+    
     _focusEditElement() {
         if (this.props.id == this.props.data.render.editing) {
             document.querySelector(".note-element > .editing").focus();
         }
+    }
+    
+    _saveElementContent(createSibling = false) {
+        let data = {
+            action: "UPDATE", id: this.props.id, doc: this.props.data.doc_id,
+            content: (
+                this.props.data.encrypted
+                ? encrypt(
+                    document.querySelector(".note-element > .editing").innerHTML,
+                    this.props.data.encrypt
+                )
+                : document.querySelector(".note-element > .editing").innerHTML
+            )
+        };
+        
+        // Element has only been created locally
+        if (this.props.data.content[this.props.id].create) {
+            data.parent = this.props.data.content[this.props.id].parent;
+            data.action = "CREATE";
+        }
+        
+        this.props.socket.emit("change note element", data, (err, res) => {
+            if (err) {
+                this.props.dispatch(error(res));
+            }
+            else {
+                // Update element's content
+                this.props.dispatch(updateElementContent(
+                    this.props.id, data.content
+                ));
+                
+                // Element has been fully created
+                if (this.props.data.content[this.props.id].create)
+                    this.props.dispatch(elementCreated(this.props.id));
+                
+                if (createSibling) {
+                    // Generate ID for new sibling element
+                    let id = generateID(this.props.data.content);
+                    // Create a new sibling element
+                    this.props.dispatch(addElement(
+                        this.props.data.content[this.props.id].parent, id
+                    ));
+                    // Set editing for new sibling
+                    this.props.dispatch(editElement(id));
+                }
+            }
+        });
     }
     
     render() {
@@ -167,6 +177,7 @@ export default class Element extends React.Component {
                     ? (
                         <div 
                             className="editing" 
+                            onBlur={this.onBlur} 
                             onKeyDown={this.onInput} 
                             contentEditable={true} 
                             dangerouslySetInnerHTML={{
