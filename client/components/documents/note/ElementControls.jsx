@@ -137,7 +137,11 @@ export default class ElementControls extends React.Component {
                 onMouseOut={this.onMouseOut} 
             >
                 { // Output 'Show Children' toggle if element is being hovered
-                    this.props.id == this.props.data.render.hovering
+                    (
+                        this.props.id == this.props.data.render.hovering
+                        &&
+                        this.props.data.content[this.props.id].children.length > 0
+                    )
                     ? (
                         this.props.data.render.showChildren.indexOf(this.props.id) > -1
                         ? (
@@ -164,7 +168,12 @@ export default class ElementControls extends React.Component {
                     onClick={this.onScopeToElement}
                     className={
                         (this.props.id == this.props.data.render.controls)
-                        ? "icon-circle highlight" : "icon-circle-outline"
+                        ? (
+                            "icon-circle highlight"
+                        ) : (
+                            this.props.id == this.props.data.render.hovering
+                            ? "icon-circle-outline highlight" : "icon-circle-outline"
+                        )
                     } 
                     onContextMenu={this.onShowExtendedControls} 
                 />
