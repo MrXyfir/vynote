@@ -22,18 +22,18 @@ export default class Element extends React.Component {
         super(props);
         
         this._saveElementContent = this._saveElementContent.bind(this);
-        this._focusEditElement = this._focusEditElement.bind(this);
         this.onInput = this.onInput.bind(this);
         this.onEdit = this.onEdit.bind(this);
         this.onBlur = this.onBlur.bind(this);
+        this._focus = this._focus.bind(this);
     }
     
     componentDidMount() {
-        this._focusEditElement();
+        this._focus();
     }
     
     componentDidUpdate() {
-        this._focusEditElement();
+        this._focus();
     }
     
     onInput(e) {
@@ -44,7 +44,7 @@ export default class Element extends React.Component {
             this._saveElementContent(true);
         }
         // Delete element
-        else if (e.which == 8 && !document.querySelector(".note-element > .editing").innerHTML.length) {
+        else if (e.which == 8 && !this.refs.input.innerHTML.length) {
             // Prevent backspace from navigating to previous page
             e.preventDefault();
             
@@ -87,10 +87,9 @@ export default class Element extends React.Component {
         this._saveElementContent();
     }
     
-    _focusEditElement() {
-        if (this.props.id == this.props.data.render.editing) {
-            document.querySelector(".note-element > .editing").focus();
-        }
+    _focus() {
+        if (this.props.id == this.props.data.render.editing)
+            this.refs.input.focus();
     }
     
     _saveElementContent(createSibling = false) {
@@ -99,10 +98,10 @@ export default class Element extends React.Component {
             content: (
                 this.props.data.encrypted
                 ? encrypt(
-                    document.querySelector(".note-element > .editing").innerHTML,
+                    this.refs.input.innerHTML,
                     this.props.data.encrypt
                 )
-                : document.querySelector(".note-element > .editing").innerHTML
+                : this.refs.input.innerHTML
             )
         };
         
@@ -176,9 +175,10 @@ export default class Element extends React.Component {
                     this.props.id == this.props.data.render.editing
                     ? (
                         <div 
-                            className="editing" 
-                            onBlur={this.onBlur} 
+                            ref="input" 
+                            onBlur={this.onBlur}  
                             onKeyDown={this.onInput} 
+                            className="editing" 
                             contentEditable={true} 
                             dangerouslySetInnerHTML={{
                                 __html: this.props.data.content[this.props.id].content
