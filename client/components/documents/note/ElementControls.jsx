@@ -168,12 +168,7 @@ export default class ElementControls extends React.Component {
                     onClick={this.onScopeToElement}
                     className={
                         (this.props.id == this.props.data.render.controls)
-                        ? (
-                            "icon-circle highlight"
-                        ) : (
-                            this.props.id == this.props.data.render.hovering
-                            ? "icon-circle-outline highlight" : "icon-circle-outline"
-                        )
+                        ? "icon-circle highlight" : "icon-circle-outline"
                     } 
                     onContextMenu={this.onShowExtendedControls} 
                 />
