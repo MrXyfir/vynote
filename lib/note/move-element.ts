@@ -1,5 +1,5 @@
 ﻿interface IData {
-    id: string, parent: string, content: number
+    id: string, parent: string, index: number
 }
 
 export = (notes: any, data: IData) => {
@@ -12,8 +12,8 @@ export = (notes: any, data: IData) => {
     });
                 
     // Add element to its parent.children[] at appropriate location
-    if (data.content > -1)
-        notes.content[data.parent].children.splice(data.content, 0, data.id);
+    if (data.index > -1)
+        notes.content[data.parent].children.splice(data.index, 0, data.id);
     else
         notes.content[data.parent].children.push(data.id);
 

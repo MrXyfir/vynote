@@ -50,7 +50,7 @@ export default class Note extends React.Component {
                 
                 if (sibling) {
                     let data = {
-                        doc: this.props.data.doc_id, action: "MOVE", id: el, content: -1
+                        doc: this.props.data.doc_id, action: "MOVE", id: el, index: -1
                     };
                     
                     this.props.socket.emit("change note element", data, (err, res) => {
@@ -75,7 +75,7 @@ export default class Note extends React.Component {
                     let index = this.props.data.content[gparent].children.indexOf(parent) + 1;
                     
                     let data = {
-                        doc: this.props.data.doc_id, action: "MOVE", id: el, content: index
+                        doc: this.props.data.doc_id, action: "MOVE", id: el, index
                     };
                     
                     this.props.socket.emit("change note element", data, (err, res) => {

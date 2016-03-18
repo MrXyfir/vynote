@@ -3,7 +3,7 @@ import db = require("../../lib/db");
 
 interface IData {
     doc: number, id: string, action: string,
-    content?: any, parent?: string, version?: number
+    content?: any, parent?: string, version?: number, index?: number
 }
 
 export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
