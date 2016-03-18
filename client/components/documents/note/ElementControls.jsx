@@ -89,6 +89,8 @@ export default class ElementControls extends React.Component {
     }
     
     onAddChild() {
+        this.props.dispatch(showElementControls(""));
+        
         if (this.props.data.content[this.props.id].create) {
             this.props.dispatch(error(
                 "You cannot create a child on an element with no content"
@@ -111,6 +113,8 @@ export default class ElementControls extends React.Component {
     }
     
     onDelete() {
+        this.props.dispatch(showElementControls(""));
+        
         // Element was only created locally
         if (this.props.data.content[this.props.id].create) {
             this.props.dispatch(deleteElement(this.props.id));
