@@ -1,3 +1,6 @@
+import settings from "./settings";
+import account from "./account";
+
 export default function (state, action) {
 	let actionType = action.type.split('/');
 	
@@ -5,6 +8,15 @@ export default function (state, action) {
         return { action: "MODAL/USER/" + actionType[3] };
     }
     else {
-        return state;
+        switch (actionType[2]) {
+            case "ACCOUNT":
+                return account(state, action);
+                
+            case "SETTINGS":
+                return settings(state, action);
+            
+            default:
+                return state;
+        }
     }
 }
