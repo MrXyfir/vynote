@@ -46,12 +46,16 @@
         display: inline;
     }
     
-    .view, .editing {
+    .view {
         margin-left: 0.5em;
     }
     
     .editing {
-        outline: none;
+        width: 95%;
+        border: none;
+        padding: 0em;
+        margin: 0em 0.5em;
+        font-size: 94%;
     }
     
 }
