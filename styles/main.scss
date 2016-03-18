@@ -13,6 +13,10 @@ body {
     margin: 0em;
 }
 
+span[class^="icon-"]:hover {
+    color: $dgray;
+}
+
 
 /* LINKS */
 a {
