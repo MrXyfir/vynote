@@ -1,5 +1,5 @@
 ﻿interface IData {
-    id: string, content: string, parent: string
+    id: string, content: string, parent: string, index: number
 }
 
 export = (notes: any, data: IData) => {
@@ -9,6 +9,9 @@ export = (notes: any, data: IData) => {
         flags: [], children: []
     };
 
-    notes[data.parent].children.push(data.id);
+    if (data.index > -1)
+        notes[data.parent].children.splice(data.index, 0, data.id);
+    else
+        notes[data.parent].children.push(data.id);
 
 }
