@@ -1,5 +1,6 @@
 // Reducers
 import documentControls from "./document-controls/";
+import user from "./user/";
 
 // Action types
 import { CLOSE } from "../../constants/action-types/modal/";
@@ -11,7 +12,10 @@ export default function (state, action) {
 		if (actionType.length > 2) {
 			switch(actionType[1]) {
 				case "DOCUMENT_CONTROLS":
-					return documentControls(state, action);
+                    return documentControls(state, action);
+                
+                case "USER":
+                    return user(state, action);
 					
 				default:
 					return state;
