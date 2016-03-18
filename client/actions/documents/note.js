@@ -36,9 +36,9 @@ export function toggleShowFlagFilter() {
     };
 }
 
-export function addElement(parent, id) {
+export function addElement(parent, id, index = -1) {
     return {
-        type: ADD_ELEMENT, parent, id
+        type: ADD_ELEMENT, parent, id, index
     };
 }
 

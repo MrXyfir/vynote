@@ -68,7 +68,17 @@ export default function (state, action) {
                         create: true
                     },
                     [action.parent]: Object.assign({}, state.content[action.parent], {
-                        children: state.content[action.parent].children.concat(action.id)
+                        children: (
+                            (action.index > -1)
+                            ? (
+                                state.content[action.parent].children.slice(0, action.index)
+                                .concat([action.id])
+                                .concat(state.content[action.parent].children.slice(action.index))
+                            )
+                            : (
+                                state.content[action.parent].children.concat(action.id)
+                            )
+                        )
                     })
                 })
             });
