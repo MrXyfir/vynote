@@ -1,6 +1,7 @@
 ﻿import createElement = require("./create-element");
 import deleteElement = require("./delete-element");
 import updateContent = require("./update-content");
+import moveElement = require("./move-element");
 import setFlags = require("./set-flags");
 
 export = (doc: number, cn: any, fn?: Function) => {
@@ -43,6 +44,8 @@ export = (doc: number, cn: any, fn?: Function) => {
                         updateContent(notes, co); break;
                     case "SET_FLAGS":
                         setFlags(notes, co); break;
+                    case "MOVE":
+                        moveElement(notes, co); break;
                 }
             });
 
