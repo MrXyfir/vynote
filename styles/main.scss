@@ -12,8 +12,12 @@ hr {
 body {
     margin: 0em;
 }
+button {
+    cursor: pointer;
+}
 
 span[class^="icon-"]:hover {
+    cursor: pointer;
     color: $dgray;
 }
 
@@ -24,11 +28,8 @@ a {
     cursor: pointer;
 	text-decoration: none;
 }
-a:hover {
-	color: #0099ff;
-}
-a:focus {
-	color: $lblack;
+a:hover, a:focus {
+	color: $lblue;
 }
 .link-lg {
 	font-size: 125%;
@@ -117,6 +118,11 @@ input[type=text], input[type=password], input[type=email], input[type=number], i
         }
         a:hover {
             color: $black;
+        }
+        
+        span[class^="icon-"]:hover {
+            cursor: auto;
+            color: $llgray;
         }
         
     }
