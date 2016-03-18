@@ -98,3 +98,30 @@
     }
     
 }
+
+.user-account {
+    
+    .upgrade > .form {
+        
+        margin-bottom: 2em;
+        
+        select {
+            font-size: 1.2em;
+        }
+        
+        label {
+            font-weight: bold;
+            display: block;
+        }
+        
+        input {
+            display: inline;
+        }
+        
+        input[type="number"] {
+            width: 4em;
+        }
+        
+    }
+    
+}
