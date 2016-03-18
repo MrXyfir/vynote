@@ -25,15 +25,6 @@ export default class Element extends React.Component {
         this.onInput = this.onInput.bind(this);
         this.onEdit = this.onEdit.bind(this);
         this.onBlur = this.onBlur.bind(this);
-        this._focus = this._focus.bind(this);
-    }
-    
-    componentDidMount() {
-        this._focus();
-    }
-    
-    componentDidUpdate() {
-        this._focus();
     }
     
     onInput(e) {
@@ -44,7 +35,7 @@ export default class Element extends React.Component {
             this._saveElementContent(true);
         }
         // Delete element
-        else if (e.which == 8 && !this.refs.input.innerHTML.length) {
+        else if (e.which == 8 && !this.refs.input.value.length) {
             // Prevent backspace from navigating to previous page
             e.preventDefault();
             
@@ -87,23 +78,29 @@ export default class Element extends React.Component {
         this._saveElementContent();
     }
     
-    _focus() {
-        if (this.props.id == this.props.data.render.editing)
-            this.refs.input.focus();
-    }
-    
     _saveElementContent(createSibling = false) {
         let data = {
             action: "UPDATE", id: this.props.id, doc: this.props.data.doc_id,
             content: (
                 this.props.data.encrypted
                 ? encrypt(
-                    this.refs.input.innerHTML,
+                    this.refs.input.value,
                     this.props.data.encrypt
                 )
-                : this.refs.input.innerHTML
+                : this.refs.input.value
             )
         };
+        
+        // Determine at what index to add sibling to parent's children
+        if (createSibling) {
+            let parent = this.props.data.content[data.id].parent
+            let index  = this.props.data.content[parent].children.indexOf(data.id);
+            
+            if (index + 1 == this.props.data.content[parent].children.length)
+                data.index = -1; // push to end of array
+            else
+                data.index = index + 1; // add after current element
+        }
         
         // Element has only been created locally
         if (this.props.data.content[this.props.id].create) {
@@ -130,7 +127,7 @@ export default class Element extends React.Component {
                     let id = generateID(this.props.data.content);
                     // Create a new sibling element
                     this.props.dispatch(addElement(
-                        this.props.data.content[this.props.id].parent, id
+                        this.props.data.content[this.props.id].parent, id, data.index
                     ));
                     // Set editing for new sibling
                     this.props.dispatch(editElement(id));
@@ -174,15 +171,14 @@ export default class Element extends React.Component {
                 { // Output content in an editable or markdown-rendered element
                     this.props.id == this.props.data.render.editing
                     ? (
-                        <div 
+                        <input 
                             ref="input" 
-                            onBlur={this.onBlur}  
+                            type="text"  
+                            onBlur={this.onBlur} 
                             onKeyDown={this.onInput} 
                             className="editing" 
-                            contentEditable={true} 
-                            dangerouslySetInnerHTML={{
-                                __html: this.props.data.content[this.props.id].content
-                            }}
+                            autoFocus={true} 
+                            defaultValue={this.props.data.content[this.props.id].content}
                         />
                     )
                     : (
