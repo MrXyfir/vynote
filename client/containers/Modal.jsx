@@ -2,6 +2,7 @@ import React from "react";
 
 // Sub-Containers
 import DocumentControls from "./modal/DocumentControls";
+import User from "./modal/User";
 
 // Actions
 import { close } from "../actions/modal";
@@ -33,6 +34,15 @@ export default class Modal extends React.Component {
 						dispatch={this.props.dispatch}
 					/>
 				); break;
+                
+            case "USER":
+                view = (
+                    <User
+                        data={this.props.data}
+                        socket={this.props.socket}
+                        dispatch={this.props.dispatch}
+                    />
+                ); break;
 				
 			default:
 				return <div />;
