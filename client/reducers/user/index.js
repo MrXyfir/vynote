@@ -1,9 +1,16 @@
-// Reducers
-
 // Action types
+import {
+    SET_SUBSCRIPTION
+} from "../../constants/action-types/user/";
 
 export default function (state, action) {
 
-    return state;
+    switch (action.type) {
+        case SET_SUBSCRIPTION:
+            return Object.assign({}, state, { subscription: action.time});
+        
+        default:
+            return state;
+    }
     
 }
