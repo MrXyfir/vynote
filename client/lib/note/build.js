@@ -1,6 +1,7 @@
 let createElement = require("../../../lib/note/create-element");
 let deleteElement = require("../../../lib/note/delete-element");
 let updateContent = require("../../../lib/note/update-content");
+let moveElement = require("../../../lib/note/move-element");
 let setFlags = require("../../../lib/note/set-flags");
 
 import { decrypt } from "../crypto";
@@ -23,6 +24,8 @@ export default function (notes, changes, key = "") {
                 return updateContent(notes, co);
             case "SET_FLAGS":
                 return setFlags(notes, co);
+            case "MOVE":
+                return moveElement(notes, co);
         }
     });
     
