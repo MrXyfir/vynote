@@ -1,6 +1,5 @@
 ﻿import { session } from "../../lib/session";
 import db = require("../../lib/db");
-import * as stripe from "stripe";
 
 interface IData {
     months: number, token: string
@@ -22,8 +21,8 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
         source: data.token,
         description: `Vynote - ${data.months} Months`
     };
-
-    stripe(stripeKey).charges.create(info, (err, charge) => {
+    
+    require("stripe")(stripeKey).charges.create(info, (err, charge) => {
         if (err) {
             fn(true, "Error processing your card. Please try again.");
             return;
