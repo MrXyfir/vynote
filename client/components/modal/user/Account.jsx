@@ -48,7 +48,7 @@ export default class Account extends React.Component {
                 else {
                     this.onToggleShowUpgradeForm();
                     this.props.dispatch(setSubscription(res));
-                    this.props.dispatch(success(`${data.months} of premium subscription added to your account`));
+                    this.props.dispatch(success(`${data.months} months of premium subscription added to your account`));
                 }
             });
         })};
@@ -73,7 +73,7 @@ export default class Account extends React.Component {
                         </span>
                     )
                     : (
-                        <span>Your account will expire on {
+                        <span>Your subscription will expire on {
                             (new Date(this.props.data.user.subscription)).toLocaleString()
                         }</span>
                     )
