@@ -41,9 +41,10 @@ export = (socket: SocketIO.Socket) => {
     socket.on("list contributors"    , function () { call("./contributors/list", socket, arguments); });
 
     /* User Events */
-    socket.on("get user info"    , function () { call("./user/get", socket, arguments); });
-    socket.on("login user"       , function () { call("./user/login", socket, arguments); });
-    socket.on("update user info" , function () { call("./user/update", socket, arguments); });
+    socket.on("get user info"         , function () { call("./user/get", socket, arguments); });
+    socket.on("login user"            , function () { call("./user/login", socket, arguments); });
+    socket.on("update user info"      , function () { call("./user/update", socket, arguments); });
+    socket.on("purchase subscription" , function () { call("./user/purchase", socket, arguments); });
 
     /* Shortcut Events */
     socket.on("create shortcut"  , function () { call("./shortcuts/create", socket, arguments); });
