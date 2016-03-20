@@ -23,6 +23,7 @@ import buildExplorerObject from "../lib/explorer/build";
 // Constants
 import { INITIALIZE_STATE } from "../constants/action-types/";
 import { URL, XACC } from "../constants/config.js";
+import userConfig from "../constants/user-config.js";
 
 // Create store and socket connection
 let store = createStore(reducers);
@@ -68,6 +69,9 @@ class App extends React.Component {
                 
                 state.user = data;
                 state.user.config = JSON.parse(data.config);
+                
+                state.user.config = Object.keys(state.user.config).length > 0
+                    ? state.user.config : userConfig;
                 
                 socket.emit("get filesystem", (data) => {
                     state.explorer = buildExplorerObject(data);
