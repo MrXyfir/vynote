@@ -51,7 +51,7 @@ export default class Page extends React.Component {
                 <Editor 
                     onChange={this.onChange} 
                     data={this.props.data} 
-                    shortcuts={this.props.shortcuts} 
+                    user={this.props.user} 
                 />
             );
         }

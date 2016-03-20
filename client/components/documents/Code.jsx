@@ -63,7 +63,7 @@ export default class Code extends React.Component {
 						})
 					}</select>
 				</div>
-				<Editor onChange={this.onChange} data={this.props.data} shortcuts={this.props.shortcuts} />
+				<Editor onChange={this.onChange} data={this.props.data} user={this.props.user} />
 			</div>
 		);
 	}
