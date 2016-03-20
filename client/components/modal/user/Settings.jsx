@@ -28,8 +28,8 @@ export default class Settings extends React.Component {
         let config = {
             defaultExplorerObjectColor: +this.refs["default-explorer-color"].value,
             defaultDocumentType: this.refs["default-document-type"].value,
-            defaultEditorTheme: +this.refs["default-code-syntax"].value,
-			defaultCodeSyntax: +this.refs["default-editor-theme"].value,
+            defaultEditorTheme: +this.refs["default-editor-theme"].value,
+			defaultCodeSyntax: +this.refs["default-code-syntax"].value,
             defaultPageView: this.refs["default-page-view"].value,
 			editorFontSize: +this.refs["editor-font-size"].value,
 			darkTheme: this.refs["dark-theme"].checked
@@ -62,7 +62,7 @@ export default class Settings extends React.Component {
     }
     
     onDeleteShortcut(name) {
-        this.props.socket.emit("create shortcut", name, (err) => {
+        this.props.socket.emit("delete shortcut", name, (err) => {
             if (err) {
                 this.props.dispatch(error());
             }
@@ -75,7 +75,7 @@ export default class Settings extends React.Component {
 	
 	render() {
         let c = this.props.data.user.config;
-        let s = this.props.data.user.shortcuts;
+        let s = this.props.data.user.shortcuts || {};
         
 		return (
 			<div className="user-settings">
@@ -92,15 +92,13 @@ export default class Settings extends React.Component {
                     <label>Default Explorer Object Color</label>
                     <span className="input-description">This color will automatically be set when creating a document or folder.</span>
                     <select
-                        ref="default-explorer-icon-color"
+                        ref="default-explorer-color"
                         defaultValue={c.defaultExplorerObjectColor}
                     >{
                         colors.map((color, i) => {
                             return <option value={i}>{color}</option>
                         })
                     }</select>
-                    
-                    <hr />
                     
                     <label>Default Document Type</label>
                     <span className="input-description">This type will automatically be set when creating a document or folder.</span>
@@ -111,8 +109,6 @@ export default class Settings extends React.Component {
                         <option value="3">Code</option>
                     </select>
                     
-                    <hr />
-                    
                     <label>Default Editor Theme</label>
                     <span className="input-description">Theme initially set for Code and Page editors.</span>
                     <select
@@ -120,11 +116,11 @@ export default class Settings extends React.Component {
                         defaultValue={c.defaultEditorTheme}
                     >{
                         themes.map((theme, i) => {
-                            return <option value={i}>{theme[0]}</option>
+                            return (
+                                <option value={i}>{theme[0]}</option>
+                            );
                         })
                     }</select>
-                    
-                    <hr />
                     
                     <label>Default Code Syntax</label>
                     <span className="input-description">Syntax initially set for Code editor.</span>
@@ -133,11 +129,11 @@ export default class Settings extends React.Component {
                         defaultValue={c.defaultCodeSyntax}
                     >{
                         syntaxes.map((syntax, i) => {
-                            return <option value={i}>{syntax[0]}</option>
+                            return (
+                                <option value={i}>{syntax[0]}</option>
+                            );
                         })
                     }</select>
-                    
-                    <hr />
                     
                     <label>Default Page View</label>
                     <span className="input-description">View initially set when a Page document is opened.</span>
@@ -148,8 +144,6 @@ export default class Settings extends React.Component {
                         <option value="preview">Preview</option>
                         <option value="edit">Editor</option>
                     </select>
-                    
-                    <hr />
                     
                     <label>Editor Font Size</label>
                     <span className="input-description">Font size for Page and Code editors.</span>
@@ -172,8 +166,6 @@ export default class Settings extends React.Component {
                         }}
                     />
                     
-                    <hr />
-                    
                     <label>Dark Theme</label>
                     <span className="input-description">A dark theme for the entire site. <b>Coming soon</b></span>
                     <input 
@@ -182,17 +174,13 @@ export default class Settings extends React.Component {
                         defaultChecked={!!c.darkTheme}
                     />Enable
                     
-                    <hr />
-                    
                     <button className="btn-primary" onClick={this.onUpdateConfiguration}>
                         Update Configuration
                     </button>
                 </div>
                 
-                <hr />
-                
                 <h3>Shortcuts</h3>
-                <p>Shortcuts allow you to save a long string of text as a short keyword that you can use throughout any of your documents. Simply type ${shortcut_name} in any document and it will be replaced with the text you saved.</p>
+                <p>Shortcuts allow you to save a long string of text as a short keyword that you can use throughout any of your documents. Simply type <b>{"${shortcut_name}"}</b> in any document and it will be replaced with the text you saved.</p>
                 <div className="shortcuts">
                     <div className="create">
 					<input type="text" ref="name" placeholder="Shortcut Name" />
