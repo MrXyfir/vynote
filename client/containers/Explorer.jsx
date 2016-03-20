@@ -21,6 +21,7 @@ export default class Explorer extends React.Component {
 						
 						return (
 							<ExplorerObject
+                                user={this.props.user}
 								data={this.props.data[isDoc ? "documents" : "folders"][child.id]} 
 								socket={this.props.socket} 
 								isDoc={isDoc} 
@@ -30,11 +31,11 @@ export default class Explorer extends React.Component {
 						);
 					}) : <div />
 				}</div>
-				<UserInput 
+				<UserInput
+                    user={this.props.user}
 					data={this.props.data} 
 					socket={this.props.socket} 
 					dispatch={this.props.dispatch} 
-					subscription={this.props.user.subscription}
 				/>
 			</div>
 		);
