@@ -18,7 +18,9 @@ export default class Ace extends React.Component {
 		
 		this.editor.getSession().setMode(getSyntaxFile(this.props.data.syntax));
 		this.editor.setTheme(getThemeFile(this.props.data.theme));
-		this.editor.setFontSize(this.props.fontSize || "1em");
+		this.editor.setFontSize(
+            (this.props.fontSize || this.props.user.config.editorFontSize) + "em"
+        );
 		this.editor.on('change', this.onChange);
         
         this.editor.session.setOption("wrap", "free");
@@ -74,8 +76,8 @@ export default class Ace extends React.Component {
                 let line = editor.session.doc.getLine(row);
             
                 // Replace shortcuts in line
-                Object.keys(this.props.shortcuts || {}).forEach(sc => {
-                    line = line.replace("${" + sc + "}", this.props.shortcuts[sc]);
+                Object.keys(this.props.user.shortcuts || {}).forEach(sc => {
+                    line = line.replace("${" + sc + "}", this.props.user.shortcuts[sc]);
                 });
             
                 // Write new line
