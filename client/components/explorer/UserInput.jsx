@@ -42,17 +42,22 @@ export default class UserInput extends React.Component {
 			objType: 2, folder: this.props.data.scope,
 			docType: +this.refs.docType.value,
 			encrypt: (
-				(this.props.subscription > Date.now())
+				(this.props.user.subscription > Date.now())
 				? this.refs.key.value
 				: ""
 			),
 			color: (
-				(this.props.subscription > Date.now())
+				(this.props.user.subscription > Date.now())
 				? this.refs.color.value
 				: 7
 			),
 			name: this.refs.input.value
 		};
+        
+        if (data.docType != 1) {
+            data.syntax = (data.docType == 3 && this.props.user.subscription > Date.now())
+                ? this.props.user.config.defaultCodeSyntax : 70;
+        }
         
 		this.props.socket.emit("create object", data, (err, res) => {
 			if (err) {
@@ -61,10 +66,9 @@ export default class UserInput extends React.Component {
 			}
 			else {
 				data = {
-					doc_type: data.docType, doc_id: res, name: data.name,
-					encrypt: data.encrypt, encrypted: data.encrypt != "",
-					contributor: false, syntax: 70, color: data.color,
-					folder_id: data.folder
+					doc_type: data.docType, doc_id: res, name: data.name, folder_id: data.folder,
+                    contributor: false, syntax: data.syntax, color: data.color,
+					encrypt: data.encrypt, encrypted: data.encrypt != ""
 				};
                 
 				this.props.dispatch(createDocument(data));
@@ -80,7 +84,7 @@ export default class UserInput extends React.Component {
 			objType: 1, folder: this.props.data.scope,
 			name: this.refs.input.value,
 			color: (
-				(this.props.subscription > Date.now())
+				(this.props.user.subscription > Date.now())
 				? this.refs.color.value
 				: 7
 			),
@@ -218,7 +222,7 @@ export default class UserInput extends React.Component {
 				inputContent = "New Document - " + Date.now().toString().substr(-6);
 				inputExtended = (
 					<div className="explorer-user-input-extended">
-						<select ref="docType" defaultValue="0">
+						<select ref="docType" defaultValue={this.props.user.config.defaultDocumentType}>
 							<option value="0">Document Type</option>
 							<option value="1">Note</option>
 							<option value="2">Page</option>
@@ -226,15 +230,15 @@ export default class UserInput extends React.Component {
 						</select>
 						
 						{
-							(this.props.subscription > Date.now())
-							? <select ref="color" defaultValue="7">{
+							(this.props.user.subscription > Date.now())
+							? <select ref="color" defaultValue={this.props.user.config.defaultExplorerObjectColor}>{
 								colors.map((color, i) => { return <option value={i}>{color}</option>; })
 							  }</select>
 							: <span></span>
 						}
 						
 						{
-							(this.props.subscription > Date.now())
+							(this.props.user.subscription > Date.now())
 							? <input type="text" placeholder="Encryption Key" ref="key" />
 							: <span></span>
 						}
@@ -245,10 +249,12 @@ export default class UserInput extends React.Component {
 				inputTitle = "Create Folder";
 				inputContent = "New Folder - " + Date.now().toString().substr(-6);
 				inputExtended = (
-					(this.props.subscription > Date.now())
-					? <div className="explorer-user-input-extended"><select ref="color" defaultValue="7">{
-						colors.map((color, i) => { return <option value={i}>{color}</option>; })
-					  }</select></div>
+					(this.props.user.subscription > Date.now())
+					? <div className="explorer-user-input-extended">
+                        <select ref="color" defaultValue={this.props.user.config.defaultExplorerObjectColor}>{
+                            colors.map((color, i) => { return <option value={i}>{color}</option>; })
+                        }</select>
+                      </div>
 					: <span></span>
 				);
 				break;
