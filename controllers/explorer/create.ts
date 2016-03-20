@@ -2,7 +2,7 @@
 
 interface IData {
     objType: number, folder: number, name: string,
-    color: number, docType?: number, encrypt?: string
+    color: number, docType?: number, encrypt?: string, syntax?: number
 }
 
 export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
@@ -78,9 +78,13 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                     user_id: socket.session.uid, doc_type: data.docType,
                     created: Math.round(new Date().getTime() / 1000),
                     folder_id: data.folder, name: data.name,
-                    encrypt: encrypt, color: data.color,
-                    syntax: 70
+                    encrypt: encrypt, color: data.color
                 };
+
+                if (data.docType != 1) {
+                    insert.syntax = (data.docType == 3 && socket.session.subscription > Date.now())
+                        ? data.syntax : 70;
+                }
             }
 
             cn.query(sql, insert, (err, result) => {
