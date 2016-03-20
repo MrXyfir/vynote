@@ -77,11 +77,14 @@ export default class ExplorerObject extends React.Component {
 			if (this.props.data.encrypted) {
 				// Document container will require encryption key when
 				// encrypted == true && encrypt == ""
-				this.props.dispatch(loadDocument(
-					Object.assign({}, this.props.data, {
-                        encrypt: "", theme: this.props.user.config.defaultEditorTheme
-                    })
-				));
+                let data = Object.assign({}, this.props.data, {
+                    encrypt: "", theme: this.props.user.config.defaultEditorTheme
+                });
+                
+                if (this.props.data.doc_type == 2)
+                    data.preview = this.props.user.config.defaultPageView == "preview";
+                
+				this.props.dispatch(loadDocument(data));
 				return;
 			}
 		
@@ -108,11 +111,14 @@ export default class ExplorerObject extends React.Component {
 						this.props.dispatch(error("Could not load document"));
 					}
 					else {
-						this.props.dispatch(loadDocument(
-							Object.assign({}, this.props.data, {
-                                content: res, theme: this.props.user.config.defaultEditorTheme
-                            })
-						));
+                        let data = Object.assign({}, this.props.data, {
+                            content: res, theme: this.props.user.config.defaultEditorTheme
+                        });
+                        
+                        if (this.props.data.doc_type == 2)
+                            data.preview = this.props.user.config.defaultPageView == "preview";
+                        
+						this.props.dispatch(loadDocument(data));
 					}
 				});
 			}
