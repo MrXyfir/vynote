@@ -125,3 +125,49 @@
     }
     
 }
+
+.user-settings {
+    
+    label {
+        display: block;
+        font-weight: bold;
+    }
+    
+    .input-description {
+        font-size: 90%;
+        color: $ddgray;
+        display: block;
+    }
+    
+    .config {
+        
+        margin-bottom: 2em;
+        
+        button {
+            display: block;
+            margin: 2em auto;
+        }
+        
+    }
+    
+    .config, .shortcuts {
+        overflow-y: auto;
+        height: 20em;
+    }
+    
+    .shortcuts {
+        
+        input {
+            display: inline;
+            text-align: center;
+        }
+        
+        textarea {
+            text-align: center;
+            width: 30em;
+            height: 7em;
+        }
+        
+    }
+    
+}
