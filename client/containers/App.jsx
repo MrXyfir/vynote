@@ -72,6 +72,14 @@ class App extends React.Component {
                 
                 state.user.config = Object.keys(state.user.config).length > 0
                     ? state.user.config : userConfig;
+                    
+                if (state.user.shortcuts) {
+                    let shortcuts = {};
+                    state.user.shortcuts.forEach(sc => {
+                        shortcuts[sc.name] = sc.content;
+                    });
+                    state.user.shortcuts = shortcuts;
+                }
                 
                 socket.emit("get filesystem", (data) => {
                     state.explorer = buildExplorerObject(data);
