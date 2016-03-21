@@ -1,4 +1,6 @@
-import { ERROR, SUCCESS, INFO, CLEAR } from "../constants/action-types/notifications";
+import {
+    ERROR, SUCCESS, INFO, CLEAR, ADVERT
+} from "../constants/action-types/notifications";
 
 export default function (state, action) {
 	if (action.type.split('/')[0] == "NOTIFICATION") {
@@ -10,7 +12,9 @@ export default function (state, action) {
 			case INFO:
 				return { status: "info", message: action.message };
 			case CLEAR:
-				return { status: "clear", message: "" };
+                return { status: "clear", message: "" };
+            case ADVERT:
+                return { status: "advert", ad: action.ad };
 			default:
 				return state;
 		}	

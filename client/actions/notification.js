@@ -1,4 +1,6 @@
-import { SUCCESS, ERROR, INFO, CLEAR } from "../constants/action-types/notifications";
+import {
+    SUCCESS, ERROR, INFO, CLEAR, ADVERT
+} from "../constants/action-types/notifications";
 
 export function error(message) {
 	return {
@@ -22,4 +24,10 @@ export function clear() {
 	return {
 		type: CLEAR
 	};
+}
+
+export function loadNotificationAd(ad) {
+    return {
+        type: ADVERT, ad
+    };
 }
