@@ -1,5 +1,5 @@
 import { loadModalAd } from "../../actions/modal/";
-import { loadNotificationAd } "../../actions/notification";
+import { loadNotificationAd } from "../../actions/notification";
 
 import getKeywords from "./get-keywords";
 
