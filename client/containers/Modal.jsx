@@ -4,6 +4,9 @@ import React from "react";
 import DocumentControls from "./modal/DocumentControls";
 import User from "./modal/User";
 
+// Components
+import Ad from "../components/modal/Ad";
+
 // Actions
 import { close } from "../actions/modal";
 
@@ -43,6 +46,9 @@ export default class Modal extends React.Component {
                         dispatch={this.props.dispatch}
                     />
                 ); break;
+                
+            case "ADVERTISEMENT":
+                view = <Ad data={this.props.data.modal} />; break;
 				
 			default:
 				return <div />;
