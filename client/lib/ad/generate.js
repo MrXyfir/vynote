@@ -1,17 +1,21 @@
-import { loadAd } from "../../actions/modal/ad";
+import { loadModalAd } from "../../actions/modal/";
+import { loadNotificationAd } "../../actions/notification";
 
 import getKeywords from "./get-keywords";
 
-export default function (socket, store) {
+function generate(socket, store) {
     
     let state = store.getState();
     
-    if (!state.document.content || state.modal.action != "") {
+    // Wait until a document with content is open
+    if (!state.document.content) {
+        setTimeout(() => { generate(socket, store); }, 30 * 1000);
         return;
     }
     
     let text = "";
     
+    // Get text to find keywords in
     if (state.document.doc_type == 1) {
         let scope = state.document.render.scope;
         
@@ -28,11 +32,26 @@ export default function (socket, store) {
         text = state.document.content;
     }
     
+    // Generate keywords from text and document name
     let keywords = getKeywords(text, 25);
     keywords.concat(state.document.name.toLowerCase().split(' '));
     
+    // Get ad from server
     socket.emit("get ads", keywords, (ad) => {
-        if (ad.link) store.dispatch(loadAd(ad));
+        // Server could not find ad
+        if (ad.type === undefined) {
+            return;
+        }
+        // Display ad in notification bar
+        else if (ad.type == 2 || state.modal.action != "" || Math.round(Math.random())) {
+            store.dispatch(loadNotificationAd(ad));
+        }
+        // Display ad in modal
+        else {
+            store.dispatch(loadModalAd(ad));
+        }
     });
     
 }
+
+export default generate;
