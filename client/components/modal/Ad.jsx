@@ -16,7 +16,7 @@ export default class Ad extends React.Component {
         
         setTimeout(() => {
             document.querySelector(".modal > .icon-close").style.display = "inline";
-        }, 10 * 1000);
+        }, 7 * 1000);
     }
     
     onClick() {
@@ -25,13 +25,13 @@ export default class Ad extends React.Component {
     
     render() {
         return (
-            <div className="advertisement">
+            <div>
                 <h3><a onClick={this.onClick}>{this.props.data.title}</a></h3>
                 <p>{this.props.data.description}</p>
                 
-                <hr />
-                
-                <p>Don't want ads interrupting you? Check <a href={URL + "#Premium"}>Vynote Premium</a>.</p>
+                <div className="footer">
+                    <p>Don't want ads interrupting you? Check out <a target="_blank" href={URL + "#Premium"}>Vynote Premium</a>.</p>
+                </div>
             </div>
         );
     }
