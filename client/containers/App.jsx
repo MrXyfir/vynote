@@ -19,7 +19,7 @@ import io from "../sockets/";
 
 // Modules
 import buildExplorerObject from "../lib/explorer/build";
-import generateAds from "../lib/ads/generate";
+import generateAds from "../lib/ad/generate";
 
 // Constants
 import { INITIALIZE_STATE } from "../constants/action-types/";
@@ -120,7 +120,7 @@ class App extends React.Component {
             initialize();
         }
         
-        // Generate an ad in 3 minutes and every 30 minutes after
+        // Generate an ad in 3 minutes and every 20 minutes after
         if (Date.now() > this.state.user.subscription) {
             let interval = setInterval(() => {
                 if (this.state.modal.action === "") {
