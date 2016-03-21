@@ -3,7 +3,7 @@ import documentControls from "./document-controls/";
 import user from "./user/";
 
 // Action types
-import { CLOSE } from "../../constants/action-types/modal/";
+import { CLOSE, LOAD_AD } from "../../constants/action-types/modal/";
 
 export default function (state, action) {
 	let actionType = action.type.split("/");
@@ -24,7 +24,10 @@ export default function (state, action) {
 		else {
 			switch(action.type) {
 				case CLOSE:
-					return { action: "" };
+                    return { action: "" };
+                    
+                case LOAD_AD:
+                    return { action: "MODAL/ADVERTISEMENT", ad: action.ad };
 				
 				default:
 					return state;
