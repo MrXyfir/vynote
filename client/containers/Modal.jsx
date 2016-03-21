@@ -48,7 +48,7 @@ export default class Modal extends React.Component {
                 ); break;
                 
             case "ADVERTISEMENT":
-                view = <Ad data={this.props.data.modal} />; break;
+                view = <Ad data={this.props.data.modal.ad} />; break;
 				
 			default:
 				return <div />;
