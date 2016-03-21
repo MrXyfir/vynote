@@ -46,6 +46,7 @@ export = (socket: SocketIO.Socket) => {
     socket.on("update user info"      , function () { call("./user/update", socket, arguments); });
     socket.on("purchase subscription" , function () { call("./user/purchase", socket, arguments); });
     socket.on("update config"         , function () { call("./user/config", socket, arguments); });
+    socket.on("get ads"               , function () { call("./user/ad", socket, arguments); });
 
     /* Shortcut Events */
     socket.on("create shortcut"  , function () { call("./shortcuts/create", socket, arguments); });
