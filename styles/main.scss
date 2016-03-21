@@ -106,6 +106,7 @@ input[type=text], input[type=password], input[type=email], input[type=number], i
     background-color: $gray;
     color: $llgray;
     display: table;
+    text-align: center;
     
     .quick-links {
         
@@ -133,6 +134,13 @@ input[type=text], input[type=password], input[type=email], input[type=number], i
         
         span {
             margin-left: 0.4em;
+        }
+        
+        a {
+            color: $black;
+        }
+        a:hover {
+            color: $llgray;
         }
         
     }
