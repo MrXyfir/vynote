@@ -3,11 +3,9 @@
 import { URL } from "../constants/config";
 
 // Event handlers
-import onUpdateSyntax   from "./update-syntax";
-import onUpdateContent  from "./update-content";
-import onCreateElement  from "./create-element";
-import onDeleteElements from "./delete-elements";
-import onUpdateElement  from "./update-element";
+import onUpdateSyntax from "./update-syntax";
+import onUpdateContent from "./update-content";
+import onNoteChange from "./note-change";
 
 export default function (store) {
 
@@ -19,11 +17,9 @@ export default function (store) {
 
     let socket = io(URL);
 
-    socket.on("update syntax"   , function () { call(onUpdateSyntax   , arguments) });
-    socket.on("update content"  , function () { call(onUpdateContent  , arguments) });
-    socket.on("create element"  , function () { call(onCreateElement  , arguments) });
-    socket.on("delete elements" , function () { call(onDeleteElements , arguments) });
-    socket.on("update element"  , function () { call(onUpdateElement  , arguments) });
+    socket.on("update syntax"  , function () { call(onUpdateSyntax  , arguments); });
+    socket.on("update content" , function () { call(onUpdateContent , arguments); });
+    socket.on("note change"    , function () { call(onNoteChange    , arguments); });
 
     return socket;
 
