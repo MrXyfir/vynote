@@ -2,6 +2,8 @@ import React from "react";
 
 import { clear } from "../../actions/notification";
 
+import Advertisement from "./Advertisement";
+
 export default class Notification extends React.Component {
 
 	constructor(props) {
@@ -27,7 +29,7 @@ export default class Notification extends React.Component {
 	_clear() {
 		if (this.props.data.status != "clear") {
             let timeout = {
-                error: 7000, warning: 5000, success: 3500, info: 3500
+                advert: 12000, error: 7000, warning: 5000, success: 3500, info: 3500
             };
             
 			// Clear notification after 7 seconds
@@ -39,6 +41,9 @@ export default class Notification extends React.Component {
 
 	render() {
 		this._clear();
+        
+        if (this.props.data.status == "advert")
+            return <Advertisement data={this.props.data} />;
 	
 		return (
 			<div 
