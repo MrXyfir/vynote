@@ -19,6 +19,7 @@ import io from "../sockets/";
 
 // Modules
 import buildExplorerObject from "../lib/explorer/build";
+import generateAds from "../lib/ads/generate";
 
 // Constants
 import { INITIALIZE_STATE } from "../constants/action-types/";
@@ -118,6 +119,20 @@ class App extends React.Component {
         else {
             initialize();
         }
+        
+        let interval = setInterval(() => {
+            if (this.state.modal.action === "") {
+                clearInterval(interval);
+                
+                if (Date.now() > this.state.user.subscription) {
+                    generateAds(socket, store);
+                    
+                    setInterval(() => {
+                        generateAds(socket, store);
+                    }, 30 * 60 * 1000);
+                }
+            }
+        }, 180 * 1000);
     }
 
     render() {
