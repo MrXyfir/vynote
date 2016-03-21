@@ -13,11 +13,11 @@ export default class Advertisement extends React.Component {
     }
     
     render() {
-        <div className="notification">
-            <span>Advertisement: </span>
-            <a onClick={this.onClick}>{this.props.data.ad.title}</a>
-            <span> - {this.props.data.ad.description}</span>
-        </div>
+        return (
+            <div className="notification">
+                <span>Advertisement: <a onClick={this.onClick}>{this.props.data.ad.title}</a> - {this.props.data.ad.description}</span>
+            </div>
+        );
     }
     
 }
