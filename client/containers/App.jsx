@@ -120,19 +120,19 @@ class App extends React.Component {
             initialize();
         }
         
-        let interval = setInterval(() => {
-            if (this.state.modal.action === "") {
-                clearInterval(interval);
-                
-                if (Date.now() > this.state.user.subscription) {
+        // Generate an ad in 3 minutes and every 30 minutes after
+        if (Date.now() > this.state.user.subscription) {
+            let interval = setInterval(() => {
+                if (this.state.modal.action === "") {
+                    clearInterval(interval);
                     generateAds(socket, store);
                     
                     setInterval(() => {
                         generateAds(socket, store);
-                    }, 30 * 60 * 1000);
+                    }, 20 * 60 * 1000);
                 }
-            }
-        }, 180 * 1000);
+            }, 180 * 1000);
+        }
     }
 
     render() {
