@@ -20,6 +20,7 @@ import io from "../sockets/";
 // Modules
 import buildExplorerObject from "../lib/explorer/build";
 import generateAds from "../lib/ad/generate";
+import setRoute from "../lib/route/set-route";
 
 // Constants
 import { INITIALIZE_STATE } from "../constants/action-types/";
@@ -37,6 +38,10 @@ class App extends React.Component {
 
         store.subscribe(() => {
             this.setState(store.getState());
+        });
+        
+        store.subscribe(() => {
+            setRoute(store.getState().document);
         });
         
         if (location.href.indexOf("http://localhost") == 0) {
@@ -91,6 +96,20 @@ class App extends React.Component {
                     store.dispatch({
                         type: INITIALIZE_STATE, state
                     });
+                    
+                    // Generate an ad in 3 minutes and every 20 minutes after
+                    if (Date.now() > state.user.subscription) {
+                        let interval = setInterval(() => {
+                            if (this.state.modal.action === "") {
+                                clearInterval(interval);
+                                generateAds(socket, store);
+                                
+                                setInterval(() => {
+                                    generateAds(socket, store);
+                                }, 20 * 60 * 1000);
+                            }
+                        }, 180 * 1000);
+                    }
                 });
             });
         };
@@ -118,20 +137,6 @@ class App extends React.Component {
         }
         else {
             initialize();
-        }
-        
-        // Generate an ad in 3 minutes and every 20 minutes after
-        if (Date.now() > this.state.user.subscription) {
-            let interval = setInterval(() => {
-                if (this.state.modal.action === "") {
-                    clearInterval(interval);
-                    generateAds(socket, store);
-                    
-                    setInterval(() => {
-                        generateAds(socket, store);
-                    }, 20 * 60 * 1000);
-                }
-            }, 180 * 1000);
         }
     }
 
