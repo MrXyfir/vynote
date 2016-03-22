@@ -155,8 +155,7 @@ class App extends React.Component {
         return (
             <div>
                 <Explorer 
-                    data={this.state.explorer} 
-                    user={this.state.user} 
+                    data={this.state} 
                     socket={socket} 
                     dispatch={store.dispatch}
                 />
