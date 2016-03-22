@@ -32,29 +32,19 @@ export default class ExplorerObject extends React.Component {
 	}
 
     onMouseOver() {
-        this.props.dispatch(hoverObject(
-            (this.props.isDoc ? 2 : 1),
-			this.props.data[this.props.isDoc ? "doc_id" : "folder_id"]
-        ));
+        this.props.dispatch(hoverObject(this.props.type, this.props.id));
     }
 
 	onRename() {
-		this.props.dispatch(triggerRenameObject(
-			(this.props.isDoc ? 2 : 1),
-			this.props.data[this.props.isDoc ? "doc_id" : "folder_id"]
-		));
+		this.props.dispatch(triggerRenameObject(this.props.type, this.props.id));
 	}
 	
 	onMove() {
-		this.props.dispatch(triggerMoveObject(
-			(this.props.isDoc ? 2 : 1),
-			this.props.data[this.props.isDoc ? "doc_id" : "folder_id"]
-		));
+		this.props.dispatch(triggerMoveObject(this.props.type, this.props.id));
 	}
 	
 	onDelete() {
-		let type = this.props.isDoc ? 2 : 1;
-		let id = this.props.data[type == 2 ? "doc_id" : "folder_id"]
+		let type = this.props.type, id = this.props.id;
 		
 		this.props.socket.emit("delete object", type, id, (err, msg) => {
 			if (err) {
@@ -63,7 +53,7 @@ export default class ExplorerObject extends React.Component {
 			else {
 				this.props.dispatch(deleteObject(type, id));
                 
-                if (this.props.isDoc) {
+                if (this.props.type == 2) {
                     this.props.dispatch(deleteDocument(id));
                 }
 			}
@@ -71,32 +61,34 @@ export default class ExplorerObject extends React.Component {
 	}
 	
 	onOpen() {
-		if (this.props.isDoc) {
+        let obj = this.props.data.explorer[this.props.group][this.props.id];
+        
+		if (this.props.type == 2) {
 			// If document is encrypted, Document container will handle content loading
 			// All we need to set is the type and id
-			if (this.props.data.encrypted) {
+			if (obj.encrypted) {
 				// Document container will require encryption key when
 				// encrypted == true && encrypt == ""
-                let data = Object.assign({}, this.props.data, {
-                    encrypt: "", theme: this.props.user.config.defaultEditorTheme
+                let data = Object.assign({}, obj, {
+                    encrypt: "", theme: this.props.data.user.config.defaultEditorTheme
                 });
                 
-                if (this.props.data.doc_type == 2)
-                    data.preview = this.props.user.config.defaultPageView == "preview";
+                if (obj.doc_type == 2)
+                    data.preview = this.props.data.user.config.defaultPageView == "preview";
                 
 				this.props.dispatch(loadDocument(data));
 				return;
 			}
 		
 			// Note document
-			if (this.props.data.doc_type == 1) {
-				this.props.socket.emit("get note object", this.props.data.doc_id, "", (err, res) => {
+			if (obj.doc_type == 1) {
+				this.props.socket.emit("get note object", obj.doc_id, "", (err, res) => {
 					if (err) {
 						this.props.dispatch(error("Could not load note"));
 					}
 					else {
 						this.props.dispatch(loadDocument(
-							Object.assign({}, this.props.data, {
+							Object.assign({}, obj, {
 								content: buildNote(res.content, res.changes)
 							})
 						));
@@ -106,17 +98,17 @@ export default class ExplorerObject extends React.Component {
 			}
 			// Other document
 			else {
-				this.props.socket.emit("get document content", this.props.data.doc_id, "", (err, res) => {
+				this.props.socket.emit("get document content", obj.doc_id, "", (err, res) => {
 					if (err) {
 						this.props.dispatch(error("Could not load document"));
 					}
 					else {
-                        let data = Object.assign({}, this.props.data, {
-                            content: res, theme: this.props.user.config.defaultEditorTheme
+                        let data = Object.assign({}, obj, {
+                            content: res, theme: this.props.data.user.config.defaultEditorTheme
                         });
                         
-                        if (this.props.data.doc_type == 2)
-                            data.preview = this.props.user.config.defaultPageView == "preview";
+                        if (obj.doc_type == 2)
+                            data.preview = this.props.data.user.config.defaultPageView == "preview";
                         
 						this.props.dispatch(loadDocument(data));
 					}
@@ -124,39 +116,39 @@ export default class ExplorerObject extends React.Component {
 			}
 		}
 		else {
-			this.props.dispatch(navigateToFolder(this.props.data.folder_id));
+			this.props.dispatch(navigateToFolder(obj.folder_id));
 		}
 	}
 
 	render() {
-		let icon = "", type, id;
+		let icon = "", type = this.props.type, id = this.props.id;
+        
         if (this.props.data === undefined) {
             return <div />;
         }
-		else if (this.props.isDoc) {
-			switch (this.props.data.doc_type) {
+        
+        let obj = this.props.data.explorer[this.props.group][this.props.id];
+        
+		if (this.props.type == 2) {
+			switch (obj.doc_type) {
 				case 1: icon = "nested-note"; break;
 				case 2: icon = "doc-text"; break;
 				case 3: icon = "file-code";
-			}
-            type = 2;
-            id = this.props.data.doc_id; 
+			} 
 		}
 		else {
 			icon = "folder";
-            type = 1;
-            id = this.props.data.folder_id;
 		}
     
 		return (
 			<div 
-				className={"explorer-object-" + (this.props.isDoc ? "document" : "folder")}
+				className={"explorer-object-" + (this.props.type == 2 ? "document" : "folder")}
 				onMouseOver={this.onMouseOver} 
 			>
-				<span className={"icon-" + icon} style={{color: colors[this.props.data.color]}} />
-				<span className="object-name" onClick={this.onOpen}>{this.props.data.name}</span>
+				<span className={"icon-" + icon} style={{color: colors[obj.color]}} />
+				<span className="object-name" onClick={this.onOpen}>{obj.name}</span>
 				{
-					(type == this.props.hover.objType && id == this.props.hover.id)
+					(type == this.props.data.explorer.hover.objType && id == this.props.data.explorer.hover.id)
 					? (
 						<div className="object-controls">
 							<span className="icon-edit" title="Rename" onClick={this.onRename} />
