@@ -21,6 +21,7 @@ import io from "../sockets/";
 import buildExplorerObject from "../lib/explorer/build";
 import generateAds from "../lib/ad/generate";
 import setRoute from "../lib/route/set-route";
+import setState from "../lib/route/set-state";
 
 // Constants
 import { INITIALIZE_STATE } from "../constants/action-types/";
@@ -110,6 +111,12 @@ class App extends React.Component {
                             }
                         }, 180 * 1000);
                     }
+                    
+                    // Set state based on current URL
+                    setState(store, socket);
+                    
+                    // Update state according to url hash
+                    window.onhashchange = () => setState(store, socket, true);
                 });
             });
         };
