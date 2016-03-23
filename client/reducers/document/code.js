@@ -1,4 +1,6 @@
-import { SET_SYNTAX, SET_THEME } from "../../constants/action-types/documents/code";
+import {
+    SET_SYNTAX, SET_THEME, TOGGLE_EDITOR_SETTINGS
+} from "../../constants/action-types/documents/code";
 
 export default function (state, action) {
 	switch (action.type) {
@@ -7,6 +9,9 @@ export default function (state, action) {
             
 		case SET_THEME:
             return Object.assign({}, state, { theme: action.theme });
+            
+        case TOGGLE_EDITOR_SETTINGS:
+            return Object.assign({}, state, { showEditorSettings: !state.showEditorSettings });
             
 		default:
 			return state;

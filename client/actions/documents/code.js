@@ -1,4 +1,6 @@
-import { SET_SYNTAX, SET_THEME } from "../../constants/action-types/documents/code";
+import {
+    SET_SYNTAX, SET_THEME, TOGGLE_EDITOR_SETTINGS
+} from "../../constants/action-types/documents/code";
 
 export function setSyntax(syntax) {
 	return {
@@ -10,4 +12,10 @@ export function setTheme(theme) {
 	return {
 		type: SET_THEME, theme
 	}
+}
+
+export function toggleShowEditorSettings() {
+    return {
+        type: TOGGLE_EDITOR_SETTINGS
+    };
 }
