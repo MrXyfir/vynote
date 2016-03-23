@@ -1,9 +1,11 @@
 import React from "react";
 
+// Action creators
 import { saveError, saveSuccess, saveContent } from "../../actions/documents/";
 import { setSyntax, setTheme } from "../../actions/documents/code";
 import { themes, syntaxes } from "../../constants/editor";
 
+// Components
 import Editor from "./Editor";
 
 export default class Code extends React.Component {
@@ -48,21 +50,27 @@ export default class Code extends React.Component {
 	render() {
 		return (
 			<div className="document document-code">
-				<div className="document-settings">
-					<label>Syntax</label>
-					<select ref="syntax" onChange={this.onSetSyntax} defaultValue={this.props.data.syntax}>{
-						syntaxes.map((syntax, i) => {
-							return (<option value={i}>{syntax[0]}</option>);
-						})
-					}</select>
-					
-					<label>Theme</label>
-					<select ref="theme" onChange={this.onSetTheme} defaultValue={this.props.data.theme}>{
-						themes.map((theme, i) => {
-							return (<option value={i}>{theme[0]}</option>);
-						})
-					}</select>
-				</div>
+                {
+                    this.props.data.showEditorSettings
+                    ? (
+                        <div className="editor-settings">
+                            <label>Syntax</label>
+                            <select ref="syntax" onChange={this.onSetSyntax} defaultValue={this.props.data.syntax}>{
+                                syntaxes.map((syntax, i) => {
+                                    return (<option value={i}>{syntax[0]}</option>);
+                                })
+                            }</select>
+                            
+                            <label>Theme</label>
+                            <select ref="theme" onChange={this.onSetTheme} defaultValue={this.props.data.theme}>{
+                                themes.map((theme, i) => {
+                                    return (<option value={i}>{theme[0]}</option>);
+                                })
+                            }</select>
+                        </div>
+                    ) : <div />
+                }
+				
 				<Editor onChange={this.onChange} data={this.props.data} user={this.props.user} />
 			</div>
 		);
