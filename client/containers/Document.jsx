@@ -4,21 +4,16 @@
 import Page from "../components/documents/Page";
 import Note from "../components/documents/Note";
 import Code from "../components/documents/Code";
+import Head from "../components/documents/Head";
 
 // Actions creators
 import {
-    accessError, loadContent, setEncryptionKey, openDocumentControls,
-    toggleShowDocInfo
+    accessError, loadContent, setEncryptionKey
 } from "../actions/documents/";
 import { initializeRenderObject } from "../actions/documents/note";
 
 // Modules
-import getScopeParents from "../lib/explorer/scope-parents";
 import buildNote from "../lib/note/build";
-
-// Constants
-import { syntaxes } from "../constants/editor";
-import docTypes from "../constants/doc-types";
 
 export default class Document extends React.Component {
 
@@ -26,8 +21,6 @@ export default class Document extends React.Component {
         super(props);
         
         this.onSetEncryptionKey = this.onSetEncryptionKey.bind(this);
-        this.onOpenDocControls = this.onOpenDocControls.bind(this);
-        this.onToggleDocInfo = this.onToggleDocInfo.bind(this);
     }
 
     onSetEncryptionKey() {
@@ -59,14 +52,6 @@ export default class Document extends React.Component {
             }
         });
     }
-    
-    onOpenDocControls() {
-        this.props.dispatch(openDocumentControls());
-    }
-    
-    onToggleDocInfo() {
-        this.props.dispatch(toggleShowDocInfo());
-    }
 
     render() {
         if (this.props.data.doc_type == 0) {
@@ -88,14 +73,14 @@ export default class Document extends React.Component {
         }
         // Output appropriate component to handle document
         else {
-            let view, info;
+            let view;
         
             switch (this.props.data.doc_type) {
                 case 1:
                     view = (
                         <Note
-                            user={this.props.user}
-                            data={this.props.data} 
+                            user={this.props.data.user}
+                            data={this.props.data.document}
                             socket={this.props.socket} 
                             dispatch={this.props.dispatch} 
                         />
@@ -103,8 +88,8 @@ export default class Document extends React.Component {
                 case 2:
                     view = (
                         <Page
-                            user={this.props.user}
-                            data={this.props.data} 
+                            user={this.props.data.user}
+                            data={this.props.data.document}
                             socket={this.props.socket} 
                             dispatch={this.props.dispatch} 
                         />
@@ -112,61 +97,21 @@ export default class Document extends React.Component {
                 case 3:
                     view = (
                         <Code
-                            user={this.props.user}
-                            data={this.props.data} 
-                            socket={this.props.socket} 
-                            dispatch={this.props.dispatch} 
+                            user={this.props.data.user}
+                            data={this.props.data.document}
+                            socket={this.props.socket}
+                            dispatch={this.props.dispatch}
                         />
                     ); break;
             }
             
-            if (this.props.data.showInfo) {
-                info = (
-                    <table className="document-info">
-                        <tr>
-                            <th>Type</th><th>Name</th><th>Created</th><th>Folder</th><th></th>
-                        </tr>
-                        <tr>
-                            <td className="type">{
-                                docTypes[this.props.data.doc_type]
-                            }</td>
-                            <td className="name">{
-                                this.props.data.name
-                            }</td>
-                            <td className="created">
-                                {(new Date(this.props.data.created * 1000)).toLocaleString()}
-                            </td>
-                            <td className="folder">{
-                                getScopeParents(this.props.folders, this.props.data.folder_id)
-                                .map(folder => { return folder.name; })
-                                .join("/") + "/" + this.props.folders[this.props.data.folder_id].name
-                            }</td>
-                            <td className="icons">
-                                <span 
-                                    className={this.props.data.contributor ? "icon-users" : ""}
-                                    title={this.props.data.contributor ? "Multi-User Document" : ""}
-                                />
-                                <span 
-                                    className={"icon-" + (this.props.data.encrypted ? "lock" : "unlocked")}
-                                    title={this.props.data.encrypted ? "Encrypted" : "Unencrypted"} 
-                                />
-                            </td>
-                        </tr>
-                    </table>
-                );
-            }
-            
             return (
                 <div className="document-container">
-                    <div className="document-head">
-                        {info}
-                        
-                        <a onClick={this.onToggleDocInfo}>{
-                            this.props.data.showInfo ? "Hide Info" : "Show Info"
-                        }</a>
-                        <a onClick={this.onOpenDocControls}>Document Controls</a>
-                    </div>
-                    
+                    <Head
+                        data={this.props.data}
+                        socket={this.props.socket}
+                        dispatch={this.props.dispatch}
+                    />
                     {view}
                 </div>
             );
