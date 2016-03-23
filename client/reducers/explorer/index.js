@@ -1,5 +1,6 @@
 // Reducers
 import userInput from "./user-input";
+import tabs from "./tabs";
 
 // Action types
 import {
@@ -17,7 +18,11 @@ export default function (state, action) {
 		if (actionType.length > 2) {
 			switch (actionType[1]) {
 				case "USER_INPUT":
-					return userInput(state, action);
+                    return userInput(state, action);
+                    
+                case "TABS":
+                    return tabs(state, action);
+                    
 				default:
 					return state;
 			}	
