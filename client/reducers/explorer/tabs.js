@@ -1,5 +1,5 @@
 import {
-    CREATE_TAB, CLOSE_ALL, SELECT_TAB, CLOSE_TAB,
+    CREATE_TAB, CLOSE_ALL, SELECT_TAB, CLOSE_TAB, CHANGE_DOCUMENT,
     HOVER_TAB, SAVE_DOCUMENT, MARK_FOR_RELOAD
 } from "../../constants/action-types/explorer/tabs";
 
@@ -63,6 +63,26 @@ export default function (state, action) {
                     })
                 })
             });
+        
+        case CHANGE_DOCUMENT:
+            return (() => {
+                let temp = Object.assign({}, state), list = {};
+                
+                // Replace oldId with newId while keeping order of tabs
+                Object.keys(temp.tabs.list).forEach(tab => {
+                    if (tab == action.oldId) {
+                        list[action.newId] = {
+                            name: action.name, directory: action.directory
+                        };
+                    }
+                    else {
+                        list[tab] = temp.tabs.list[tab];
+                    }
+                });
+                
+                temp.tabs.list = list;
+                return temp;
+            }).call();
 			
 		default:
 			return state;
