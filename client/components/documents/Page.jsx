@@ -1,9 +1,12 @@
 import React from "react";
 import marked from "marked";
 
-import { togglePreview } from "../../actions/documents/page";
-import { saveError, saveSuccess, saveContent } from "../../actions/documents/";
+// Action creators
+import {
+    saveError, saveSuccess, saveContent
+} from "../../actions/documents/";
 
+// Components
 import Editor from "./Editor";
 
 export default class Page extends React.Component {
@@ -11,12 +14,7 @@ export default class Page extends React.Component {
 	constructor(props) {
 		super(props);
         
-        this.onTogglePreview = this.onTogglePreview.bind(this);
         this.onChange = this.onChange.bind(this);
-	}
-	
-	onTogglePreview() {
-		this.props.dispatch(togglePreview());
 	}
 	
 	onChange(e) {
@@ -34,34 +32,26 @@ export default class Page extends React.Component {
 	}
 	
 	render() {
-		let document;
-		
-		if (this.props.data.preview) {
-			document = (
-                <div 
-                    className="markdown"
-                    dangerouslySetInnerHTML={
-                        {__html: marked(this.props.data.content, { sanitize: true })}
-                    } 
-                />
-            );
-        }
-		else {
-			document = (
-                <Editor 
-                    onChange={this.onChange} 
-                    data={this.props.data} 
-                    user={this.props.user} 
-                />
-            );
-        }
-	
 		return (
 			<div className={"document document-page-" + (this.props.data.preview ? "preview" : "edit")}>
-				<a onClick={this.onTogglePreview}>{
-					this.props.data.preview ? "Edit Mode" : "Preview Mode"
-				}</a>
-				{document}
+				{
+                    this.props.data.preview
+                    ? (
+                        <div
+                            className="markdown"
+                            dangerouslySetInnerHTML={
+                                {__html: marked(this.props.data.content, { sanitize: true })}
+                            }
+                        />
+                    )
+                    : (
+                        <Editor
+                            onChange={this.onChange}
+                            data={this.props.data}
+                            user={this.props.user}
+                        />
+                    )
+                }
 			</div>
 		);
 	}
