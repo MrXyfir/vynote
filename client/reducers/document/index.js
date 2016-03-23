@@ -5,8 +5,7 @@ import code from "./code";
 
 // Action types
 import {
-    SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT,
-    TOGGLE_INFO, DELETE_DOCUMENT
+    SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT, DELETE_DOCUMENT
 } from "../../constants/action-types/documents/";
 
 export default function (state, action) {
@@ -47,9 +46,6 @@ export default function (state, action) {
 				
 				case LOAD_DOCUMENT:
                     return action.document;
-                    
-                case TOGGLE_INFO:
-                    return Object.assign({}, state, { showInfo: !state.showInfo });
                     
                 case DELETE_DOCUMENT:
                     if (state.doc_id == action.id)
