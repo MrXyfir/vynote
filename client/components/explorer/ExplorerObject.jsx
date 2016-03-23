@@ -11,6 +11,9 @@ import {
 import {
     loadDocument, deleteDocument
 } from "../../actions/documents/";
+import {
+    createTab, selectTab, changeDocument
+} from "../../actions/explorer/tabs";
 import { initializeRenderObject } from "../../actions/documents/note";
 
 // Constants
@@ -64,6 +67,22 @@ export default class ExplorerObject extends React.Component {
         let obj = this.props.data.explorer[this.props.group][this.props.id];
         
 		if (this.props.type == 2) {
+            // Create a new tab if none are available
+            if (!Object.keys(this.props.data.explorer.tabs.list).length) {
+                this.props.dispatch(createTab());
+                this.props.dispatch(selectTab(0));
+            }
+            
+            // Replace id/name/directory in active tab with current doc's info
+            this.props.dispatch(changeDocument(
+                this.props.data.explorer.tabs.active,
+                obj.doc_id, obj.name,
+                getParents(
+                    this.props.data.explorer.folders, obj.folder_id
+                ).map(folder => { return folder.name; }).join("/")
+                + "/" + this.props.data.explorer.folders[obj.folder_id].name
+            ));
+            
 			// If document is encrypted, Document container will handle content loading
 			// All we need to set is the type and id
 			if (obj.encrypted) {
