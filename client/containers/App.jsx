@@ -160,11 +160,10 @@ class App extends React.Component {
                     dispatch={store.dispatch}
                 />
                 <Document
-                    user={this.state.user}
-                    data={this.state.document} 
-                    socket={socket} 
-                    folders={this.state.explorer.folders} 
-                    dispatch={store.dispatch} 
+                    data={this.state}
+                    socket={socket}
+                    folders={this.state.explorer.folders}
+                    dispatch={store.dispatch}
                 />
                 <Modal
                     data={this.state} 
