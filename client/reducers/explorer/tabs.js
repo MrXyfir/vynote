@@ -1,6 +1,6 @@
 import {
     CREATE_TAB, CLOSE_ALL, SELECT_TAB, CLOSE_TAB,
-    HOVER_TAB, SAVE_DOCUMENT
+    HOVER_TAB, SAVE_DOCUMENT, MARK_FOR_RELOAD
 } from "../../constants/action-types/explorer/tabs";
 
 export default function (state, action) {
@@ -48,6 +48,17 @@ export default function (state, action) {
                     list: Object.assign({}, state.tabs.list, {
                         [action.id]: Object.assign({}, state.tabs.list[action.id], {
                             document: action.document
+                        })
+                    })
+                })
+            });
+            
+        case MARK_FOR_RELOAD:
+            return Object.assign({}, state, {
+                tabs: Object.assign({}, state.tabs, {
+                    list: Object.assign({}, state.tabs.list, {
+                        [action.id]: Object.assign({}, state.tabs.list[action.id], {
+                            reload: true
                         })
                     })
                 })

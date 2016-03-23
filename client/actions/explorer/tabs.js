@@ -1,6 +1,6 @@
 import {
     CREATE_TAB, CLOSE_ALL, SELECT_TAB, CLOSE_TAB,
-    HOVER_TAB, SAVE_DOCUMENT
+    HOVER_TAB, SAVE_DOCUMENT, MARK_FOR_RELOAD
 } from "../../constants/action-types/explorer/tabs";
 
 export function createTab() {
@@ -36,5 +36,11 @@ export function hoverTab(id) {
 export function saveDocument(id, document) {
     return {
         type: SAVE_DOCUMENT, id, document
+    };
+}
+
+export function markForReload(id) {
+    return {
+        type: MARK_FOR_RELOAD, id
     };
 }
