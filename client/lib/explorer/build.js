@@ -6,6 +6,11 @@ export default function (temp, scope = 0) {
         children: {
             0: []
         },
+        tabs: {
+            active: 0, hover: -1, list: {
+                "0": { name: "Blank Tab", directory: "" }
+            }
+        },
 		documents: {},
 		scopeParents: [],
         userInput: { action: "" },
