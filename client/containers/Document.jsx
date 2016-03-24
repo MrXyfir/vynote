@@ -24,11 +24,11 @@ export default class Document extends React.Component {
     }
 
     onSetEncryptionKey() {
-        let event = this.props.data.doc_type === 1 ? "get note object" : "get document content";
+        let event = this.props.data.document.doc_type === 1 ? "get note object" : "get document content";
         let key = this.refs.key.value;
         
         // Attempt to load document's content with type/id/key
-        this.props.socket.emit(event, this.props.data.doc_id, key, (err, content) => {
+        this.props.socket.emit(event, this.props.data.document.doc_id, key, (err, content) => {
             if (err) {
                 this.props.dispatch(accessError());
                 
@@ -37,14 +37,14 @@ export default class Document extends React.Component {
             }
             // Load content into state and set encryption key
             else {
-                if (this.props.data.doc_type === 1)
+                if (this.props.data.document.doc_type === 1)
                     content = buildNote(content.content, content.changes, key);
                 
                 // Load content into state
                 this.props.dispatch(loadContent(content));
                 
                 // Set state.document.render{} if note document
-                if (this.props.data.doc_type === 1)
+                if (this.props.data.document.doc_type === 1)
                     this.props.dispatch(initializeRenderObject());
                 
                 // Set document encryption key
@@ -54,11 +54,11 @@ export default class Document extends React.Component {
     }
 
     render() {
-        if (this.props.data.doc_type == 0) {
+        if (this.props.data.document.doc_type == 0) {
             return <div />;
         }
         // Document is encrypted and user has not provided key
-        else if (this.props.data.encrypted && this.props.data.encrypt === "") {
+        else if (this.props.data.document.encrypted && this.props.data.document.encrypt === "") {
             return (
                 <div className="document-encrypted">
                     <h3>Encryption Key</h3>
@@ -75,7 +75,7 @@ export default class Document extends React.Component {
         else {
             let view;
         
-            switch (this.props.data.doc_type) {
+            switch (this.props.data.document.doc_type) {
                 case 1:
                     view = (
                         <Note
