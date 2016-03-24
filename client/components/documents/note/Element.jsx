@@ -75,7 +75,7 @@ export default class Element extends React.Component {
                     case this.keys.at: at(this.props); break;
                     case this.keys.hash: hash(this.props); break;
                     case this.keys.tab: shiftTab(this.props); break;
-                    case this.keys.cbracket: cbracket(this.props); break;
+                    case this.keys.cbracket: cbracket(this.props, e); break;
                 }
             }
         }
@@ -86,7 +86,7 @@ export default class Element extends React.Component {
                 case this.keys.up: up(this.props); break;
                 case this.keys.down: down(this.props); break;
                 case this.keys.enter: this._saveElementContent(true); break;
-                case this.keys.backspace: this._deleteElement(); break;
+                case this.keys.backspace: this._deleteElement(e); break;
             }
         }
 
@@ -162,7 +162,7 @@ export default class Element extends React.Component {
         });
     }
     
-    _deleteElement() {
+    _deleteElement(e) {
         if (!this.refs.input.value.length) {
             // Prevent backspace from navigating to previous page
             e.preventDefault();
@@ -261,6 +261,7 @@ export default class Element extends React.Component {
                     this.props.data.render.showChildren.indexOf(this.props.id) > -1
                     ? (
                         <Elements
+                            user={this.props.user}
                             data={this.props.data}
                             socket={this.props.socket} 
                             scope={this.props.id} 
