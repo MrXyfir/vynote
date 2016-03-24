@@ -84,6 +84,9 @@ export default class ExplorerObject extends React.Component {
                 + "/" + this.props.data.explorer.folders[obj.folder_id].name
             ));
             
+            // Select the new tab
+            this.props.dispatch(selectTab(obj.doc_id));
+            
 			// If document is encrypted, Document container will handle content loading
 			// All we need to set is the type and id
 			if (obj.encrypted) {
