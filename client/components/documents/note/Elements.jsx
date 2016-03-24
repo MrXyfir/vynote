@@ -13,10 +13,11 @@ export default class Elements extends React.Component {
             <div className="note-elements">{
                 this.props.data.content[this.props.scope].children.map(child => {
                     return (
-                        <Element 
-                            id={child} 
-                            data={this.props.data} 
-                            socket={this.props.socket} 
+                        <Element
+                            id={child}
+                            user={this.props.user}
+                            data={this.props.data}
+                            socket={this.props.socket}
                             dispatch={this.props.dispatch}
                         />
                     );

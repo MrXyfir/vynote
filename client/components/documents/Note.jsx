@@ -52,6 +52,7 @@ export default class Note extends React.Component {
                 </div>
                 
                 <Elements
+                    user={this.props.user}
                     data={this.props.data} 
                     socket={this.props.socket} 
                     scope={this.props.data.render.scope} 
