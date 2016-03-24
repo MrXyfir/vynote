@@ -18,16 +18,36 @@ export default class Tabs extends React.Component {
     constructor(props) {
         super(props);
         
-        this.props.onNewTab = this.props.onNewTab.bind(this);
-        this.onCloseAll = this.props.onCloseAll.bind(this);
+        this.onNewTab = this.onNewTab.bind(this);
+        this.onCloseAll = this.onCloseAll.bind(this);
     }
     
     onNewTab() {
-        if (this.props.data.explorer.tabs.list.length == 2 && Date.now() > this.props.data.user.subscription) {
+        // If a blank/new tab already exists, select it
+        if (this.props.data.explorer.tabs.list['0'] !== undefined) {
+            this.props.dispatch(selectTab(0));
+            return;
+        }
+        
+        // Free members limited to 2 tabs
+        if (
+            Object.keys(this.props.data.explorer.tabs.list).length == 2
+            &&
+            Date.now() > this.props.data.user.subscription
+        ) {
             this.props.dispatch(error("Free members are limited to 2 tabs"));
             return;
         }
         
+        // Save state.document to state.explorer.tabs.list[active].document
+        if (this.props.data.explorer.tabs.active > 0) {
+            this.props.dispatch(saveDocument(
+                this.props.data.explorer.tabs.active,
+                JSON.stringify(this.props.data.document)
+            ));
+        }
+        
+        // Create/select new tab
         this.props.dispatch(createTab());
         this.props.dispatch(selectTab(0));
     }
@@ -90,14 +110,6 @@ export default class Tabs extends React.Component {
         this.props.dispatch(closeTab(id));
     }
     
-    onMouseOver(id) {
-        this.props.dispatch(hoverTab(id));
-    }
-    
-    onMouseOut() {
-        this.props.dispatch(hoverTab(-1));
-    }
-    
     render() {
         return (
             <div className="tabs">
@@ -115,13 +127,13 @@ export default class Tabs extends React.Component {
                                 className={
                                     "tab" + (tab == this.props.data.explorer.tabs.active ? " active" : "")
                                 }
-                                onMouseOut={this.onMouseOut}
-                                onMouseOver={this.onMouseOver.bind(this, tab)}
+                                onMouseOut={() => this.props.dispatch(hoverTab(-1))}
+                                onMouseOver={() => this.props.dispatch(hoverTab(tab))}
                             >
                                 {
                                     tab == this.props.data.explorer.tabs.hover
                                     ? <span className="icon-close" onClick={this.onClose.bind(this, tab)} />
-                                    : <span />
+                                    : <span className="icon-close-hidden" />
                                 }
                                 
                                 <span className="name">{this.props.data.explorer.tabs.list[tab].name}</span>
