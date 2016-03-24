@@ -203,6 +203,18 @@
       "css": "circle-outline",
       "code": 59424,
       "src": "fontawesome"
+    },
+    {
+      "uid": "zc0c8s0nyweeeo9i8a3rucu7alwxt56r",
+      "css": "controls",
+      "code": 59425,
+      "src": "modernpics"
+    },
+    {
+      "uid": "b7a336095aa4535c3689cb557edf23db",
+      "css": "view",
+      "code": 59426,
+      "src": "entypo"
     }
   ]
 }

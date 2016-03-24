@@ -32,3 +32,5 @@
 .icon-help:before { content: '\e81e'; } /* '' */
 .icon-circle:before { content: '\e81f'; } /* '' */
 .icon-circle-outline:before { content: '\e820'; } /* '' */
+.icon-controls:before { content: '\e821'; } /* '' */
+.icon-view:before { content: '\e822'; } /* '' */
