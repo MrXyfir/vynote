@@ -19,7 +19,11 @@ export default function (state) {
     
     // Document has changed
     if (lastState.doc_id != state.doc_id) {
-        hash = state.doc_id + '.' + clean(state.name);
+        if (state.doc_id == 0)
+            hash = "";
+        else
+            hash = state.doc_id + '.' + clean(state.name);
+        
         changed = true;
     }
     // Scope of note document has changed
