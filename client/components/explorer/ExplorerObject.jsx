@@ -20,6 +20,7 @@ import { initializeRenderObject } from "../../actions/documents/note";
 import colors from "../../constants/colors";
 
 // Modules
+import getParents from "../../lib/explorer/scope-parents";
 import buildNote from "../../lib/note/build";
 
 export default class ExplorerObject extends React.Component {
