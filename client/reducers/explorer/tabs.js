@@ -43,15 +43,19 @@ export default function (state, action) {
             });
             
         case SAVE_DOCUMENT:
-            return Object.assign({}, state, {
-                tabs: Object.assign({}, state.tabs, {
-                    list: Object.assign({}, state.tabs.list, {
-                        [action.id]: Object.assign({}, state.tabs.list[action.id], {
-                            document: action.document
+            return (() => {
+                if (state.tabs.list[action.id] == undefined) return state;
+                
+                return Object.assign({}, state, {
+                    tabs: Object.assign({}, state.tabs, {
+                        list: Object.assign({}, state.tabs.list, {
+                            [action.id]: Object.assign({}, state.tabs.list[action.id], {
+                                document: action.document
+                            })
                         })
                     })
                 })
-            });
+            }).call();
             
         case MARK_FOR_RELOAD:
             return Object.assign({}, state, {
