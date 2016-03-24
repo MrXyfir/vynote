@@ -1,9 +1,11 @@
 import React from "react";
 
 // Actions creators
+import {
+    openDocumentControls, closeDocument
+} from "../../actions/documents/";
 import { togglePreview } from "../../actions/documents/page";
-import { changeDocument } from "../../actions/explorer/tabs";
-import { openDocumentControls } from "../../actions/documents/";
+import { changeDocument, selectTab } from "../../actions/explorer/tabs";
 import { toggleShowEditorSettings } from "../../actions/documents/code";
 
 export default class Head extends React.Component {
@@ -17,9 +19,18 @@ export default class Head extends React.Component {
             this.props.data.document.doc_id,
             0, "Blank Tab", ""
         ));
+        this.props.dispatch(closeDocument());
+        this.props.dispatch(selectTab(0));
     }
     
     render() {
+        if (this.props.data.document.doc_id === 0) {
+            return <div />;
+        }
+        if (!this.props.data.explorer.tabs.list[this.props.data.document.doc_id]) {
+            return <div />;
+        }
+        
         return (
             <div className="document-head">
                 <div className="info">
@@ -69,7 +80,7 @@ export default class Head extends React.Component {
                                     this.props.data.document.preview ? "Edit" : "Preview"
                                 ) + " Mode"}
                                 onClick={() => this.props.dispatch(togglePreview())}
-                                className={"icon-" (
+                                className={"icon-" + (
                                     this.props.data.document.preview ? "edit" : "view"
                                 )}
                             />
