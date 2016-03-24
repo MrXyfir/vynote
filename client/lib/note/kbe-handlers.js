@@ -10,19 +10,29 @@ import generateID from "./generate-id";
 
 // Move element being edited into older sibling's children
 export function tab(props) {
-    let parent  = props.data.content[el].parent;
-    let sibling = props.data.content[parent].children.indexOf(props.id - 1);
+    let parent = props.data.content[props.id].parent;
+    let index  = props.data.content[parent].children.indexOf(props.id);
     
-    if (sibling) {
+    if (index > 0) {
         let data = {
             doc: props.data.doc_id, action: "MOVE", id: props.id, index: -1
         };
         
         props.socket.emit("change note element", data, (err, res) => {
-            if (err)
+            if (err) {
                 props.dispatch(error(res));
-            else
-                props.dispatch(moveElement(props.id, sibling));
+            }
+            else {
+                let sibling = props.data.content[parent].children[index - 1];
+                
+                props.dispatch(moveElement(
+                    props.id, sibling
+                ));
+                
+                // Show sibling's children if needed
+                if (props.data.render.showChildren.indexOf(sibling) == -1)
+                    props.dispatch(toggleShowChildren(sibling));
+            }
         });
     }
 }
@@ -48,9 +58,9 @@ export function shiftTab(props) {
     }
 }
 
-// Change scope to parent
+// Change scope to scope's parent
 export function altLeft(props) {
-    let parent = props.data.content[props.id].parent;
+    let parent = props.data.content[props.data.render.scope].parent;
 
     if (parent) props.dispatch(navigateToElement(parent));
 }
@@ -115,13 +125,13 @@ export function up(props) {
     
     // Switch to older sibling element
     if (index > 0) {
-        props.dispatch(navigateToElement(
+        props.dispatch(editElement(
             props.data.content[parent].children[index - 1]
         ));
     }
     // Switch to parent element
     else if (parent != props.data.render.scope) {
-        props.dispatch(navigateToElement(parent));
+        props.dispatch(editElement(parent));
     }
 }
 
@@ -132,7 +142,7 @@ export function down(props) {
         &&
         props.data.render.showChildren.indexOf(props.id) > -1
     ) {
-        props.dispatch(navigateToElement(
+        props.dispatch(editElement(
             props.data.content[props.id].children[0]
         ));
     }
@@ -142,7 +152,7 @@ export function down(props) {
         
         // Switch to younger sibling
         if (index != props.data.content[parent].children.length - 1) {
-            props.dispatch(navigateToElement(
+            props.dispatch(editElement(
                 props.data.content[parent].children[index + 1]
             ));
         } 
@@ -152,7 +162,7 @@ export function down(props) {
             
             // Switch to parent's younger sibling
             if (index != props.data.content[gparent].children.length - 1) {
-                props.dispatch(navigateToElement(
+                props.dispatch(editElement(
                     props.data.content[gparent].children[index + 1]
                 ));
             }
@@ -161,14 +171,18 @@ export function down(props) {
 }
 
 // Shortcut
-export function cbracket(props) {
+export function cbracket(props, e) {
     if (props.user.subscription > Date.now() && Object.keys(props.user.shortcuts).length) {
         let content = document.querySelector(".editing").value;
         
         // Replace shortcuts in content
         Object.keys(props.user.shortcuts).forEach(sc => {
-            content = content.replace("${" + sc + "}", props.user.shortcuts[sc]);
+            content = content.replace("${" + sc, props.user.shortcuts[sc]);
         });
+        
+        // If a shortcut was inserted, prevent '}' from being inserted
+        if (content != document.querySelector(".editing").value)
+            e.preventDefault();
         
         document.querySelector(".editing").value = content;
     }
