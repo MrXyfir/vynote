@@ -2,7 +2,8 @@ import {
 	ERROR, SUCCESS
 } from "../../constants/action-types/notifications";
 import {
-    SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT, DELETE_DOCUMENT
+    SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT,
+    DELETE_DOCUMENT, CLOSE_DOCUMENT
 } from "../../constants/action-types/documents/";
 import {
 	DOCUMENT_CONTROLS
@@ -59,5 +60,11 @@ export function openDocumentControls() {
 export function deleteDocument(id) {
     return {
         type: DELETE_DOCUMENT, id
+    };
+}
+
+export function closeDocument() {
+    return {
+        type: CLOSE_DOCUMENT
     };
 }

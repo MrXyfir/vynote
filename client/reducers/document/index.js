@@ -5,7 +5,8 @@ import code from "./code";
 
 // Action types
 import {
-    SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT, DELETE_DOCUMENT
+    SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT,
+    DELETE_DOCUMENT, CLOSE_DOCUMENT
 } from "../../constants/action-types/documents/";
 
 export default function (state, action) {
@@ -52,6 +53,9 @@ export default function (state, action) {
                         return { doc_type: 0, doc_id: 0, folder_id: 0 };
                     else
                         return state;
+                        
+                case CLOSE_DOCUMENT:
+                    return { doc_type: 0, doc_id: 0, folder_id: 0 };
 				
 				default:
 					return state;
