@@ -1,4 +1,5 @@
 // Action creators
+import { changeDocument, selectTab } from "../../actions/explorer/tabs";
 import { loadDocument } from "../../actions/documents/";
 import {
     initializeRenderObject, navigateToElement
@@ -7,6 +8,7 @@ import {
 // Modules
 import doesMatch from "./does-match";
 import buildNote from "../../lib/note/build";
+import getParents from "../../lib/explorer/scope-parents";
 
 export default function (store, socket, check = false) {
     
@@ -21,6 +23,14 @@ export default function (store, socket, check = false) {
     // vynote.com/workspace/#docID.doc-name/noteID.note-content
     let id  = location.hash.substr(1).split('.')[0];
     let doc = state.explorer.documents[id];
+    
+    store.dispatch(changeDocument(
+        0, id, doc.name, getParents(
+            state.explorer.folders, doc.folder_id
+        ).map(folder => { return folder.name; }).join("/")
+        + "/" + state.explorer.folders[doc.folder_id].name)
+    );
+    store.dispatch(selectTab(id));
     
     // Document does not exist
     if (doc === undefined) {
