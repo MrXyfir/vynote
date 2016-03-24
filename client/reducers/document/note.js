@@ -192,6 +192,9 @@ export default function (state, action) {
                     temp.content[action.parent].children.splice(action.index, 0, action.id);
                 else
                     temp.content[action.parent].children.push(action.id);
+                    
+                // Update element's parent
+                temp.content[action.id].parent = action.parent;
                 
                 return temp;
             }).call();
