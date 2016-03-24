@@ -13,6 +13,10 @@ import {
 import { error } from "../../../actions/notification";
 
 // Modules
+import {
+    tab, shiftTab, up, down, altLeft, altRight, altEnter,
+    altDel, ctrlF, at, hash, cbracket, altUp, altDown
+} from "../../../lib/note/kbe-handlers";
 import generateID from "../../../lib/note/generate-id";
 import { encrypt } from "../../../lib/crypto";
 
@@ -25,48 +29,70 @@ export default class Element extends React.Component {
         this.onInput = this.onInput.bind(this);
         this.onEdit = this.onEdit.bind(this);
         this.onBlur = this.onBlur.bind(this);
+        
+        this.keys = {
+            shift: 16, alt: 18, tab: 9, left: 37, up: 38,
+            right: 39, down: 40, ctrl: 17, enter: 13,
+            f: 70, del: 46, at: 50, hash: 51,
+            cbracket: 221, backspace: 8
+        };
+
+        this.previous = {
+            wasModifier: false, key: 0
+        };
     }
     
     onInput(e) {
-        // Save element content
-        if (e.which == 13) {
+        let wasModifier = false;
+  
+        // Prevent default for certain keys
+        if ([this.keys.enter, this.keys.tab].indexOf(e.which) > -1)
             e.preventDefault();
-            
-            this._saveElementContent(true);
+
+        // Current key is a modifier key
+        if ([16, 18, 17].indexOf(e.which) > -1) {
+            wasModifier = true;
         }
-        // Delete element
-        else if (e.which == 8 && !this.refs.input.value.length) {
-            // Prevent backspace from navigating to previous page
-            e.preventDefault();
-            
-            const del = (id) => {
-                let parent  = this.props.data.content[id].parent;
-                let index   = this.props.data.content[parent].children.indexOf(id);
-                let sibling = this.props.data.content[parent].children[index - 1];
-                
-                this.props.dispatch(deleteElement(id));
-                
-                // Set 'editing' to element's older sibling (if available)
-                if (sibling !== undefined) this.props.dispatch(editElement(sibling));
-            };
-            
-            // Element was only created locally
-            if (this.props.data.content[this.props.id].create) {
-                del(this.props.id);
+        // Previous key was a modifier
+        else if (this.previous.wasModifier) {
+            if (this.previous.key == this.keys.alt) {
+                switch (e.which) {
+                    case this.keys.left: altLeft(this.props); break;
+                    case this.keys.up: altUp(this.props); break;
+                    case this.keys.right: altRight(this.props); break;
+                    case this.keys.down: altDown(this.props); break;
+                    case this.keys.enter: altEnter(this.props); break;
+                    case this.keys.del: altDel(this.props); break;
+                }
             }
-            // Delete event must be emitted
-            else {
-                let data = {
-                    doc: this.props.data.doc_id, action: "DELETE", id: this.props.id
-                };
-                
-                this.props.socket.emit("change note element", data, (err, res) => {
-                    if (err)
-                        this.props.dispatch(error(res));
-                    else
-                        del(data.id);
-                });
+            else if (this.previous.key == this.keys.ctrl) {
+                if (e.which == this.keys.f) {
+                    ctrlF(this.props);
+                }
             }
+            else if (this.previous.key == this.keys.shift) {
+                switch (e.which) {
+                    case this.keys.at: at(this.props); break;
+                    case this.keys.hash: hash(this.props); break;
+                    case this.keys.tab: shiftTab(this.props); break;
+                    case this.keys.cbracket: cbracket(this.props); break;
+                }
+            }
+        }
+        // Normal key and last was not a modifier
+        else {
+            switch (e.which) {
+                case this.keys.tab: tab(this.props); break;
+                case this.keys.up: up(this.props); break;
+                case this.keys.down: down(this.props); break;
+                case this.keys.enter: this._saveElementContent(true); break;
+                case this.keys.backspace: this._deleteElement(); break;
+            }
+        }
+
+        // Set current key as previous
+        this.previous = {
+            key: e.which, wasModifier
         }
     }
     
@@ -134,6 +160,42 @@ export default class Element extends React.Component {
                 }
             }
         });
+    }
+    
+    _deleteElement() {
+        if (!this.refs.input.value.length) {
+            // Prevent backspace from navigating to previous page
+            e.preventDefault();
+            
+            const del = (id) => {
+                let parent  = this.props.data.content[id].parent;
+                let index   = this.props.data.content[parent].children.indexOf(id);
+                let sibling = this.props.data.content[parent].children[index - 1];
+                
+                this.props.dispatch(deleteElement(id));
+                
+                // Set 'editing' to element's older sibling (if available)
+                if (sibling !== undefined) this.props.dispatch(editElement(sibling));
+            };
+            
+            // Element was only created locally
+            if (this.props.data.content[this.props.id].create) {
+                del(this.props.id);
+            }
+            // Delete event must be emitted
+            else {
+                let data = {
+                    doc: this.props.data.doc_id, action: "DELETE", id: this.props.id
+                };
+                
+                this.props.socket.emit("change note element", data, (err, res) => {
+                    if (err)
+                        this.props.dispatch(error(res));
+                    else
+                        del(data.id);
+                });
+            }
+        }
     }
     
     render() {
