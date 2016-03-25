@@ -54,12 +54,28 @@ export default class Ace extends React.Component {
 	}
     
     shouldComponentUpdate(nProps, nState) {
-        return nProps.data.syntax != this.props.data.syntax || nProps.data.theme != this.props.data.theme;
+        return (
+            nProps.data.syntax != this.props.data.syntax
+            ||
+            nProps.data.theme != this.props.data.theme
+            ||
+            nProps.data.doc_id != this.props.data.doc_id
+        );
     }
     
     componentDidUpdate() {
+        // Update syntax/theme
         this.editor.getSession().setMode(getSyntaxFile(this.props.data.syntax));
 		this.editor.setTheme(getThemeFile(this.props.data.theme));
+        
+        // Update content
+        this.silent = true;
+		this.editor.setValue(
+			(this.props.data.encrypted) 
+			? decrypt(this.props.data.content, this.props.data.encrypt)
+			: this.props.data.content
+		);
+        this.silent = false;
     }
 	
 	componentWillUnmount() {
