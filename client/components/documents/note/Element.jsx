@@ -42,7 +42,11 @@ export default class Element extends React.Component {
         };
         
         if (!window.onRefClick) {
-            window.onRefClick = (val) => document.querySelector(".note-filter-controls > input").value = val;
+            window.onRefClick = (val) => {
+                let input = document.querySelector(".note-filter-controls > input");
+                input.value = val;
+                input.dispatchEvent(new Event("input", { bubbles: true }));
+            };
         }
     }
     
