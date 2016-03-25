@@ -14,8 +14,11 @@ export function tab(props) {
     let index  = props.data.content[parent].children.indexOf(props.id);
     
     if (index > 0) {
+        let sibling = props.data.content[parent].children[index - 1];
+        
         let data = {
-            doc: props.data.doc_id, action: "MOVE", id: props.id, index: -1
+            doc: props.data.doc_id, action: "MOVE", id: props.id,
+            index: -1, parent: sibling
         };
         
         props.socket.emit("change note element", data, (err, res) => {
@@ -23,8 +26,6 @@ export function tab(props) {
                 props.dispatch(error(res));
             }
             else {
-                let sibling = props.data.content[parent].children[index - 1];
-                
                 props.dispatch(moveElement(
                     props.id, sibling
                 ));
@@ -46,7 +47,8 @@ export function shiftTab(props) {
         let index = props.data.content[gparent].children.indexOf(parent) + 1;
 
         let data = {
-            doc: props.data.doc_id, action: "MOVE", id: props.id, index
+            doc: props.data.doc_id, action: "MOVE", id: props.id,
+            parent: gparent, index
         };
 
         props.socket.emit("change note element", data, (err, res) => {
