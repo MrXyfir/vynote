@@ -16,16 +16,19 @@ export default class Ace extends React.Component {
 	componentDidMount() {
 		this.editor = ace.edit(this.props.id || "ace-editor");
 		
+        // User set values
 		this.editor.getSession().setMode(getSyntaxFile(this.props.data.syntax));
 		this.editor.setTheme(getThemeFile(this.props.data.theme));
 		this.editor.setFontSize(
             (this.props.fontSize || this.props.user.config.editorFontSize) + "em"
         );
-		this.editor.on('change', this.onChange);
         
+        // Always set values
         this.editor.session.setOption("wrap", "free");
         this.editor.setShowPrintMargin(false);
+        this.editor.on('change', this.onChange);
 		
+        // Set inintial value without triggering onChange
         this.silent = true;
 		this.editor.setValue(
 			(this.props.data.encrypted) 
@@ -34,7 +37,20 @@ export default class Ace extends React.Component {
 		);
         this.silent = false;
         
+        // Bind keyboard commands to editor
         this._addCommands();
+        
+        // Dynamically set and update editor height
+        const setEditorHeight = () => {
+            document.querySelector("#ace-editor").style.height = (
+                window.innerHeight - (
+                    document.querySelector(".document-head").offsetHeight
+                    +
+                    document.querySelector(".status-bar").offsetHeight
+                )
+            ) + "px";
+        };
+        document.body.onresize = setEditorHeight; setEditorHeight();
 	}
     
     shouldComponentUpdate(nProps, nState) {
@@ -61,6 +77,8 @@ export default class Ace extends React.Component {
     
 		this.editor.destroy();
 		this.editor = null;
+        
+        document.body.onresize = function(){};
 	}
     
     _addCommands() {
