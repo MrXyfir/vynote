@@ -98,6 +98,8 @@ div[class^="explorer-object-"]:hover, .list > .tab:hover, .list > .active {
 
 .tabs > .list > .tab {
     
+    cursor: pointer;
+    
     .icon-close, .icon-close-hidden {
         display: inline-block;
         width: 1.5em;
