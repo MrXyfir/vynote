@@ -40,17 +40,19 @@ export default class Ace extends React.Component {
         // Bind keyboard commands to editor
         this._addCommands();
         
-        // Dynamically set and update editor height
-        const setEditorHeight = () => {
-            document.querySelector("#ace-editor").style.height = (
-                window.innerHeight - (
-                    document.querySelector(".document-head").offsetHeight
-                    +
-                    document.querySelector(".status-bar").offsetHeight
-                )
-            ) + "px";
-        };
-        document.body.onresize = setEditorHeight; setEditorHeight();
+        // Dynamically set and update editor height for main #ace-editor
+        if (!this.props.id) {
+            const setEditorHeight = () => {
+                document.querySelector("#ace-editor").style.height = (
+                    window.innerHeight - (
+                        document.querySelector(".document-head").offsetHeight
+                        +
+                        document.querySelector(".status-bar").offsetHeight
+                    )
+                ) + "px";
+            };
+            document.body.onresize = setEditorHeight; setEditorHeight();
+        }
 	}
     
     shouldComponentUpdate(nProps, nState) {
