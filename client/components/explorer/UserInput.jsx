@@ -23,6 +23,7 @@ export default class UserInput extends React.Component {
         this.onCreateDocument = this.onCreateDocument.bind(this);
         this.onCreateFolder = this.onCreateFolder.bind(this); 
         this.onRenameObject = this.onRenameObject.bind(this);
+        this._handleSubmit = this._handleSubmit.bind(this);
         this.onMoveObject = this.onMoveObject.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onClose = this.onClose.bind(this);
@@ -197,19 +198,23 @@ export default class UserInput extends React.Component {
 	onKeyPress(e) {
 		if (e.key === "Enter") {
             e.preventDefault();
-			// Call appropriate handler function based on action
-			switch (this.props.data.userInput.action) {
-				case CREATE_DOCUMENT:
-					return this.onCreateDocument();
-				case CREATE_FOLDER:
-					return this.onCreateFolder();
-				case RENAME_OBJECT:
-					return this.onRenameObject();
-				case MOVE_OBJECT:
-					return this.onMoveObject();
-			}
+			this._handleSubmit();
 		}
 	}
+    
+    _handleSubmit() {
+        // Call appropriate handler function based on action
+        switch (this.props.data.userInput.action) {
+            case CREATE_DOCUMENT:
+                return this.onCreateDocument();
+            case CREATE_FOLDER:
+                return this.onCreateFolder();
+            case RENAME_OBJECT:
+                return this.onRenameObject();
+            case MOVE_OBJECT:
+                return this.onMoveObject();
+        }
+    }
 	
 	render() {
 		let inputTitle = "", inputContent = "", inputExtended;
@@ -239,7 +244,7 @@ export default class UserInput extends React.Component {
 						
 						{
 							(this.props.user.subscription > Date.now())
-							? <input type="text" placeholder="Encryption Key" ref="key" />
+							? <input type="text" placeholder="Encryption Key" ref="key" onKeyPress={this.onKeyPress} />
 							: <span></span>
 						}
 					</div>
