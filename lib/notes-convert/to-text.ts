@@ -1,11 +1,11 @@
 ﻿import db = require("../db");
 
 export = (notes: any): string => {
-        
+    
     // Convert object to text format
     const renderText = (parent: string, level: number): string => {
-
-        // Undefined if element (parent) has no children
+        
+        // Parent has no children
         if (notes[parent].children.length == 0)
             return "";
 
