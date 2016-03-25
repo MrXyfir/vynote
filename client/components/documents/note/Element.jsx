@@ -40,6 +40,10 @@ export default class Element extends React.Component {
         this.previous = {
             wasModifier: false, key: 0
         };
+        
+        if (!window.onRefClick) {
+            window.onRefClick = (val) => document.querySelector(".note-filter-controls > input").value = val;
+        }
     }
     
     onInput(e) {
@@ -198,6 +202,20 @@ export default class Element extends React.Component {
         }
     }
     
+    _parseContent() {
+        return marked(
+            this.props.data.content[this.props.id].content,
+            { sanitize: true }
+        )
+        .replace(
+            new RegExp("<p>(@|#)([a-zA-Z0-9]{1,})", 'g'),
+            `<a onclick="onRefClick('$1$2')">$1$2</a>`
+        ).replace(
+            new RegExp(" (@|#)([a-zA-Z0-9]{1,})", 'g'),
+            `<a onclick="onRefClick('$1$2')">$&</a>`
+        );
+    }
+    
     render() {
         // Only show elements that contain search query
         if (this.props.data.render.filter.search != "") {
@@ -248,10 +266,7 @@ export default class Element extends React.Component {
                             className="view" 
                             onClick={this.onEdit} 
                             dangerouslySetInnerHTML={
-                                {__html: marked(
-                                    this.props.data.content[this.props.id].content,
-                                    { sanitize: true }
-                                )}
+                                {__html: this._parseContent()}
                             }
                         />
                     )
