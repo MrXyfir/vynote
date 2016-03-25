@@ -1,15 +1,10 @@
 import React from "react";
 
 // Action creators
-import {
-	error, success
-} from "../../../actions/notification";
-import {
-	loadContent
-} from "../../../actions/documents/";
-import {
-	close
-} from "../../../actions/modal/";
+import { error, success } from "../../../actions/notification";
+import { loadContent } from "../../../actions/documents/";
+import { close } from "../../../actions/modal/";
+import { initializeRenderObject } from "../../../actions/documents/note";
 
 // Components
 import Editor from "../../documents/Editor";
@@ -37,23 +32,15 @@ export default class Import extends React.Component {
 				this.refs.ace.editor.session.doc.getAllLines(),
 				(err, msg) => {
 					if (err) {
-						this.props.dispatch(error(msg || "An unknown error occured"));
+						this.props.dispatch(error(An unknown error occured"));
 					}
 					else {
 						this.props.socket.emit(
-							"get note elements",
+							"get note object",
 							this.props.data.document.doc_id,
 							this.props.data.document.encrypt,
 							(err, res) => {
-								if (err) {
-									location.reload();
-								}
-								else {
-									this.props.dispatch(loadContent(
-										buildNoteObject(res)
-									));
-									this.props.dispatch(success("Notes imported"));
-								}
+                                location.reload();
 							}
 						);
 					}
@@ -68,14 +55,7 @@ export default class Import extends React.Component {
 			};
 			
 			this.props.socket.emit("update document content", data, (err) => {
-				if (err) {
-					location.reload();
-				}
-				else {
-					this.props.dispatch(loadContent(data.content));
-					this.props.dispatch(close());
-					this.props.dispatch(success("Document content imported"));
-				}
+				location.reload();
 			});
 		}
 	}
@@ -94,10 +74,11 @@ export default class Import extends React.Component {
 					Drag and drop a file or copy and paste text into the editor below. When you're ready, click 'Import'. Any content in the document will be written over with the imported data. 
 				</p>
 				
-				<Editor 
-					onChange={() => {return;}} 
-					data={data} 
-					ref="ace" 
+				<Editor
+					onChange={() => {return;}}
+                    user={this.props.data.user} 
+					data={data}
+					ref="ace"
 					id="ace-import"
 				/>
 				
