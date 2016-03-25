@@ -59,6 +59,11 @@ export default class ExplorerObject extends React.Component {
                 
                 if (this.props.type == 2) {
                     this.props.dispatch(deleteDocument(id));
+                    
+                    if (this.props.data.explorer.tabs.list[id]) {
+                        this.props.dispatch(changeDocument(id, 0, "Blank Tab", ""));
+                        this.props.dispatch(selectTab(0));
+                    }
                 }
 			}
 		});
@@ -146,11 +151,10 @@ export default class ExplorerObject extends React.Component {
 	render() {
 		let icon = "", type = this.props.type, id = this.props.id;
         
-        if (this.props.data === undefined) {
-            return <div />;
-        }
+        if (this.props.data === undefined) return <div />;
         
         let obj = this.props.data.explorer[this.props.group][this.props.id];
+        if (obj === undefined) return <div />;
         
 		if (this.props.type == 2) {
 			switch (obj.doc_type) {
