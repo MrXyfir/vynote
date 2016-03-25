@@ -23,7 +23,7 @@ export default class Export extends React.Component {
 		let file = "", content = "";
 		
 		if (this.props.data.document.doc_type == 1)
-			content = objectToText(this.props.data.document);
+			content = objectToText(this.props.data.document.content);
 		else
 			content = this.props.data.document.content;
 	
