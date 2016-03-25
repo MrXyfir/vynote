@@ -60,14 +60,16 @@ export default class Document extends React.Component {
         // Document is encrypted and user has not provided key
         else if (this.props.data.document.encrypted && this.props.data.document.encrypt === "") {
             return (
-                <div className="document-encrypted">
-                    <h3>Encryption Key</h3>
-                    <p>Enter in this document's encryption key to gain access.</p>
-                    
-                    <input type="text" ref="key" />
-                    <button className="btn-primary" onClick={this.onSetEncryptionKey}>
-                        Access Document
-                    </button>
+                <div className="document-container">
+                    <div className="document-encrypted">
+                        <h3>Encryption Key</h3>
+                        <p>Enter in this document's encryption key to gain access.</p>
+                        
+                        <input type="text" ref="key" placeholder="Key" />
+                        <button className="btn-primary" onClick={this.onSetEncryptionKey}>
+                            Access Document
+                        </button>
+                    </div>
                 </div>
             );
         }
