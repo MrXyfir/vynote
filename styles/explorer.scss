@@ -13,19 +13,20 @@
 .explorer-control-bar, .tabs-bar {
     
     background-color: $lgray;
-    padding: 0.1em;
     margin-bottom: 0.5em;
+    font-size: 90%;
+    height: 1.6em;
     
     .explorer-active-folder, .title {
         display: inline-block;
-        max-width: 10em;
+        max-width: 60%;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
         text-transform: uppercase;
-        margin-left: 0.2em;
+        margin-left: 0.4em;
         font-weight: bold;
-        color: $gray;
+        color: $dgray;
     }
     
     span[class^="icon-"] {
