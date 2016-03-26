@@ -99,7 +99,11 @@ div[class^="explorer-object-"]:hover, .list > .tab:hover, .list > .active {
 
 .tabs > .list > .tab {
     
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     cursor: pointer;
+    padding-right: 1.5em;
     
     .icon-close, .icon-close-hidden {
         display: inline-block;
