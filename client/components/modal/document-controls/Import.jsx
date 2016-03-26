@@ -32,7 +32,7 @@ export default class Import extends React.Component {
 				this.refs.ace.editor.session.doc.getAllLines(),
 				(err, msg) => {
 					if (err) {
-						this.props.dispatch(error(An unknown error occured"));
+						this.props.dispatch(error("An unknown error occured"));
 					}
 					else {
 						this.props.socket.emit(
