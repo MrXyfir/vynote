@@ -15,7 +15,7 @@ export default function (store) {
         func.apply(null, [store].concat(Array.prototype.slice.call(args)));
     };
 
-    let socket = io(URL);
+    let socket = io(URL, { transports: ["websocket"] });
 
     socket.on("update syntax"  , function () { call(onUpdateSyntax  , arguments); });
     socket.on("update content" , function () { call(onUpdateContent , arguments); });
