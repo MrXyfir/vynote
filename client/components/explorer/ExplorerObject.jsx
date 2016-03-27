@@ -29,7 +29,6 @@ export default class ExplorerObject extends React.Component {
 		super(props);
         
         this.onMouseOver = this.onMouseOver.bind(this);
-        this.onMouseOut = this.onMouseOut.bind(this);
         this.onRename = this.onRename.bind(this);
         this.onDelete = this.onDelete.bind(this);
         this.onMove = this.onMove.bind(this);
@@ -38,10 +37,6 @@ export default class ExplorerObject extends React.Component {
 
     onMouseOver() {
         this.props.dispatch(hoverObject(this.props.type, this.props.id));
-    }
-    
-    onMouseOut() {
-        this.props.dispatch(hoverObject(0, 0));
     }
 
 	onRename() {
@@ -175,7 +170,6 @@ export default class ExplorerObject extends React.Component {
 		return (
 			<div 
 				className={"explorer-object-" + (this.props.type == 2 ? "document" : "folder")}
-                onMouseOut={this.onMouseOut}
 				onMouseOver={this.onMouseOver} 
 			>
 				<span className={"icon-" + icon} style={{color: colors[obj.color]}} />
@@ -190,7 +184,7 @@ export default class ExplorerObject extends React.Component {
 						</div>
 					)
 					: (
-						<span className="object-controls-hidden" />
+						<div className="object-controls" />
 					)
 				}
 			</div>
