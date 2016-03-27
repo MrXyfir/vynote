@@ -61,8 +61,8 @@ export default class Head extends React.Component {
                             className={this.props.data.document.contributor ? "icon-users" : ""}
                         />
                         <span
-                            title={this.props.data.encrypted ? "Encrypted" : "Unencrypted"}
-                            className={"icon-" + (this.props.data.encrypted ? "lock" : "unlocked")}
+                            title={this.props.data.document.encrypted ? "Encrypted" : "Unencrypted"}
+                            className={"icon-" + (this.props.data.document.encrypted ? "lock" : "unlocked")}
                         />
                     </div>
                 </div>
