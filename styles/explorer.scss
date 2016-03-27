@@ -39,24 +39,23 @@
     
     div[class^="explorer-object-"] {
         
-        display: table;
+        width: 100%;
         
-        .icon-folder, .icon-doc-text, .icon-file-code, .icon-nested-note {
-            display: table-cell;
+        * {
+            display: inline;
         }
         
         .object-name {
-            display: table-cell;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            max-width: 10em;
+            max-width: 60%;
             cursor: pointer;
         }
         
         .object-controls {
-            display: table-cell;
-            width: 100%;
+            width: 35%;
+            float: right;
             text-align: right;
         }
         
