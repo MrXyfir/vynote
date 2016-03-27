@@ -23,14 +23,13 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
             OR (doc_id IN (
                 SELECT doc_id FROM document_contributors WHERE doc_id = ? AND user_id = ?
             ))
-        ) as owns_document, (
+        ) as has_access, (
             SELECT doc_type FROM documents WHERE doc_id = ?
         ) as doc_type, (
             SELECT COUNT(doc_id) FROM document_changes WHERE doc_id = ?
         ) as changes
     `;
     let vars = [
-        doc, // get doc type
         doc, // get version count
         doc, name, // version exists
         doc, socket.session.uid, // owns doc
@@ -52,7 +51,7 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
             cn.release();
             fn(true, "A version with that name already exists");
         }
-        else if (rows[0].owns_document != 1) {
+        else if (rows[0].has_access != 1) {
             cn.release();
             fn(true, "You do not own or have access to this document");
         }
