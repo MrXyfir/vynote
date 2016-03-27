@@ -1,0 +1,53 @@
+.home {
+    
+    padding: 2em;
+    
+    .nav-bar {
+        
+        position: fixed;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        padding: 0.3em 0.5em;
+        font-size: 150%;
+        box-shadow: 0.1em 0.1em 0.4em darkgray;
+        background-color: $llgray;
+        z-index: 2;
+        
+        .left {
+            
+            display: inline;
+            
+            .sub-title {
+                font-size: 60%;
+                color: $gray;
+                display: inline-block;
+                margin-top: -0.2em;
+                margin-left: 0.2em;
+            }
+            
+        }
+        
+        .right {
+            
+            display: inline;
+            position: absolute;
+            right: 10%;
+            
+            a {
+                color: $dgray;
+                margin-right: 0.5em;
+            }
+            a:hover {
+                color: $lgray;
+            }
+            
+        }
+        
+    }
+    
+    .markdown {
+        margin-top: 1em;
+    }
+    
+}
