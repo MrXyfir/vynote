@@ -100,9 +100,9 @@ input[type=text], input[type=password], input[type=email], input[type=number], i
     
     width: 100vw;
     height: 3vh;
-    position: absolute;
+    position: fixed;
     bottom: 0%;
-    z-index: 4;
+    z-index: 6;
     background-color: $gray;
     color: $llgray;
     display: table;
