@@ -1,7 +1,7 @@
 import React from "react";
 
 // Action creators
-import { saveError, saveSuccess, saveContent } from "../../actions/documents/";
+import { saveError, saveContent } from "../../actions/documents/";
 import { setSyntax, setTheme } from "../../actions/documents/code";
 import { themes, syntaxes } from "../../constants/editor";
 
@@ -22,13 +22,10 @@ export default class Code extends React.Component {
 		e.doc = this.props.data.doc_id;
 		
 		this.props.socket.emit("update document content", e, (err) => {
-			if (err) {
+			if (err)
 				this.props.dispatch(saveError());
-			}
-			else {
+			else
 				this.props.dispatch(saveContent(e.content));
-				this.props.dispatch(saveSuccess());
-			}
 		});
 	}
 	
