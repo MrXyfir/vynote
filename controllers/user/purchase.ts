@@ -8,7 +8,7 @@ interface IData {
 export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
 
     let stripeKey = require("../../config").keys.stripe;
-    let amount = [0, 400, 2100, 3600][data.months];
+    let amount = [0, 300, 1500, 2400][data.months];
 
     if (!amount) {
         fn(true, "Invalid subscription length");

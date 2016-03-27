@@ -93,9 +93,9 @@ export default class Account extends React.Component {
                         <div className="form">
                             <select ref="subscription" defaultValue="0">
                                 <option value="0" disabled>Subscription Length</option>
-                                <option value="1">1 Month   - $4</option>
-                                <option value="2">6 Months  - $21</option>
-                                <option value="3">12 Months - $36</option>
+                                <option value="1">1 Month   - $3</option>
+                                <option value="2">6 Months  - $15</option>
+                                <option value="3">12 Months - $24</option>
                             </select>
                         
                             <form ref="stripeForm" className="stripe-form">
