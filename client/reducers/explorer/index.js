@@ -5,7 +5,8 @@ import tabs from "./tabs";
 // Action types
 import {
 	LOAD_FILESYSTEM, UPDATE_SCOPE, CREATE_FOLDER, CREATE_DOCUMENT,
-	DELETE_OBJECT, RENAME_OBJECT, MOVE_OBJECT, HOVER_OBJECT
+    DELETE_OBJECT, RENAME_OBJECT, MOVE_OBJECT, SHOW_CONTROLS,
+    DUPLICATE_DOCUMENT
 } from "../../constants/action-types/explorer/";
 
 // Lib modules
@@ -127,10 +128,24 @@ export default function (state, action) {
 					}
                     return temp;
                     
-                case HOVER_OBJECT:
-                    return Object.assign({}, state, { hover: {
+                case SHOW_CONTROLS:
+                    return Object.assign({}, state, { controls: {
                         objType: action.objType, id: action.id
                     } });
+                    
+                case DUPLICATE_DOCUMENT:
+                    return (() => {
+                        let temp = Object.assign({}, state);
+                        
+                        temp.documents[action.newId] = temp.documents[action.id];
+                        temp.documents[action.newId].doc_id = action.newId;
+                        
+                        temp.children[temp.documents[action.id].folder_id].push(
+                            { obType: 2, id: action.newId }
+                        );
+                        
+                        return temp;
+                    }).cal();
 					
 				default:
 					return state;

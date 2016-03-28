@@ -1,6 +1,6 @@
 import {
 	LOAD_FILESYSTEM, UPDATE_SCOPE, DELETE_OBJECT, CREATE_FOLDER, CREATE_DOCUMENT,
-	RENAME_OBJECT, MOVE_OBJECT, HOVER_OBJECT
+	RENAME_OBJECT, MOVE_OBJECT, SHOW_CONTROLS, DUPLICATE_DOCUMENT
 } from "../../constants/action-types/explorer/";
 
 export function createFolder(data) {
@@ -45,8 +45,14 @@ export function moveObject(data) {
 	};
 }
 
-export function hoverObject(objType, id) {
+export function showControls(objType, id) {
     return {
-        type: HOVER_OBJECT, objType, id
+        type: SHOW_CONTROLS, objType, id
+    };
+}
+
+export function duplicateDocument(id, newId) {
+    return {
+        type: DUPLICATE_DOCUMENT, id, newId
     };
 }
