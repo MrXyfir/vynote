@@ -75,7 +75,7 @@ export default class Element extends React.Component {
             }
             else if (this.previous.key == this.keys.ctrl) {
                 if (e.which == this.keys.f) {
-                    ctrlF(this.props);
+                    ctrlF(this.props, e);
                 }
             }
             else if (this.previous.key == this.keys.shift) {

@@ -116,7 +116,8 @@ export function altEnter(props) {
 }
 
 // Focus on search box
-export function ctrlF(props) {
+export function ctrlF(props, e) {
+    e.preventDefault();
     document.querySelector(".note-filter-controls > input").focus();
 }
 
