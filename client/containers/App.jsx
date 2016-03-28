@@ -77,9 +77,15 @@ class App extends React.Component {
                 state.user = data;
                 state.user.config = JSON.parse(data.config);
                 
+                // Load user's set config or default configuration
                 state.user.config = Object.keys(state.user.config).length > 0
                     ? state.user.config : userConfig;
-                    
+                
+                // Set dark theme
+                if (state.user.subscription > Date.now() && state.user.config.darkTheme)
+                    document.body.className = "theme-dark";
+                
+                // Build shortcuts object
                 if (state.user.shortcuts) {
                     let shortcuts = {};
                     state.user.shortcuts.forEach(sc => {
