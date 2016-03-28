@@ -4,9 +4,9 @@ import React from "react";
 import {
 	triggerRenameObject, triggerMoveObject
 } from "../../actions/explorer/user-input";
-import { error } from "../../actions/notification";
+import { error, success } from "../../actions/notification";
 import {
-    navigateToFolder, deleteObject, hoverObject
+    navigateToFolder, deleteObject, showControls, duplicateDocument
 } from "../../actions/explorer/";
 import {
     loadDocument, deleteDocument
@@ -28,26 +28,55 @@ export default class ExplorerObject extends React.Component {
 	constructor(props) {
 		super(props);
         
-        this.onMouseOver = this.onMouseOver.bind(this);
+        this.onToggleShowControls = this.onToggleShowControls.bind(this);
+        this.onDuplicate = this.onDuplicate.bind(this);
         this.onRename = this.onRename.bind(this);
         this.onDelete = this.onDelete.bind(this);
         this.onMove = this.onMove.bind(this);
         this.onOpen = this.onOpen.bind(this);
 	}
 
-    onMouseOver() {
-        this.props.dispatch(hoverObject(this.props.type, this.props.id));
+    onToggleShowControls(e) {
+        if (e) e.preventDefault();
+        
+        if (
+            this.props.data.explorer.controls.objType == this.props.type
+            &&
+            this.props.data.explorer.controls.id == this.props.id
+        ) {
+            this.props.dispatch(showControls(0, 0));
+        }
+        else {
+            this.props.dispatch(showControls(this.props.type, this.props.id));
+        }
     }
 
 	onRename() {
+        this.onToggleShowControls();
 		this.props.dispatch(triggerRenameObject(this.props.type, this.props.id));
 	}
 	
 	onMove() {
+        this.onToggleShowControls();
 		this.props.dispatch(triggerMoveObject(this.props.type, this.props.id));
 	}
 	
+    onDuplicate() {
+        this.onToggleShowControls();
+        this.props.socket.emit("duplicate document", this.props.id, (err, id) => {
+            if (err) {
+                this.props.dispatch(error("Could not duplicate document"));
+            }
+            else {
+                this.props.dispatch(duplicateDocument(this.props.id, id));
+                this.props.dispatch(success("Document duplicated"));
+            }
+        });
+    }
+    
 	onDelete() {
+        this.onToggleShowControls();
+        
 		let type = this.props.type, id = this.props.id;
 		
 		this.props.socket.emit("delete object", type, id, (err, msg) => {
@@ -170,21 +199,27 @@ export default class ExplorerObject extends React.Component {
 		return (
 			<div 
 				className={"explorer-object-" + (this.props.type == 2 ? "document" : "folder")}
-				onMouseOver={this.onMouseOver} 
+				onContextMenu={this.onToggleShowControls}
 			>
 				<span className={"icon-" + icon} style={{color: colors[obj.color]}} />
 				<span className="object-name" onClick={this.onOpen}>{obj.name}</span>
 				{
-					(type == this.props.data.explorer.hover.objType && id == this.props.data.explorer.hover.id)
+					(type == this.props.data.explorer.controls.objType && id == this.props.data.explorer.controls.id)
 					? (
 						<div className="object-controls">
-							<span className="icon-edit" title="Rename" onClick={this.onRename} />
-							<span className="icon-move" title="Move" onClick={this.onMove} />
-							<span className="icon-trash" title="Delete" onClick={this.onDelete} />
+                            <span className="icon-close" onClick={this.onToggleShowControls} />
+							<span onClick={this.onRename}>Rename</span>
+							<span onClick={this.onMove}>Move</span>
+							<span onClick={this.onDelete}>Delete</span>
+                            {
+                                this.props.type == 2
+                                ? <span onClick={this.onDuplicate}>Duplicate</span>
+                                : <span className="hidden" />
+                            }
 						</div>
 					)
 					: (
-						<div className="object-controls" />
+						<div />
 					)
 				}
 			</div>
