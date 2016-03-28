@@ -1,0 +1,137 @@
+.body {
+    background-color: #1E1E1E;
+}
+
+.explorer {
+    
+    background-color: #252526;
+    
+    .tabs {
+        
+        .tabs-bar {
+            background-color: #373737;
+            color: #CCC;   
+        }
+        
+        .list {
+            
+            color: #CCC;
+            
+            .active, .tab:hover {
+                background-color: #3F3F46;
+            }
+            
+            .tab > .directory {
+                color: #A1A1A3;
+            }
+            
+        }
+        
+    }
+    
+    .explorer-control-bar {
+        background-color: #373737;
+        color: #CCC;
+    }
+    
+    .explorer-objects {
+        
+        color: #CCC;
+        
+        div[class^="explorer-object-"]:hover {
+            background-color: #3F3F46;
+        }
+        
+    }
+    
+    .explorer-user-input {
+        
+        background-color: #333333;
+        color: #CCC;
+        
+        
+    }
+    
+}
+
+.status-bar {
+    background-color: #333;
+}
+
+.document-head {
+    
+    box-shadow: .1em .1em .4em #111111;
+    
+    .info {
+        
+        .name {
+            color: #FFF;
+        }
+        
+        .directory {
+            color: #959595;
+        }
+        
+    }
+    
+    .icons, .controls {
+        color: #C5C5C5;
+    }
+    
+}
+
+.modal {
+    
+    background-color: #252526;
+    color: #CCC;
+    border: 0.1em solid #111;
+    box-shadow: .3em .3em .9em #111;
+    
+    .input-description {
+        color: #A1A1A3;
+    }
+    
+}
+
+input, select, texarea {
+    background-color: #3C3C3C;
+    color: #CCC;
+}
+
+.editor-settings {
+    background-color: #1E1E1E;
+}
+
+.document-encrypted {
+    color: #CCC;
+}
+
+.document-note {
+    
+    color: #CCC;
+    
+    .note-filter-controls, .flag-filters, .controls-extended {
+        background-color: #333333;
+        border: 1px solid #111;
+    }
+    
+    .note-scoped-element {
+        
+        .content {
+            color: #FFF;
+        }
+        
+    }
+    
+    .controls-extended: {
+        color: #CCC;
+    }
+    
+}
+
+a {
+    color: #C7444A;
+}
+a:hover {
+    color: #C00000;
+}
