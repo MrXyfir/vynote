@@ -6,3 +6,5 @@
 @import "modal.scss";
 @import "note.scss";
 @import "markdown.scss";
+
+@import "./themes/dark.scss";
