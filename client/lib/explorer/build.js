@@ -14,7 +14,7 @@ export default function (temp, scope = 0) {
 		documents: {},
 		scopeParents: [],
         userInput: { action: "" },
-        hover: {
+        controls: {
             objType: 0, id: 0
         },
 		scope
