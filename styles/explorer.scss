@@ -39,6 +39,7 @@
     
     div[class^="explorer-object-"] {
         
+        position: relative;
         width: 100%;
         
         * {
@@ -54,9 +55,33 @@
         }
         
         .object-controls {
+            
             width: 35%;
-            float: right;
-            text-align: right;
+            z-index: 2;
+            position: absolute;
+            top: 25%;
+            left: 25%;
+            padding: 0.5em;
+            text-align: left;
+            background-color: $llgray;
+            border: 0.1em solid $gray;
+            
+            span {
+                border-bottom: 0.1em solid;
+                display: block;
+                cursor: pointer;
+            }
+            
+            .icon-close {
+                position: absolute;
+                right: 0%;
+                top: 0%;
+            }
+            
+            .hidden, .icon-close {
+                border-bottom: none;
+            }
+            
         }
         
     }
