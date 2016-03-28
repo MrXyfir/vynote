@@ -108,6 +108,13 @@ export default class Ace extends React.Component {
                 editor.session.doc.removeLines(row + 1, row + 1);
             }
         });
+        
+        // Disable default save
+        this.editor.commands.addCommand({
+            name: 'save',
+            bindKey: {win: "Ctrl-S", "mac": "Cmd-S"},
+            exec: (editor) => { return; }
+        })
     }
 	
 	onChange(e) {
