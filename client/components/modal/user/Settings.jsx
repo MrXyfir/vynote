@@ -42,6 +42,11 @@ export default class Settings extends React.Component {
             else {
                 this.props.dispatch(success("Configuration updated"));
                 this.props.dispatch(setConfig(config));
+                
+                if (config.darkTheme)
+                    document.body.className = "theme-dark";
+                else
+                    document.body.className = "";
             }
         });
     }
@@ -167,7 +172,11 @@ export default class Settings extends React.Component {
                     />
                     
                     <label>Dark Theme</label>
-                    <span className="input-description">A dark theme for the entire site. <b>Coming soon</b></span>
+                    <span className="input-description">
+                        A dark theme for the entire site.
+                        <br />
+                        Be sure to also set a dark editor theme as default.
+                    </span>
                     <input 
                         type="checkbox"
                         ref="dark-theme"
