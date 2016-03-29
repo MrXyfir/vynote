@@ -141,3 +141,35 @@ div[class^="explorer-object-"]:hover, .list > .tab:hover, .list > .active {
     }
     
 }
+
+.document-finder {
+    
+    input {
+        text-align: center;
+    }
+    
+    .search-results {
+        
+        height: 18em;
+        overflow-y: auto;
+        
+        .result {
+         
+            width: 85%;
+            margin: auto;
+         
+            .name {
+                cursor: pointer;
+            }
+         
+            .directory {
+                display: block;
+                font-size: 85%;
+                margin-bottom: 0.5em;
+            }
+            
+        }
+        
+    }
+    
+}
