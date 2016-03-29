@@ -91,6 +91,7 @@ export default class DocumentControls extends React.Component {
 					}
 					<a onClick={this.onClickTab.bind(this, 3)}>Export</a>
 					<a onClick={this.onClickTab.bind(this, 4)}>Import</a>
+                    <a onClick={this.onClickTab.bind(this, 5)}>Templates</a>
 				</div>
 				{view}
 			</div>
