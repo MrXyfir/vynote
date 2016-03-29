@@ -11,19 +11,15 @@ export default class DocumentFinder extends React.Component {
         this.state = { search: "", selected: 0 };
         
         this.onInput = this.onInput.bind(this);
-        this.onNext = this.onNext.bind(this);
     }
     
     onInput(e) {
         this.setState({ search: e.target.value.toLowerCase() });
     }
     
-    onNext() {
-        this.props.next(this.state.selected);
-    }
-    
     onSelectDocument(id) {
         this.setState({ selected: id });
+        this.props.onSelect(id);
     }
     
     render() {
@@ -46,9 +42,6 @@ export default class DocumentFinder extends React.Component {
         return (
             <div className="document-finder">
                 <input type="text" ref="search" onInput={this.onInput} placeholder="Search" />
-                <button className="btn-primary" onClick={this.onNext}>
-                    {this.props.buttonText}
-                </button>
                 
                 <hr />
                 
