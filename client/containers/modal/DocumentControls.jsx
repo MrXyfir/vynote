@@ -3,12 +3,13 @@ import React from "react";
 // Components
 import VersionControl from "../../components/modal/document-controls/VersionControl";
 import Contributors from "../../components/modal/document-controls/Contributors";
+import Templates from "../../components/modal/document-controls/Templates";
 import Export from "../../components/modal/document-controls/Export";
 import Import from "../../components/modal/document-controls/Import";
 
 // Action types
 import {
-    VERSIONS, CONTRIBUTORS, IMPORT, EXPORT
+    VERSIONS, CONTRIBUTORS, IMPORT, EXPORT, TEMPLATES
 } from "../../constants/action-types/modal/document-controls/";
 
 // Action creators
@@ -26,6 +27,7 @@ export default class DocumentControls extends React.Component {
 			case 2: return this.props.dispatch(changeTab(CONTRIBUTORS));
 			case 3: return this.props.dispatch(changeTab(EXPORT));
 			case 4: return this.props.dispatch(changeTab(IMPORT));
+            case 5: return this.props.dispatch(changeTab(TEMPLATES));
 		}
 	}
 
@@ -35,8 +37,8 @@ export default class DocumentControls extends React.Component {
 			case "CONTRIBUTORS":
 				view = (
 					<Contributors
-						data={this.props.data} 
-						socket={this.props.socket} 
+						data={this.props.data}
+						socket={this.props.socket}
 						dispatch={this.props.dispatch}
 					/>
 				); break;
@@ -44,8 +46,8 @@ export default class DocumentControls extends React.Component {
 			case "EXPORT":
 				view = (
 					<Export
-						data={this.props.data} 
-						socket={this.props.socket} 
+						data={this.props.data}
+						socket={this.props.socket}
 						dispatch={this.props.dispatch}
 					/>
 				); break;
@@ -53,17 +55,26 @@ export default class DocumentControls extends React.Component {
 			case "IMPORT":
 				view = (
 					<Import
-						data={this.props.data} 
-						socket={this.props.socket} 
+						data={this.props.data}
+						socket={this.props.socket}
 						dispatch={this.props.dispatch}
 					/>
 				); break;
+                
+            case "TEMPLATES":
+                view = (
+                    <Templates
+                        data={this.props.data}
+						socket={this.props.socket}
+						dispatch={this.props.dispatch}
+                    />
+                ); break;
 				
 			default:
 				view = (
 					<VersionControl
-						data={this.props.data} 
-						socket={this.props.socket} 
+						data={this.props.data}
+						socket={this.props.socket}
 						dispatch={this.props.dispatch}
 					/>
 				);
