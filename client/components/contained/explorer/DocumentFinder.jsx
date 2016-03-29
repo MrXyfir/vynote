@@ -28,13 +28,17 @@ export default class DocumentFinder extends React.Component {
         ];
         
         Object.keys(this.props.explorer.documents).forEach(id => {
-            if (this.props.explorer.documents[id].name.toLowerCase().indexOf(this.state.search) > -1) {
+            if (this.props.types.indexOf(this.props.explorer.documents[id].doc_type) == -1) {
+                return;
+            }
+            else if (this.props.explorer.documents[id].name.toLowerCase().indexOf(this.state.search) > -1) {
                 let doc = this.props.explorer.documents[id]; 
                 
                 searchResults.push({
                     id, name: doc.name, directory: scopeParents(
                         this.props.explorer.folders, doc.folder_id
-                    ).join('/') + '/' + this.props.explorer.folders[doc.folder_id].name
+                    ).map(dir => { return dir.name; }).join('/')
+                        + '/' + this.props.explorer.folders[doc.folder_id].name
                 });
             }
         });
@@ -42,8 +46,6 @@ export default class DocumentFinder extends React.Component {
         return (
             <div className="document-finder">
                 <input type="text" ref="search" onInput={this.onInput} placeholder="Search" />
-                
-                <hr />
                 
                 <div className="search-results">{
                     searchResults.map(res => {
