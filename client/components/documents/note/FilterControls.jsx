@@ -36,7 +36,7 @@ export default class FilterControls extends React.Component {
     onSearch(e) {
         if (e.target.value.length > 3 || e.target.value == "") {
             this.props.dispatch(setSearchQuery(
-                e.target.value
+                e.target.value.toLowerCase()
             ));
         }
     }

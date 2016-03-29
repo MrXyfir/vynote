@@ -224,7 +224,7 @@ export default class Element extends React.Component {
         // Only show elements that contain search query
         if (this.props.data.render.filter.search != "") {
             if (
-                this.props.data.content[this.props.id].content.indexOf(
+                this.props.data.content[this.props.id].content.toLowerCase().indexOf(
                     this.props.data.render.filter.search
                 ) == -1
             ) return <div className="note-element-hidden" />;
