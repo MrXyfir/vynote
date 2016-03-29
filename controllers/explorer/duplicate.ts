@@ -21,7 +21,7 @@ export = (socket: SocketIO.Socket, doc: number, fn: Function) => {
                 SELECT ?, content FROM document_content WHERE doc_id = ?
             `;
 
-            cn.query(sql, [id, id], (err, result) => {
+            cn.query(sql, [id, doc], (err, result) => {
                 cn.release();
                 fn(false, id);
             });
