@@ -139,13 +139,14 @@ export default function (state, action) {
                         
                         temp.documents[action.newId] = temp.documents[action.id];
                         temp.documents[action.newId].doc_id = action.newId;
+                        temp.documents[action.newId].name += " - Copy";
                         
                         temp.children[temp.documents[action.id].folder_id].push(
-                            { obType: 2, id: action.newId }
+                            { type: 2, id: action.newId }
                         );
                         
                         return temp;
-                    }).cal();
+                    }).call();
 					
 				default:
 					return state;
