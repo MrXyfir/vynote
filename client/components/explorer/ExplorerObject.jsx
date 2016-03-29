@@ -94,6 +94,8 @@ export default class ExplorerObject extends React.Component {
                         this.props.dispatch(selectTab(0));
                     }
                 }
+                
+                this.props.dispatch(success(`${this.props.type == 2 ? "Document" : "Folder"} deleted`));
 			}
 		});
 	}
