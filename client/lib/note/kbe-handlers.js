@@ -1,11 +1,12 @@
 // Action creators
 import {
     moveElement, navigateToElement, toggleShowChildren, deleteElement,
-    addElement, editElement
+    addElement, editElement, elementCreated
 } from "../../actions/documents/note";
 import { error } from "../../actions/notification";
 
 // Modules
+import { encrypt } from "../crypto";
 import generateID from "./generate-id";
 
 // Move element being edited into older sibling's children
@@ -21,11 +22,25 @@ export function tab(props) {
             index: -1, parent: sibling
         };
         
+        if (props.data.content[props.id].create) {
+            data.content = (
+                props.data.encrypted
+                ? encrypt(
+                    document.querySelector(".editing").value, props.data.encrypt
+                )
+                : document.querySelector(".editing").value
+            );
+            data.action = "CREATE";
+        }
+        
         props.socket.emit("change note element", data, (err, res) => {
             if (err) {
                 props.dispatch(error(res));
             }
             else {
+                if (props.data.content[props.id].create)
+                    props.dispatch(elementCreated(props.id));
+                
                 props.dispatch(moveElement(
                     props.id, sibling
                 ));
@@ -50,12 +65,28 @@ export function shiftTab(props) {
             doc: props.data.doc_id, action: "MOVE", id: props.id,
             parent: gparent, index
         };
+        
+        if (props.data.content[props.id].create) {
+            data.content = (
+                props.data.encrypted
+                ? encrypt(
+                    document.querySelector(".editing").value, props.data.encrypt
+                )
+                : document.querySelector(".editing").value
+            );
+            data.action = "CREATE";
+        }
 
         props.socket.emit("change note element", data, (err, res) => {
-            if (err)
+            if (err) {
                 props.dispatch(error(res));
-            else
+            }
+            else {
+                if (props.data.content[props.id].create)
+                    props.dispatch(elementCreated(props.id));
+                
                 props.dispatch(moveElement(props.id, gparent, index));
+            }
         });
     }
 }
