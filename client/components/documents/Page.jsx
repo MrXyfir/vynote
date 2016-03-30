@@ -9,6 +9,9 @@ import {
 // Components
 import Editor from "./Editor";
 
+// Modules
+import diff from "../../lib/document/diff";
+
 export default class Page extends React.Component {
 	
 	constructor(props) {
@@ -18,9 +21,13 @@ export default class Page extends React.Component {
 	}
 	
 	onChange(e) {
-		e.doc = this.props.data.doc_id;
+        let data = {
+            doc_id: this.props.data.doc_id, changes: diff(
+                this.props.data.content, e.content
+            )
+        };
 		
-		this.props.socket.emit("update document content", e, (err) => {
+		this.props.socket.emit("update document content", data, (err) => {
 			if (err)
                 this.props.dispatch(saveError());
 			else
