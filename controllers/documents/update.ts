@@ -2,7 +2,7 @@
 import db = require("../../lib/db");
 
 interface IData {
-    doc?: number, changes: any[], version?: number
+    doc: number, changes: any[], version?: number
 }
 
 export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
@@ -54,7 +54,6 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
         }
         else {
             let version = Date.now();
-            delete data.doc;
             let change = JSON.stringify(data);
 
             sql = `
