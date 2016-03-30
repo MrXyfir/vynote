@@ -13,6 +13,7 @@ import {
 import { initializeRenderObject } from "../actions/documents/note";
 
 // Modules
+import updateContent from "../../lib/document/update";
 import buildNote from "../lib/note/build";
 
 export default class Document extends React.Component {
@@ -37,8 +38,11 @@ export default class Document extends React.Component {
             }
             // Load content into state and set encryption key
             else {
+                // Build content object/string and merge changes
                 if (this.props.data.document.doc_type === 1)
                     content = buildNote(content.content, content.changes, key);
+                else
+                    content = updateContent(res.content, res.changes);
                 
                 // Load content into state
                 this.props.dispatch(loadContent(content));

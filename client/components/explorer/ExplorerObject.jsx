@@ -20,6 +20,7 @@ import { initializeRenderObject } from "../../actions/documents/note";
 import colors from "../../constants/colors";
 
 // Modules
+import updateContent from "../../../lib/document/update";
 import getParents from "../../lib/explorer/scope-parents";
 import buildNote from "../../lib/note/build";
 
@@ -163,7 +164,8 @@ export default class ExplorerObject extends React.Component {
 					}
 					else {
                         let data = Object.assign({}, obj, {
-                            content: res, theme: this.props.data.user.config.defaultEditorTheme
+                            content: updateContent(res.content, res.changes),
+                            theme: this.props.data.user.config.defaultEditorTheme
                         });
                         
                         if (obj.doc_type == 2)
