@@ -39,7 +39,7 @@ export default class Templates extends React.Component {
                 res = buildNoteObject(res.content, res.changes);
                 
                 Object.keys(res).forEach(note => {                    
-                    vars.concat(res[note].content.match(regex) || []);
+                    vars = vars.concat(res[note].content.match(regex) || []);
                 });
             }
             // Get variables in normal text content
@@ -88,7 +88,8 @@ export default class Templates extends React.Component {
             }
         }
         
-        if (this.props.data.document.doc_id === 1) {
+        // Update current document
+        if (this.props.data.document.doc_type === 1) {
             let note = Object.assign({}, newContent);
             
             if (this.props.data.document.encrypted) {
@@ -102,10 +103,15 @@ export default class Templates extends React.Component {
             note = JSON.stringify(note);
             
             // Overwrite document's entire note object
-            this.props.socket.emit("set note object", this.props.document.doc_id, note);
-            
-            this.props.dispatch(loadContent(newContent));
-            this.props.dispatch(initializeRenderObject());
+            this.props.socket.emit("set note object", this.props.data.document.doc_id, note, (err) => {
+                if (err) {
+                    this.props.dispatch(error("An unknown error occured"));
+                }
+                else {
+                    this.props.dispatch(loadContent(newContent));
+                    this.props.dispatch(initializeRenderObject());
+                }
+            });
         }
         else {
             // Encrypt final content if document is encrypted
