@@ -1,4 +1,4 @@
-import jsdiff from "diff";
+let jsdiff = require("diff");
 
 export default function (oldText, newText) {
     
