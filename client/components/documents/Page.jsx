@@ -44,7 +44,7 @@ export default class Page extends React.Component {
                     : (
                         <Editor
                             onChange={this.onChange}
-                            dispatch={this.dispatch}
+                            dispatch={this.props.dispatch}
                             data={this.props.data}
                             user={this.props.user}
                         />
