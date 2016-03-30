@@ -16,13 +16,16 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
             ))
         ) as has_access, (
             SELECT COUNT(doc_id) FROM document_versions WHERE doc_id = ? AND name = ?
-        ) as version_exists
+        ) as version_exists, (
+            SELECT doc_type FROM documents WHERE doc_id = ?
+        ) as doc_type
     `;
     let vars = [
         doc,
         doc, socket.session.uid,
         doc, socket.session.uid,
-        doc, name
+        doc, name,
+        doc
     ];
 
     db(cn => cn.query(sql, vars, (err, rows) => {
@@ -60,7 +63,11 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
                         cn.release();
 
                         fn(false);
-                        socket.broadcast.to(''+doc).emit("note change", { action: "RELOAD" });
+
+                        if (rows[0].doc_type == 1)
+                            socket.broadcast.to('' + doc).emit("note change", { action: "RELOAD" });
+                        else
+                            socket.broadcast.to('' + doc).emit("update content", { action: "RELOAD" });
                     });
                 }
             });

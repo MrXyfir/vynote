@@ -1,4 +1,5 @@
-﻿import mergeChanges = require("../../lib/note/merge-changes");
+﻿import mergeNoteChanges = require("../../lib/note/merge-changes");
+import mergeDocChanges = require("../../lib/document/merge-changes");
 import db = require("../../lib/db");
 
 export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
@@ -76,16 +77,29 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
             };
 
             // Merge document changes if needed
-            if (rows[0].doc_type == 1 && rows[0].changes > 0) {
-                mergeChanges(doc, cn, err => {
-                    if (err) {
-                        cn.release();
-                        fn(true);
-                    }
-                    else {
-                        createVersion();
-                    }
-                });
+            if (rows[0].changes > 0) {
+                if (rows[0].doc_type == 1) {
+                    mergeNoteChanges(doc, cn, err => {
+                        if (err) {
+                            cn.release();
+                            fn(true);
+                        }
+                        else {
+                            createVersion();
+                        }
+                    });
+                }
+                else {
+                    mergeDocChanges(doc, cn, err => {
+                        if (err) {
+                            cn.release();
+                            fn(true);
+                        }
+                        else {
+                            createVersion();
+                        }
+                    });
+                }
             }
             else {
                 createVersion();
