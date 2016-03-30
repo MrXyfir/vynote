@@ -1,5 +1,6 @@
 // Reducers
 import contributors from "./contributors";
+import templates from "./templates";
 import versions from "./versions";
 
 export default function (state, action) {
@@ -18,6 +19,9 @@ export default function (state, action) {
             
             case "CONTRIBUTORS":
                 return contributors(state, action);
+                
+            case "TEMPLATES":
+                return templates(state, action);
                 
             default:
                 return state;
