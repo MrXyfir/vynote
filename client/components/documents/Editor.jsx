@@ -1,7 +1,11 @@
 import React from "react";
 
+import { toggleMarkForReload } from "../../actions/documents/";
+
+// Constants
 import { getThemeFile, getSyntaxFile } from "../../constants/editor";
 
+// Modules
 import { encrypt, decrypt } from "../../lib/crypto";
 
 export default class Ace extends React.Component {
@@ -48,6 +52,8 @@ export default class Ace extends React.Component {
             nProps.data.theme != this.props.data.theme
             ||
             nProps.data.doc_id != this.props.data.doc_id
+            ||
+            nProps.data.reload
         );
     }
     
@@ -64,6 +70,10 @@ export default class Ace extends React.Component {
 			: this.props.data.content
 		);
         this.silent = false;
+        
+        // Set state.document.reload = false
+        if (this.props.data.reload)
+            this.props.dispatch(toggleMarkForReload());
     }
 	
 	componentWillUnmount() {
