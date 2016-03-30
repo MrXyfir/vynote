@@ -150,7 +150,7 @@ div[class^="explorer-object-"]:hover, .list > .tab:hover, .list > .active {
     
     .search-results {
         
-        height: 18em;
+        max-height: 18em;
         overflow-y: auto;
         
         .result {
@@ -168,6 +168,10 @@ div[class^="explorer-object-"]:hover, .list > .tab:hover, .list > .active {
                 margin-bottom: 0.5em;
             }
             
+        }
+        
+        .selected {
+            background-color: $llgray;
         }
         
     }
