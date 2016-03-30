@@ -24,7 +24,7 @@ export = (doc: number, cn: any, fn?: Function) => {
         `;
         cn.query(sql, [doc], (err, rows) => {
             changes.forEach(change => {
-                update(rows[0].content, JSON.parse(change.change_object).changes);
+                rows[0].content = update(rows[0].content, JSON.parse(change.change_object).changes);
             });
 
             // Write notes object to document_content
