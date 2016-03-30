@@ -28,7 +28,10 @@ export default class DocumentFinder extends React.Component {
         ];
         
         Object.keys(this.props.explorer.documents).forEach(id => {
-            if (this.props.types.indexOf(this.props.explorer.documents[id].doc_type) == -1) {
+            if (this.state.search === "") {
+                return;
+            }
+            else if (this.props.types.indexOf(this.props.explorer.documents[id].doc_type) == -1) {
                 return;
             }
             else if (this.props.explorer.documents[id].name.toLowerCase().indexOf(this.state.search) > -1) {
