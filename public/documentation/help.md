@@ -9,6 +9,16 @@ Shortcuts are available for premium members in all document types. Shortcuts all
 ## Multi-User Documents
 Multi-user documents allow you and other Vynote users to work on the same document. Changes are automatically sent to all users working on the document. Document contributors can be managed in the `Contributors` tab of the `Document Controls` menu.
 
+## Templates
+Templates can be used by Premium Members in all documents. In the `Templates` tab of the `Document Controls` menu you can load other documents of the same type as a template. Loading a template will replace the current document's content with that of the template.
+
+#### Variables
+Variables allow you to insert data in specific pre-determined locations into your document's content when loading the template. A variable can be created in a template simply by typing `{{variable}}` where `variable` is the name you want your variable to use. Then, when you're loading a template into another document you will see input boxes with the names of the variables you placed in your template. The values you set in the input boxes will be inserted at the corresponding variable.
+
+#### Notes
+- Templates **cannot** be encrypted. Templates **can** be used with encrypted documents.
+- The same variable cannot be present multiple times.
+
 ### Premium Member Features
 - Free members are limited to adding only two other users to contribute to your document. Premium members can add as many users as they like.
 - Any contributors that free members add receive all permissions for the document. If you're a premium member, you can set specific permissions for each user.
