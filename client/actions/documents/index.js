@@ -3,7 +3,7 @@ import {
 } from "../../constants/action-types/notifications";
 import {
     SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT,
-    DELETE_DOCUMENT, CLOSE_DOCUMENT
+    DELETE_DOCUMENT, CLOSE_DOCUMENT, MARK_FOR_RELOAD
 } from "../../constants/action-types/documents/";
 import {
 	DOCUMENT_CONTROLS
@@ -66,5 +66,11 @@ export function deleteDocument(id) {
 export function closeDocument() {
     return {
         type: CLOSE_DOCUMENT
+    };
+}
+
+export function toggleMarkForReload() {
+    return {
+        type: MARK_FOR_RELOAD
     };
 }

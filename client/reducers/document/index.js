@@ -6,7 +6,7 @@ import code from "./code";
 // Action types
 import {
     SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT,
-    DELETE_DOCUMENT, CLOSE_DOCUMENT
+    DELETE_DOCUMENT, CLOSE_DOCUMENT, MARK_FOR_RELOAD
 } from "../../constants/action-types/documents/";
 
 export default function (state, action) {
@@ -56,6 +56,9 @@ export default function (state, action) {
                         
                 case CLOSE_DOCUMENT:
                     return { doc_type: 0, doc_id: 0, folder_id: 0 };
+                    
+                case MARK_FOR_RELOAD:
+                    return Object.assign({}, state, { reload: !state.reload });
 				
 				default:
 					return state;
