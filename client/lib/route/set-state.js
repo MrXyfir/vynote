@@ -7,8 +7,9 @@ import {
 
 // Modules
 import doesMatch from "./does-match";
-import buildNote from "../../lib/note/build";
-import getParents from "../../lib/explorer/scope-parents";
+import buildNote from "../note/build";
+import getParents from "../explorer/scope-parents";
+import updateContent from "../../../lib/document/update";
 
 export default function (store, socket, check = false) {
     
@@ -75,8 +76,14 @@ export default function (store, socket, check = false) {
     else {
         socket.emit("get document content", id, "", (err, res) => {
             if (!err) {
+                let changes = [];
+                res.changes.forEach(change => {
+                    changes = changes.concat(JSON.parse(change.change_object).changes);
+                });
+                
                 let data = Object.assign({}, doc, {
-                    content: res, theme: state.user.config.defaultEditorTheme
+                    content: updateContent(res.content, changes),
+                    theme: state.user.config.defaultEditorTheme
                 });
                 
                 if (doc.doc_type == 2)
