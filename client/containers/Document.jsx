@@ -39,10 +39,17 @@ export default class Document extends React.Component {
             // Load content into state and set encryption key
             else {
                 // Build content object/string and merge changes
-                if (this.props.data.document.doc_type === 1)
+                if (this.props.data.document.doc_type === 1) {
                     content = buildNote(content.content, content.changes, key);
-                else
-                    content = updateContent(res.content, res.changes);
+                }
+                else {
+                    let changes = [];
+                    res.changes.forEach(change => {
+                        changes = changes.concat(JSON.parse(change.change_object).changes);
+                    });
+                    
+                    content = updateContent(res.content, changes),
+                }
                 
                 // Load content into state
                 this.props.dispatch(loadContent(content));

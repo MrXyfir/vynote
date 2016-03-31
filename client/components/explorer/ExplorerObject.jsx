@@ -163,8 +163,13 @@ export default class ExplorerObject extends React.Component {
 						this.props.dispatch(error("Could not load document"));
 					}
 					else {
+                        let changes = [];
+                        res.changes.forEach(change => {
+                            changes = changes.concat(JSON.parse(change.change_object).changes);
+                        });
+                        
                         let data = Object.assign({}, obj, {
-                            content: updateContent(res.content, res.changes),
+                            content: updateContent(res.content, changes),
                             theme: this.props.data.user.config.defaultEditorTheme
                         });
                         
