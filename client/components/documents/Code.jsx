@@ -40,7 +40,6 @@ export default class Code extends React.Component {
 		const syntax = +this.refs.syntax.value; 
 		
 		this.props.socket.emit("set document syntax", this.props.data.doc_id, syntax, (err) => {
-            console.log("error status ", err);
 			if (!err) {
 				this.props.dispatch(setSyntax(syntax));
 			}
