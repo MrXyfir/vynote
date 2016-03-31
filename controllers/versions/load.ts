@@ -21,11 +21,10 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
         ) as doc_type
     `;
     let vars = [
-        doc,
-        doc, socket.session.uid,
-        doc, socket.session.uid,
-        doc, name,
-        doc
+        doc, socket.session.uid, // owns
+        doc, socket.session.uid, // has access
+        doc, name, // version exists
+        doc // doc type
     ];
 
     db(cn => cn.query(sql, vars, (err, rows) => {
