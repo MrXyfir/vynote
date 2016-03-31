@@ -23,7 +23,7 @@ export default class Code extends React.Component {
 	
 	onChange(e) {
 		let data = {
-            doc_id: this.props.data.doc_id, changes: diff(
+            doc: this.props.data.doc_id, changes: diff(
                 this.props.data.content, e.content
             )
         };
