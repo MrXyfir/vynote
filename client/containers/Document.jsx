@@ -48,7 +48,7 @@ export default class Document extends React.Component {
                         changes = changes.concat(JSON.parse(change.change_object).changes);
                     });
                     
-                    content = updateContent(res.content, changes),
+                    content = updateContent(res.content, changes);
                 }
                 
                 // Load content into state
