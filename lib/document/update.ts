@@ -2,7 +2,7 @@
     insert?: string, remove?: boolean, at: number, for?: number
 }
 
-function update(content: string, changes: IChanges[]) {
+export = (content: string, changes: IChanges[]) => {
     changes.forEach(change => {
         if (change.insert) {
             content = content.substring(0, change.at)
@@ -14,8 +14,6 @@ function update(content: string, changes: IChanges[]) {
                 + content.substring(change.at + change.for);
         }
     });
-
+    
     return content;
 }
-
-export = update;
