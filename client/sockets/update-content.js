@@ -3,7 +3,7 @@ import { saveContent, toggleMarkForReload } from "../actions/documents/";
 import { markForReload } from "../actions/explorer/tabs";
 
 // Modules
-import updateDocument from "../../lib/document/update";
+import updateContent from "../../lib/document/update";
 
 export default function (store, data) {
     
@@ -11,7 +11,7 @@ export default function (store, data) {
     
     if (state.document.doc_id == data.doc) {
         store.dispatch(saveContent(
-            update(state.document.content, data.changes)
+            updateContent(state.document.content, data.changes)
         ));
         store.dispatch(toggleMarkForReload());
     }
