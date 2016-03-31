@@ -23,6 +23,9 @@ export default function (store, data) {
                 
             case "MOVE":
                 return store.dispatch(moveElement(data.id, data.parent, data.index));
+                
+            case "RELOAD":
+                location.reload();
         }
     }
     else if (data.doc in state.explorer.tabs.list) {

@@ -10,6 +10,9 @@ export default function (store, data) {
     let state = store.getState();
     
     if (state.document.doc_id == data.doc) {
+        if (data.action === "RELOAD")
+            location.reload();
+        
         store.dispatch(saveContent(
             updateContent(state.document.content, data.changes)
         ));
