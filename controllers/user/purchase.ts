@@ -15,11 +15,13 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
         return;
     }
 
+    let months: number = [0, 1, 6, 12][data.months];
+
     let info = {
         amount: amount,
         currency: "usd",
         source: data.token,
-        description: `Vynote - ${data.months} Months`
+        description: `Vynote - Premium Subscription`
     };
     
     require("stripe")(stripeKey).charges.create(info, (err, charge) => {
@@ -39,8 +41,8 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
 
             // Add months to current subscription expiration (or now())
             let subscription: number = rows[0].subscription == 0
-                ? (Date.now() + (data.months * 43200 * 60 * 1000))
-                : ((new Date(rows[0].subscription)).getTime() + (data.months * 43200 * 60 * 1000));
+                ? (Date.now() + (months * 43200 * 60 * 1000))
+                : ((new Date(rows[0].subscription)).getTime() + (months * 43200 * 60 * 1000));
 
             // Update in database
             sql = "UPDATE users SET subscription = ? WHERE user_id = ?";
