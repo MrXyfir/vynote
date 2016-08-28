@@ -44,7 +44,7 @@ gulp.task("client", function() {
     const extensions = [".jsx", ".js"];
     
     const b = browserify(
-        './client/components/App.jsx', {
+        './client/containers/App.jsx', {
             debug: true, extensions, paths: ["./client"]
         }
     );
