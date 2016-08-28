@@ -44,7 +44,7 @@ export = (socket: SocketIO.Socket, xid: string, auth: string, fn: Function) => {
                     cn.query(sql, [body.email, rows[0].user_id], (err, result) => {
                         cn.release();
 
-                        if (err || !result.affectedRows) {
+                        if (err) {
                             fn(true);
                         }
                         else {
