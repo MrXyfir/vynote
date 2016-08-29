@@ -1,11 +1,11 @@
-﻿import { session } from "../../lib/session";
-import db = require("../../lib/db");
+﻿const session = require("lib/session");
+const db = require("lib/db");
 
-interface IData {
+/* interface IData {
     months: number, token: string
-}
+} */
 
-export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
+module.exports = function(socket, data, fn) {
 
     let stripeKey = require("../../config").keys.stripe;
     let amount = [0, 300, 1500, 2400][data.months];
@@ -28,7 +28,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
             return;
         }
 
-        let sql: string = "SELECT subscription FROM users WHERE user_id = ?";
+        let sql = "SELECT subscription FROM users WHERE user_id = ?";
 
         db(cn => cn.query(sql, [socket.session.uid], (err, rows) => {
             if (err || !rows.length) {
@@ -38,7 +38,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
             }
 
             // Add months to current subscription expiration (or now())
-            let subscription: number = rows[0].subscription == 0
+            let subscription = rows[0].subscription == 0
                 ? (Date.now() + (data.months * 43200 * 60 * 1000))
                 : ((new Date(rows[0].subscription)).getTime() + (data.months * 43200 * 60 * 1000));
 
@@ -62,4 +62,4 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
         }));
     });
 
-};
+}

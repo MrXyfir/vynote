@@ -1,14 +1,16 @@
-﻿import * as request from "request";
-import db = require("../../lib/db");
+﻿const request = require("request");
+const db = require("lib/db");
 
-export = (socket: SocketIO.Socket, keywords: string[], fn: Function) => {
+const config = require("config");
+
+module.exports = function(socket, keywords, fn) {
 
     if (socket.session.subscription > Date.now()) {
         fn({});
         return;
     }
 
-    let url: string = require("../../config").address.xad
+    let url = config.address.xad
         + "&types=1,2,3&count=1&keywords=" + keywords.join(",")
         + "&ip=" + socket.handshake.address;
 
@@ -17,4 +19,4 @@ export = (socket: SocketIO.Socket, keywords: string[], fn: Function) => {
         fn(!body.ads.length ? {} : body.ads[0]);
     });
 
-};
+}

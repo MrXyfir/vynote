@@ -1,11 +1,13 @@
-﻿import * as request from "request";
-import { session } from "../../lib/session";
-import db = require("../../lib/db");
+﻿const request = require("request");
+const session = require("lib/session");
+const db = require("lib/db");
 
-export = (socket: SocketIO.Socket, xid: string, auth: string, fn: Function) => {
+const config = require("config");
 
-    let url: string = require("../../config").address.xacc + "api/service/"
-        + "12/" + xid + "/" + auth;
+module.exports = function(socket, xid, auth, fn) {
+
+    let url = config.address.xacc + "api/service/12/"
+        config.keys.xacc + "/" + xid + "/" + auth;
 
     request(url, (err, response, body) => {
         body = JSON.parse(body);
@@ -16,7 +18,7 @@ export = (socket: SocketIO.Socket, xid: string, auth: string, fn: Function) => {
         }
 
         db(cn => {
-            let sql: string = "SELECT user_id, email, subscription FROM users WHERE xyfir_id = ?";
+            let sql = "SELECT user_id, email, subscription FROM users WHERE xyfir_id = ?";
             cn.query(sql, [xid], (err, rows) => {
 
                 // First login
@@ -61,4 +63,4 @@ export = (socket: SocketIO.Socket, xid: string, auth: string, fn: Function) => {
         });
     });
 
-};
+}

@@ -1,6 +1,6 @@
-﻿import db = require("../../lib/db");
+﻿const db = require("lib/db");
 
-export = (socket: SocketIO.Socket, fn: Function) => {
+module.exports = function(socket, fn) {
 
     if (!socket.session.uid) {
         fn(false);
@@ -8,7 +8,9 @@ export = (socket: SocketIO.Socket, fn: Function) => {
     }
 
     db(cn => {
-        let sql: string = "SELECT email, config, subscription FROM users WHERE user_id = ?";
+        let sql = `
+            SELECT email, config, subscription FROM users WHERE user_id = ?
+        `;
         cn.query(sql, [socket.session.uid], (err, rows) => {
             if (err || !rows.length) {
                 fn(false);
@@ -30,4 +32,4 @@ export = (socket: SocketIO.Socket, fn: Function) => {
         });
     });
 
-};
+}
