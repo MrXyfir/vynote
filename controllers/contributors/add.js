@@ -1,8 +1,8 @@
-﻿import db = require("../../lib/db");
+﻿const db = require("lib/db");
 
-export = (socket: SocketIO.Socket, doc: number, email: string, fn: Function) => {
+module.exports = function(socket, doc, email, fn) {
 
-    let sql: string = `
+    let sql = `
         SELECT (
             SELECT user_id FROM users WHERE email = ?
         ) as user_id, (
@@ -59,4 +59,4 @@ export = (socket: SocketIO.Socket, doc: number, email: string, fn: Function) => 
         }
     }));
 
-};
+}

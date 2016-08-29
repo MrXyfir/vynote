@@ -1,9 +1,9 @@
-﻿import db = require("../../lib/db");
+﻿const db = require("lib/db");
 
-export = (socket: SocketIO.Socket, doc: number, fn: Function) => {
+module.exports = function(socket, doc, fn) {
 
     // Get email and user_id of contributors to doc
-    let sql: string = `
+    let sql = `
         SELECT email, user_id FROM users WHERE user_id IN (
             SELECT user_id FROM document_contributors WHERE doc_id IN (
                 SELECT doc_id FROM documents WHERE doc_id = ? AND user_id = ?
@@ -49,4 +49,5 @@ export = (socket: SocketIO.Socket, doc: number, fn: Function) => {
             });
         }
     }));
-};
+    
+}
