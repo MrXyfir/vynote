@@ -1,10 +1,10 @@
-﻿import db = require("../../lib/db");
+﻿const db = require("lib/db");
 
-export = (socket: SocketIO.Socket, doc: number, encrypt: string, fn: Function) => {
+module.exports = function(socket, doc, encrypt, fn) {
 
     db(cn => {
         // Check if user has access to document
-        let sql: string = `
+        let sql = `
             SELECT (
                 SELECT COUNT(doc_id) FROM documents WHERE (
                     doc_id = ? AND user_id = ? AND encrypt = ?
@@ -50,4 +50,4 @@ export = (socket: SocketIO.Socket, doc: number, encrypt: string, fn: Function) =
         });
     });
 
-};
+}

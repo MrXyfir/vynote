@@ -1,9 +1,9 @@
-﻿import db = require("../../lib/db");
+﻿const db = require("lib/db");
 
-export = (socket: SocketIO.Socket, doc: number, content: string, fn: Function) => {
+module.exports = function(socket, doc, content, fn) {
 
     db(cn => {
-        let sql: string = `
+        let sql = `
             UPDATE document_content SET content = ? WHERE doc_id IN (
                 SELECT doc_id FROM documents WHERE doc_id = ? AND user_id = ?
             )
@@ -22,4 +22,4 @@ export = (socket: SocketIO.Socket, doc: number, content: string, fn: Function) =
         });
     });
 
-};
+}

@@ -1,12 +1,12 @@
-﻿import mergeChanges = require("../../lib/note/merge-changes");
-import db = require("../../lib/db");
+﻿const mergeChanges = require("lib/note/merge-changes");
+const db = require("lib/db");
 
-interface IData {
+/* interface IData {
     doc: number, id: string, action: string,
     content?: any, parent?: string, version?: number, index?: number
-}
+} */
 
-export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
+module.exports = function(socket, data, fn) {
     
     if (Object.keys(socket.rooms).indexOf(''+data.doc) == -1) {
         fn(true);
@@ -17,7 +17,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
         return;
     }
 
-    let sql: string = `
+    let sql = `
         SELECT (
             SELECT COUNT(doc_id) FROM documents 
             WHERE (doc_id = ? AND user_id = ?) OR doc_id IN (
@@ -78,4 +78,4 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
         }
     }));
 
-};
+}

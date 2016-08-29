@@ -1,7 +1,7 @@
-﻿import toObject = require("../../lib/notes-convert/to-object");
-import db = require("../../lib/db");
+﻿const toObject = require("lib/notes-convert/to-object");
+const db = require("lib/db");
 
-export = (socket: SocketIO.Socket, note: number, content: string[], fn: Function) => {
+module.exports = function(socket, note, content, fn) {
 
     if (Object.keys(socket.rooms).indexOf('' + note) == -1) {
         fn(true);
@@ -14,7 +14,7 @@ export = (socket: SocketIO.Socket, note: number, content: string[], fn: Function
     }
 
     // Ensure that user owns the note
-    let sql: string = `
+    let sql = `
         SELECT COUNT(doc_id) as has_access FROM documents 
         WHERE (doc_id = ? AND user_id = ?) 
         OR (doc_id IN (
@@ -33,7 +33,7 @@ export = (socket: SocketIO.Socket, note: number, content: string[], fn: Function
             fn(true, "You do not have access to this document");
         }
         else {
-            let insert: string = JSON.stringify(toObject(content));
+            let insert = JSON.stringify(toObject(content));
             content = null;
 
             sql = "UPDATE document_content SET content = ? WHERE doc_id = ?";
@@ -54,4 +54,5 @@ export = (socket: SocketIO.Socket, note: number, content: string[], fn: Function
             });
         }
     }));
-};
+
+}
