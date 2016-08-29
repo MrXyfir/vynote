@@ -1,6 +1,6 @@
-﻿import db = require("../../lib/db");
+﻿const db = require("lib/db");
 
-export = (socket: SocketIO.Socket, name: string, content: string, fn: Function) => {
+module.exports = function(socket, name, content, fn) {
     
     if (Date.now() > socket.session.subscription) {
         fn(true, "Free members cannot create shortcuts");
@@ -9,7 +9,7 @@ export = (socket: SocketIO.Socket, name: string, content: string, fn: Function) 
         fn(true, "Name or content length limit hit");
     }
     else {
-        let sql: string = "INSERT INTO shortcuts SET ?";
+        let sql = "INSERT INTO shortcuts SET ?";
         let insert = {
             user_id: socket.session.uid, name: name, content: content
         };
@@ -20,4 +20,5 @@ export = (socket: SocketIO.Socket, name: string, content: string, fn: Function) 
             fn(!!err || !result.affectedRows);
         }));
     }
-};
+
+}
