@@ -1,11 +1,11 @@
-﻿import db = require("../../lib/db");
+﻿const db = require("lib/db");
 
-export = (socket: SocketIO.Socket, objType: number, id: number, fn: Function) => {
+module.exports = function(socket, objType, id, fn) {
 
     // Object we're deleting is not a folder
     if (objType != 1) {
-        let table: string = objType == 2 ? "documents" : "document_contributors";
-        let sql: string = "DELETE FROM " + table + " WHERE doc_id = ? AND user_id = ?";
+        let table = objType == 2 ? "documents" : "document_contributors";
+        let sql = "DELETE FROM " + table + " WHERE doc_id = ? AND user_id = ?";
 
         db(cn => cn.query(sql, [id, socket.session.uid], (err, result) => {
             cn.release();
@@ -22,7 +22,9 @@ export = (socket: SocketIO.Socket, objType: number, id: number, fn: Function) =>
     // Due to foreign keys pointing to folder_id, contained documents are automatically deleted
     else {
         db(cn => {
-            let sql: string = "SELECT COUNT(folder_id) as count FROM folders WHERE parent_id = ? AND user_id = ?";
+            let sql = `
+                SELECT COUNT(folder_id) as count FROM folders WHERE parent_id = ? AND user_id = ?
+            `;
 
             cn.query(sql, [id, socket.session.uid], (err, rows) => {
                 if (err || rows[0].count > 0) {
@@ -41,4 +43,4 @@ export = (socket: SocketIO.Socket, objType: number, id: number, fn: Function) =>
         });
     }
 
-};
+}

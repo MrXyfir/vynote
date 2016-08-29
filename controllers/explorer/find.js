@@ -1,6 +1,6 @@
-﻿import db = require("../../lib/db");
+﻿const db = require("lib/db");
 
-interface IData {
+/* interface IData {
     query: {
         name: string, content: string
     },
@@ -9,13 +9,13 @@ interface IData {
 
 interface IFound {
     doc_type: number, doc_id: number, folder_id: number, name: string
-}
+} */
 
-export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
+module.exports = function(socket, data, fn) {
 
     // Build found[] based on argument variables
-    const finish = (firstFound: IFound[], documents: any[], notes: any[]) => {
-        let found: IFound[] = [];
+    const finish = (firstFound, documents, notes) => {
+        let found = [];
 
         firstFound.forEach(row => {
             // Determine if row.doc_id is in documents or notes
@@ -38,7 +38,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
 
     db(cn => {
         // Grab all of user's documents where type and name match
-        let sql: string = `
+        let sql = `
             SELECT doc_type, doc_id, folder_id, name FROM documents
             WHERE (user_id = ? OR doc_id IN(
                     SELECT doc_id FROM document_contributors WHERE user_id = ?
@@ -51,7 +51,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
             data.docTypes, (data.isRegExp ? data.query.name : '%' + data.query.name + '%')
         ];
 
-        cn.query(sql, vars, (err, rows: IFound[]) => {
+        cn.query(sql, vars, (err, rows) => {
             // Error or no matches
             if (err || !rows.length) {
                 cn.release();
@@ -90,4 +90,4 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
         });
     });
 
-};
+}

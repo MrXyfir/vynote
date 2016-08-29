@@ -1,13 +1,13 @@
-﻿import db = require("../../lib/db");
+﻿const db = require("lib/db");
 
-interface IData {
+/* interface IData {
     objType: number, folder: number, name: string,
     color: number, docType?: number, encrypt?: string, syntax?: number
-}
+} */
 
-export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
+module.exports = function(socket, data, fn) {
 
-    let sql: string = `
+    let sql = `
         SELECT (
             SELECT COUNT(folder_id) FROM folders WHERE user_id = ?
         ) as folder_count, (
@@ -70,7 +70,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                 data.name = !data.name.match(/^[\w\d- .,#$%&()]{1,50}$/) ? "New File" : data.name;
 
                 // data.encrypt is encrypt("KEY", userEncKey), used to verify encryption keys
-                let encrypt: string = (data.encrypt.length > 0 && socket.session.subscription > Date.now())
+                let encrypt = (data.encrypt.length > 0 && socket.session.subscription > Date.now())
                     ? data.encrypt : "";
 
                 sql = "INSERT INTO documents SET ?";
@@ -93,7 +93,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
                     fn(true, "An unknown error occured");
                 }
                 else {
-                    let id: number = result.insertId;
+                    let id = result.insertId;
 
                     // Create row in document_content for documents
                     if (data.objType == 2) {
@@ -122,4 +122,4 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
         }
     }));
 
-};
+}

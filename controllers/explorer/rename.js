@@ -1,10 +1,10 @@
-﻿import db = require("../../lib/db");
+﻿const db = require("lib/db");
 
-interface IData {
+/* interface IData {
     objType: number, id: number, name: string
-}
+} */
 
-export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
+module.exports = function(socket, data, fn) {
 
     // Validate name
     if (!data.name.match(/^[\w\d- .,#$%&()]{1,50}$/)) {
@@ -17,7 +17,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
     // Document or folder
     else {
         // Update folders|documents where folder_id|doc_id
-        let sql: string = `
+        let sql = `
             UPDATE ${data.objType == 1 ? "folders" : "documents"} 
             SET name = ? WHERE ${data.objType == 1 ? "folder_id" : "doc_id"} = ? AND user_id = ?
         `;
@@ -29,4 +29,4 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
         }));
     }
 
-};
+}

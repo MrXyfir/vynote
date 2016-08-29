@@ -1,10 +1,10 @@
-﻿import db = require("../../lib/db");
+﻿const db = require("lib/db");
 
-interface IData {
+/* interface IData {
     objType: number, id: number, to: number
-}
+} */
 
-export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
+module.exports = function(socket, data, fn) {
 
     if (data.objType != 1 && data.to == 0) {
         fn(true, "Cannot move document to root folder");
@@ -12,7 +12,7 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
     }
 
     db(cn => {
-        let sql: string = "";
+        let sql = "";
 
         // Ensure that user owns folder they want to move object to
         sql = "SELECT * FROM folders WHERE user_id = ? AND folder_id = ?";
@@ -41,4 +41,4 @@ export = (socket: SocketIO.Socket, data: IData, fn: Function) => {
         });
     });
 
-};
+}
