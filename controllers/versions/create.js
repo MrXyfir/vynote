@@ -1,8 +1,8 @@
-﻿import mergeNoteChanges = require("../../lib/note/merge-changes");
-import mergeDocChanges = require("../../lib/document/merge-changes");
-import db = require("../../lib/db");
+﻿const mergeNoteChanges = require("lib/note/merge-changes");
+const mergeDocChanges = require("lib/document/merge-changes");
+const db = require("lib/db");
 
-export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
+module.exports = function(socket, doc, name, fn) {
 
     if (Object.keys(socket.rooms).indexOf(''+doc) == -1) {
         fn(true);
@@ -14,7 +14,7 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
         return;
     }
 
-    let sql: string = `
+    let sql = `
         SELECT (
             SELECT COUNT(doc_id) FROM document_versions WHERE doc_id = ?
         ) as version_count, (
@@ -106,4 +106,5 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
             }
         }
     }));
-};
+
+}

@@ -1,13 +1,13 @@
-﻿import db = require("../../lib/db");
+﻿const db = require("lib/db");
 
-export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
+module.exports = function(socket, doc, name, fn) {
 
     if (Object.keys(socket.rooms).indexOf(''+doc) == -1) {
         fn(true);
         return;
     }
 
-    let sql: string = `
+    let sql = `
         DELETE FROM document_versions WHERE doc_id IN (
             SELECT doc_id FROM documents WHERE (doc_id = ? AND user_id = ?) 
             OR (doc_id IN (
@@ -26,4 +26,5 @@ export = (socket: SocketIO.Socket, doc: number, name: string, fn: Function) => {
 
         fn(!!err || !result.affectedRows);
     }));
-};
+
+}

@@ -1,8 +1,8 @@
-﻿import db = require("../../lib/db");
+﻿const db = require("lib/db");
 
-export = (socket: SocketIO.Socket, doc: number, fn: Function) => {
+module.exports = function(socket, doc, fn) {
 
-    let sql: string = `
+    let sql = `
         SELECT name, created FROM document_versions WHERE doc_id IN (
             SELECT doc_id FROM documents WHERE (doc_id = ? AND user_id = ?) 
             OR (doc_id IN (
@@ -20,4 +20,5 @@ export = (socket: SocketIO.Socket, doc: number, fn: Function) => {
 
         fn(!!err || !rows.length ? [] : rows);
     }));
-};
+
+}
