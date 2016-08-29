@@ -1,6 +1,6 @@
-﻿import db = require("../../lib/db");
+﻿const db = require("lib/db");
 
-export = (socket: SocketIO.Socket, doc: number, syntax: number, fn: Function) => {
+module.exports = function(socket, doc, syntax, fn) {
 
     // User must be in document's room
     if (Object.keys(socket.rooms).indexOf(''+doc) == -1) {
@@ -15,7 +15,7 @@ export = (socket: SocketIO.Socket, doc: number, syntax: number, fn: Function) =>
     }
 
     // Only document creator can update syntax and doc_type must be code
-    let sql: string = `
+    let sql = `
         UPDATE documents SET syntax = ? WHERE doc_id = ? AND doc_type = 3 AND user_id = ?
     `;
 
@@ -30,4 +30,5 @@ export = (socket: SocketIO.Socket, doc: number, syntax: number, fn: Function) =>
             socket.broadcast.to(''+doc).emit("update syntax", doc, syntax);
         }
     }));
-};
+
+}
