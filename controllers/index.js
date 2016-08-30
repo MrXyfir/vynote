@@ -1,8 +1,8 @@
-﻿import { session } from "../lib/session";
+﻿const session = require("lib/session");
 
 // Passes socket object and event arguments to handler
 // Also sets current session object to socket.session
-function call(file: string, socket: SocketIO.Socket, args: IArguments) {
+function call(file, socket, args) {
     session.get(socket.id, (session) => {
         socket.session = session;
 
@@ -13,7 +13,7 @@ function call(file: string, socket: SocketIO.Socket, args: IArguments) {
     });
 }
 
-export = (socket: SocketIO.Socket) => {
+module.exports = function(socket) {
         
     /* Note Element Events */
     socket.on("get note object"     , function () { call("./notes/get", socket, arguments); });
@@ -34,7 +34,7 @@ export = (socket: SocketIO.Socket) => {
     socket.on("find objects"          , function () { call("./explorer/find", socket, arguments); });
     socket.on("rename object"         , function () { call("./explorer/rename", socket, arguments); });
     socket.on("duplicate document"    , function() { call("./explorer/duplicate", socket, arguments); })
-    socket.on("close document", (doc: number) => socket.leave('' + doc));
+    socket.on("close document", (doc) => socket.leave('' + doc));
 
     /* Document Contributor Management Events */
     socket.on("add contributor"      , function () { call("./contributors/add", socket, arguments); });
