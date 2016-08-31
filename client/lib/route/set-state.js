@@ -12,8 +12,10 @@ import getParents from "lib/explorer/scope-parents";
 import updateContent from "lib/../../lib/document/update";
 
 export default function (store, socket, check = false) {
+
+    const hash = location.hash.substr(1).split('?')[0];
     
-    if (location.hash.length < 2) return;
+    if (hash.length < 2) return;
     
     let state = store.getState();
     
@@ -22,7 +24,7 @@ export default function (store, socket, check = false) {
     
     // Get document by id
     // vynote.com/workspace/#docID.doc-name/noteID.note-content
-    let id  = location.hash.substr(1).split('.')[0];
+    let id  = hash.split('.')[0];
     let doc = state.explorer.documents[id];
     
     store.dispatch(changeDocument(
@@ -55,8 +57,8 @@ export default function (store, socket, check = false) {
                 let element = "";
                 
                 // Grab note element (if available) before we load document
-                if (location.hash.split('/')[1] !== undefined)
-                    element = location.hash.split('/')[1].split('.')[0];
+                if (hash.split('/')[1] !== undefined)
+                    element = hash.split('/')[1].split('.')[0];
                 
                 let content = buildNote(res.content, res.changes);
                 
