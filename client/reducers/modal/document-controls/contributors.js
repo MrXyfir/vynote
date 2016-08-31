@@ -2,7 +2,7 @@
 import {
 	LOAD_CONTRIBUTORS, REMOVE_CONTRIBUTOR, ADD_CONTRIBUTOR,
 	SELECT_CONTRIBUTOR, SET_PERMISSIONS
-} from "../../../constants/action-types/modal/document-controls/contributors";
+} from "constants/action-types/modal/document-controls/contributors";
 
 export default function (state, action) {
 	switch (action.type) {

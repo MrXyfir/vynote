@@ -1,9 +1,9 @@
 import React from "react";
 
 // Components
-import Settings from "../../components/modal/user/Settings";
-import Account from "../../components/modal/user/Account";
-import Help from "../../components/modal/user/Help";
+import Settings from "components/modal/user/Settings";
+import Account from "components/modal/user/Account";
+import Help from "components/modal/user/Help";
 
 export default class User extends React.Component {
 

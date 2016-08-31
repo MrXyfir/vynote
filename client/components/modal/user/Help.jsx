@@ -2,10 +2,10 @@ import marked from "marked";
 import React from "react";
 
 // Action creators
-import { error, success } from "../../../actions/notification";
+import { error, success } from "actions/notification";
 
 // Constants
-import { URL } from "../../../constants/config";
+import { URL } from "constants/config";
 
 export default class Help extends React.Component {
 	

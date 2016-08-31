@@ -1,12 +1,12 @@
 import React from "react";
 
 // Action creators
-import { setSubscription } from "../../../actions/user/";
-import { toggleShowUpgradeForm } from "../../../actions/modal/user/account";
-import { error, success } from "../../../actions/notification";
+import { setSubscription } from "actions/user/index";
+import { toggleShowUpgradeForm } from "actions/modal/user/account";
+import { error, success } from "actions/notification";
 
 // Constants
-import { URL, STRIPE_KEY_PUB } from "../../../constants/config";
+import { URL, STRIPE_KEY_PUB } from "constants/config";
 
 export default class Account extends React.Component {
 

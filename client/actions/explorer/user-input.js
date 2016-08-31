@@ -1,6 +1,6 @@
 import { 
 	CREATE_FOLDER, CREATE_DOCUMENT, CLOSE, RENAME_OBJECT, MOVE_OBJECT
-} from "../../constants/action-types/explorer/user-input";
+} from "constants/action-types/explorer/user-input";
 
 export function triggerCreateFolder() {
 	return {

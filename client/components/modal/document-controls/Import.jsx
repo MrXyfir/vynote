@@ -1,16 +1,16 @@
 import React from "react";
 
 // Action creators
-import { error, success } from "../../../actions/notification";
-import { loadContent } from "../../../actions/documents/";
-import { close } from "../../../actions/modal/";
-import { initializeRenderObject } from "../../../actions/documents/note";
+import { error, success } from "actions/notification";
+import { loadContent } from "actions/documents/index";
+import { close } from "actions/modal/index";
+import { initializeRenderObject } from "actions/documents/note";
 
 // Components
-import Editor from "../../documents/Editor";
+import Editor from "components/documents/Editor";
 
 // Modules
-import buildNoteObject from "../../../../lib/notes-convert/to-object";
+import buildNoteObject from "lib/../../lib/notes-convert/to-object";
 
 export default class Import extends React.Component {
 

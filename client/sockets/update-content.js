@@ -1,9 +1,9 @@
 // Action creators
-import { saveContent, toggleMarkForReload } from "../actions/documents/";
-import { markForReload } from "../actions/explorer/tabs";
+import { saveContent, toggleMarkForReload } from "actions/documents/index";
+import { markForReload } from "actions/explorer/tabs";
 
 // Modules
-import updateContent from "../../lib/document/update";
+import updateContent from "lib/../../lib/document/update";
 
 export default function (store, data) {
     

@@ -1,6 +1,6 @@
 import {
     LOAD_TEMPLATE
-} from "../../../constants/action-types/modal/document-controls/templates";
+} from "constants/action-types/modal/document-controls/templates";
 
 export default function (state, action) {
 	switch (action.type) {

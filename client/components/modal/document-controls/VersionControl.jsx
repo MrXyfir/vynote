@@ -3,16 +3,16 @@ import React from "react";
 // Action creators
 import {
 	loadVersions, deleteVersion, createVersion
-} from "../../../actions/modal/document-controls/versions";
+} from "actions/modal/document-controls/versions";
 import {
 	loadContent
-} from "../../../actions/documents/";
+} from "actions/documents/index";
 import {
 	error, success
-} from "../../../actions/notification";
+} from "actions/notification";
 import {
 	close
-} from "../../../actions/modal/";
+} from "actions/modal/index";
 
 // Modules
 import buildNoteObject from "../../../../lib/notes-convert/to-object";

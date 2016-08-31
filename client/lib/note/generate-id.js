@@ -1,4 +1,4 @@
-import { hash } from "../crypto";
+import { hash } from "lib/crypto";
 
 export default function (notes) {
     

@@ -1,7 +1,7 @@
 import React from "react";
 
 // Modules
-import scopeParents from "../../../lib/explorer/scope-parents";
+import scopeParents from "lib/explorer/scope-parents";
 
 export default class DocumentFinder extends React.Component {
     

@@ -1,5 +1,5 @@
-import { setSyntax } from "../actions/documents/code";
-import { markForReload } from "../actions/explorer/tabs";
+import { setSyntax } from "actions/documents/code";
+import { markForReload } from "actions/explorer/tabs";
 
 export default function (store, doc, syntax) {
     

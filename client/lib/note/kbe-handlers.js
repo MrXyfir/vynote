@@ -2,11 +2,11 @@
 import {
     moveElement, navigateToElement, toggleShowChildren, deleteElement,
     addElement, editElement, elementCreated
-} from "../../actions/documents/note";
-import { error } from "../../actions/notification";
+} from "actions/documents/note";
+import { error } from "actions/notification";
 
 // Modules
-import { encrypt } from "../crypto";
+import { encrypt } from "lib/crypto";
 import generateID from "./generate-id";
 
 // Move element being edited into older sibling's children

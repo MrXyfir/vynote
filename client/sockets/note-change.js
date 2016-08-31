@@ -1,7 +1,7 @@
 import {
     addElement, deleteElement, moveElement, updateElementContent, setElementFlags
-} from "../actions/documents/note";
-import { markForReload } from "../actions/explorer/tabs";
+} from "actions/documents/note";
+import { markForReload } from "actions/explorer/tabs";
 
 export default function (store, data) {
     

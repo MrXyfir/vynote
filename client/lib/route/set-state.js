@@ -1,15 +1,15 @@
 // Action creators
-import { changeDocument, selectTab } from "../../actions/explorer/tabs";
-import { loadDocument } from "../../actions/documents/";
+import { changeDocument, selectTab } from "actions/explorer/tabs";
+import { loadDocument } from "actions/documents/index";
 import {
     initializeRenderObject, navigateToElement
-} from "../../actions/documents/note";
+} from "actions/documents/note";
 
 // Modules
 import doesMatch from "./does-match";
-import buildNote from "../note/build";
-import getParents from "../explorer/scope-parents";
-import updateContent from "../../../lib/document/update";
+import buildNote from "lib/note/build";
+import getParents from "lib/explorer/scope-parents";
+import updateContent from "lib/../../lib/document/update";
 
 export default function (store, socket, check = false) {
     

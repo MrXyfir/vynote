@@ -7,7 +7,7 @@ import code from "./code";
 import {
     SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT,
     DELETE_DOCUMENT, CLOSE_DOCUMENT, MARK_FOR_RELOAD
-} from "../../constants/action-types/documents/";
+} from "constants/action-types/documents/index";
 
 export default function (state, action) {
 	let actionType = action.type.split('/');

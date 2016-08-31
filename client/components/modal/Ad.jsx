@@ -1,7 +1,7 @@
 import React from "react";
 
 // Contants
-import { URL } from "../../constants/config";
+import { URL } from "constants/config";
 
 export default class Ad extends React.Component {
     

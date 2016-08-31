@@ -3,15 +3,15 @@ import React from "react";
 // Action creators
 import {
     createTab, closeAll, selectTab, closeTab, hoverTab, saveDocument
-} from "../../actions/explorer/tabs";
+} from "actions/explorer/tabs";
 import {
     loadDocument, loadContent
-} from "../../actions/documents/";
-import { navigateToElement } from "../../actions/documents/note";
-import { error } from "../../actions/notification";
+} from "actions/documents/index";
+import { navigateToElement } from "actions/documents/note";
+import { error } from "actions/notification";
 
 // Modules
-import buildNote from "../../lib/note/build";
+import buildNote from "lib/note/build";
 
 export default class Tabs extends React.Component {
     

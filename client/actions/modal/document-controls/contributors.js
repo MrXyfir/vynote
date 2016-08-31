@@ -1,7 +1,7 @@
 import {
 	LOAD_CONTRIBUTORS, ADD_CONTRIBUTOR, REMOVE_CONTRIBUTOR,
 	SELECT_CONTRIBUTOR, SET_PERMISSIONS
-} from "../../../constants/action-types/modal/document-controls/contributors";
+} from "constants/action-types/modal/document-controls/contributors";
 
 export function loadContributors(contributors) {
 	return {

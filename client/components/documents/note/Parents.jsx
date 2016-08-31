@@ -1,6 +1,6 @@
 import React from "react";
 
-import { navigateToElement } from "../../../actions/documents/note";
+import { navigateToElement } from "actions/documents/note";
 
 export default class Parents extends React.Component {
     

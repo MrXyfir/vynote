@@ -1,7 +1,7 @@
 // Action types
 import {
     SET_SUBSCRIPTION, SET_CONFIG, CREATE_SHORTCUT, DELETE_SHORTCUT
-} from "../../constants/action-types/user/";
+} from "constants/action-types/user/index";
 
 export default function (state, action) {
 

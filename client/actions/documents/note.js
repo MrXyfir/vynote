@@ -4,7 +4,7 @@ import {
     INITIALIZE_RENDER, CHANGE_SCOPE, SET_SEARCH_QUERY, SET_FLAGS,
     EDIT_ELEMENT, DELETE_ELEMENT, ADD_ELEMENT, HOVER_ELEMENT,
     MOVE_ELEMENT
-} from "../../constants/action-types/documents/note";
+} from "constants/action-types/documents/note";
 
 export function initializeRenderObject() {
     return {

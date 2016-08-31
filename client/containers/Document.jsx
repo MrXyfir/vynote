@@ -1,20 +1,20 @@
 ﻿import React from "react";
 
 // Components
-import Page from "../components/documents/Page";
-import Note from "../components/documents/Note";
-import Code from "../components/documents/Code";
-import Head from "../components/documents/Head";
+import Page from "components/documents/Page";
+import Note from "components/documents/Note";
+import Code from "components/documents/Code";
+import Head from "components/documents/Head";
 
 // Actions creators
 import {
     accessError, loadContent, setEncryptionKey
-} from "../actions/documents/";
-import { initializeRenderObject } from "../actions/documents/note";
+} from "actions/documents/index";
+import { initializeRenderObject } from "actions/documents/note";
 
 // Modules
-import updateContent from "../../lib/document/update";
-import buildNote from "../lib/note/build";
+import updateContent from "lib/../../lib/document/update";
+import buildNote from "lib/note/build";
 
 export default class Document extends React.Component {
 

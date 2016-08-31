@@ -9,16 +9,16 @@ import Elements from "./Elements";
 import {
     addElement, updateElementContent, editElement,
     deleteElement, elementCreated
-} from "../../../actions/documents/note";
-import { error } from "../../../actions/notification";
+} from "actions/documents/note";
+import { error } from "actions/notification";
 
 // Modules
 import {
     tab, shiftTab, up, down, altLeft, altRight, altEnter,
     altDel, ctrlF, at, hash, cbracket, altUp, altDown
-} from "../../../lib/note/kbe-handlers";
-import generateID from "../../../lib/note/generate-id";
-import { encrypt } from "../../../lib/crypto";
+} from "lib/note/kbe-handlers";
+import generateID from "lib/note/generate-id";
+import { encrypt } from "lib/crypto";
 
 export default class Element extends React.Component {
     

@@ -6,10 +6,10 @@ import Elements from "./note/Elements";
 import Parents from "./note/Parents";
 
 // Action creators
-import { addElement, editElement } from "../../actions/documents/note";
+import { addElement, editElement } from "actions/documents/note";
 
 // Modules
-import generateID from "../../lib/note/generate-id";
+import generateID from "lib/note/generate-id";
 
 export default class Note extends React.Component {
     

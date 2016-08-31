@@ -1,7 +1,7 @@
 import React from "react";
 
 // Action creators
-import { error, success } from "../../../actions/notification";
+import { error, success } from "actions/notification";
 
 // Modules
 import objectToText from "../../../../lib/notes-convert/to-text";

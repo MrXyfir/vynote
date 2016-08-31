@@ -3,10 +3,10 @@ import React from "react";
 // Action creators
 import {
     setSearchQuery, setFlags, toggleShowFlagFilter
-} from "../../../actions/documents/note";
+} from "actions/documents/note";
 
 // Constants
-import flags from "../../../constants/flags";
+import flags from "constants/flags";
 
 export default class FilterControls extends React.Component {
     

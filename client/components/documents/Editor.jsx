@@ -1,12 +1,12 @@
 import React from "react";
 
-import { toggleMarkForReload } from "../../actions/documents/";
+import { toggleMarkForReload } from "actions/documents/index";
 
 // Constants
-import { getThemeFile, getSyntaxFile } from "../../constants/editor";
+import { getThemeFile, getSyntaxFile } from "constants/editor";
 
 // Modules
-import { encrypt, decrypt } from "../../lib/crypto";
+import { encrypt, decrypt } from "lib/crypto";
 
 export default class Ace extends React.Component {
 	

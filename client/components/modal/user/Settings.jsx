@@ -3,12 +3,12 @@ import React from "react";
 // Action creators
 import {
     setConfig, createShortcut, deleteShortcut
-} from "../../../actions/user/";
-import { error, success } from "../../../actions/notification";
+} from "actions/user/index";
+import { error, success } from "actions/notification";
 
 // Constants
-import { themes, syntaxes } from "../../../constants/editor";
-import colors from "../../../constants/colors";
+import { themes, syntaxes } from "constants/editor";
+import colors from "constants/colors";
 
 export default class Settings extends React.Component {
 

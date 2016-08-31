@@ -7,10 +7,10 @@ import {
 	LOAD_FILESYSTEM, UPDATE_SCOPE, CREATE_FOLDER, CREATE_DOCUMENT,
     DELETE_OBJECT, RENAME_OBJECT, MOVE_OBJECT, SHOW_CONTROLS,
     DUPLICATE_DOCUMENT
-} from "../../constants/action-types/explorer/";
+} from "constants/action-types/explorer/index";
 
 // Lib modules
-import getScopeParents from "../../lib/explorer/scope-parents";
+import getScopeParents from "lib/explorer/scope-parents";
 
 export default function (state, action) {
 	let actionType = action.type.split('/');

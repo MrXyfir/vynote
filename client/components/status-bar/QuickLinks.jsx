@@ -1,12 +1,12 @@
 import React from "react";
 
 // Action creators
-import { openUserModal } from "../../actions/modal/user/";
+import { openUserModal } from "actions/modal/user/index";
 
 // Action types
 import {
     ACCOUNT, HELP, SETTINGS
-} from "../../constants/action-types/modal/user/";
+} from "constants/action-types/modal/user/index";
 
 export default class QuickLinks extends React.Component {
 

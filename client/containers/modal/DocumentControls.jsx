@@ -1,19 +1,19 @@
 import React from "react";
 
 // Components
-import VersionControl from "../../components/modal/document-controls/VersionControl";
-import Contributors from "../../components/modal/document-controls/Contributors";
-import Templates from "../../components/modal/document-controls/Templates";
-import Export from "../../components/modal/document-controls/Export";
-import Import from "../../components/modal/document-controls/Import";
+import VersionControl from "components/modal/document-controls/VersionControl";
+import Contributors from "components/modal/document-controls/Contributors";
+import Templates from "components/modal/document-controls/Templates";
+import Export from "components/modal/document-controls/Export";
+import Import from "components/modal/document-controls/Import";
 
 // Action types
 import {
     VERSIONS, CONTRIBUTORS, IMPORT, EXPORT, TEMPLATES
-} from "../../constants/action-types/modal/document-controls/";
+} from "constants/action-types/modal/document-controls/index";
 
 // Action creators
-import { changeTab } from "../../actions/modal/document-controls/";
+import { changeTab } from "actions/modal/document-controls/index";
 
 export default class DocumentControls extends React.Component {
 

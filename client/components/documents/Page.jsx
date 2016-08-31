@@ -4,13 +4,13 @@ import marked from "marked";
 // Action creators
 import {
     saveError, saveContent
-} from "../../actions/documents/";
+} from "actions/documents/index";
 
 // Components
 import Editor from "./Editor";
 
 // Modules
-import diff from "../../lib/document/diff";
+import diff from "lib/document/diff";
 
 export default class Page extends React.Component {
 	

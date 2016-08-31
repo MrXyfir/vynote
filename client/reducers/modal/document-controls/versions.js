@@ -1,7 +1,7 @@
 // Action types
 import {
 	LOAD_VERSIONS, DELETE_VERSION, CREATE_VERSION
-} from "../../../constants/action-types/modal/document-controls/versions";
+} from "constants/action-types/modal/document-controls/versions";
 
 export default function (state, action) {
 	switch (action.type) {

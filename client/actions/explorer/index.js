@@ -1,7 +1,7 @@
 import {
 	LOAD_FILESYSTEM, UPDATE_SCOPE, DELETE_OBJECT, CREATE_FOLDER, CREATE_DOCUMENT,
 	RENAME_OBJECT, MOVE_OBJECT, SHOW_CONTROLS, DUPLICATE_DOCUMENT
-} from "../../constants/action-types/explorer/";
+} from "constants/action-types/explorer/index";
 
 export function createFolder(data) {
 	return {

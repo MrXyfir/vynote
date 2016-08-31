@@ -1,9 +1,9 @@
 // Reducers
-import documentControls from "./document-controls/";
-import user from "./user/";
+import documentControls from "./document-controls/index";
+import user from "./user/index";
 
 // Action types
-import { CLOSE, LOAD_AD } from "../../constants/action-types/modal/";
+import { CLOSE, LOAD_AD } from "constants/action-types/modal/index";
 
 export default function (state, action) {
 	let actionType = action.type.split("/");

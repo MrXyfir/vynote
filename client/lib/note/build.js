@@ -4,7 +4,7 @@ let updateContent = require("../../../lib/note/update-content");
 let moveElement = require("../../../lib/note/move-element");
 let setFlags = require("../../../lib/note/set-flags");
 
-import { decrypt } from "../crypto";
+import { decrypt } from "lib/crypto";
 
 export default function (notes, changes, key = "") {
     

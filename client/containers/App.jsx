@@ -3,7 +3,7 @@ import { render } from "react-dom";
 
 // Redux store / reducers
 import { createStore } from "redux";
-import reducers from "../reducers/";
+import reducers from "reducers/index";
 
 // React container components
 import Explorer from "./Explorer";
@@ -11,22 +11,22 @@ import Document from "./Document";
 import Modal from "./Modal";
 
 // Non-container React componenents
-import Notification from "../components/status-bar/Notification";
-import QuickLinks from "../components/status-bar/QuickLinks";
+import Notification from "components/status-bar/Notification";
+import QuickLinks from "components/status-bar/QuickLinks";
 
 // io returns a socket.io connection after creating event listeners
-import io from "../sockets/";
+import io from "sockets/index";
 
 // Modules
-import buildExplorerObject from "../lib/explorer/build";
-import generateAds from "../lib/ad/generate";
-import setRoute from "../lib/route/set-route";
-import setState from "../lib/route/set-state";
+import buildExplorerObject from "lib/explorer/build";
+import generateAds from "lib/ad/generate";
+import setRoute from "lib/route/set-route";
+import setState from "lib/route/set-state";
 
 // Constants
-import { INITIALIZE_STATE } from "../constants/action-types/";
-import { URL, XACC } from "../constants/config.js";
-import userConfig from "../constants/user-config.js";
+import { INITIALIZE_STATE } from "constants/action-types/index";
+import { URL, XACC } from "constants/config.js";
+import userConfig from "constants/user-config.js";
 
 // Create store and socket connection
 let store = createStore(reducers);

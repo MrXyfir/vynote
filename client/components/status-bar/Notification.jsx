@@ -1,6 +1,6 @@
 import React from "react";
 
-import { clear } from "../../actions/notification";
+import { clear } from "actions/notification";
 
 import Advertisement from "./Advertisement";
 

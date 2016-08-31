@@ -1,6 +1,6 @@
 import {
     SUCCESS, ERROR, INFO, CLEAR, ADVERT
-} from "../constants/action-types/notifications";
+} from "constants/action-types/notifications";
 
 export function error(message) {
 	return {
