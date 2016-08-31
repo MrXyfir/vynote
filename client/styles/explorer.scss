@@ -94,13 +94,13 @@ div[class^="explorer-object-"]:hover, .list > .tab:hover, .list > .active {
 
 .explorer-user-input {
     
-    background-color: $lgray;
+    background-color: $gray;
     position: absolute;
-    outline: $black solid 1px;
     padding: 0.4em;
-    z-index: 5;
-    width: 98vw;
-    top: 87%;
+    z-index: 7;
+    bottom: 0%;
+    right: 0%;
+    left: 0%;
     
     span, div, input, select {
         margin-left: 0.4em;
