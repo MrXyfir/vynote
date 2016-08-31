@@ -20,13 +20,14 @@ import io from "sockets/index";
 // Modules
 import buildExplorerObject from "lib/explorer/build";
 import generateAds from "lib/ad/generate";
+import parseQuery from "lib/route/parse-query";
 import setRoute from "lib/route/set-route";
 import setState from "lib/route/set-state";
 
 // Constants
 import { INITIALIZE_STATE } from "constants/action-types/index";
-import { URL, XACC } from "constants/config.js";
-import userConfig from "constants/user-config.js";
+import { URL, XACC, LOG_STATE } from "constants/config";
+import userConfig from "constants/user-config";
 
 // Create store and socket connection
 let store = createStore(reducers);
@@ -45,7 +46,7 @@ class App extends React.Component {
             setRoute(store.getState().document);
         });
         
-        if (location.href.indexOf("http://localhost") == 0) {
+        if (LOG_STATE) {
             store.subscribe(() => {
                 console.log(store.getState());
             });
@@ -71,7 +72,7 @@ class App extends React.Component {
             // Grab filesystem and user objects
             socket.emit("get user info", (isLoggedIn, data) => {
                 if (!isLoggedIn) {
-                    location.href = XACC + "login/12";
+                    location.href = XACC + "app/#/login/12";
                 }
                 
                 state.user = data;
@@ -127,24 +128,17 @@ class App extends React.Component {
             });
         };
         
+        const q = parseQuery();
+
         // Attempt to login using XID/AUTH or skip to initialize()
-        if (location.href.indexOf("xid=") > -1 && location.href.indexOf("auth=") > -1) {
-            // Login using XID/AUTH_TOKEN
-            let xid = location.href.substring(
-                location.href.lastIndexOf("?xid=") + 5,
-                location.href.lastIndexOf("&auth")
-            );
-            let auth = location.href.substring(
-                location.href.lastIndexOf("&auth=") + 6
-            );
-            
-            socket.emit("login user", xid, auth, (err) => {
+        if (q.xid && q.auth) {
+            socket.emit("login user", q.xid, q.auth, (err) => {
                 if (err) {
-                    location.href = XACC + "login/12";
+                    location.href = XACC + "app/#/login/12";
                 }
                 else {
                     initialize();
-                    history.pushState({}, '', URL + "workspace/");
+                    location.hash = location.hash.split('?')[0];
                 }
             });
         }
