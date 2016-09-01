@@ -15,7 +15,7 @@ module.exports = function(socket, data, fn) {
         return;
     }
 
-    let months: number = [0, 1, 6, 12][data.months];
+    let months = [0, 1, 6, 12][data.months];
 
     let info = {
         amount: amount,
