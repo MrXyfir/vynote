@@ -1,6 +1,6 @@
 import {
     ERROR, SUCCESS, INFO, CLEAR, ADVERT
-} from "../constants/action-types/notifications";
+} from "constants/action-types/notifications";
 
 export default function (state, action) {
 	if (action.type.split('/')[0] == "NOTIFICATION") {

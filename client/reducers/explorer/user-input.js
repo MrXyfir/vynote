@@ -1,6 +1,6 @@
 import {
 	CREATE_FOLDER, CREATE_DOCUMENT, RENAME_OBJECT, MOVE_OBJECT, CLOSE
-} from "../../constants/action-types/explorer/user-input";
+} from "constants/action-types/explorer/user-input";
 
 export default function (state, action) {
 	switch (action.type) {

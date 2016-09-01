@@ -1,6 +1,6 @@
 import {
 	LOAD_VERSIONS, DELETE_VERSION, CREATE_VERSION
-} from "../../../constants/action-types/modal/document-controls/versions";
+} from "constants/action-types/modal/document-controls/versions";
 
 export function loadVersions(versions) {
 	return {

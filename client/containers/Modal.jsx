@@ -5,10 +5,10 @@ import DocumentControls from "./modal/DocumentControls";
 import User from "./modal/User";
 
 // Components
-import Ad from "../components/modal/Ad";
+import Ad from "components/modal/Ad";
 
 // Actions
-import { close } from "../actions/modal";
+import { close } from "actions/modal";
 
 export default class Modal extends React.Component {
 

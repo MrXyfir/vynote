@@ -1,10 +1,10 @@
 import React from "react";
 
 // Components
-import ExplorerObject from "../components/explorer/ExplorerObject";
-import ControlBar from "../components/explorer/ControlBar";
-import UserInput from "../components/explorer/UserInput";
-import Tabs from "../components/explorer/tabs";
+import ExplorerObject from "components/explorer/ExplorerObject";
+import ControlBar from "components/explorer/ControlBar";
+import UserInput from "components/explorer/UserInput";
+import Tabs from "components/explorer/tabs";
 
 export default class Explorer extends React.Component {
 	

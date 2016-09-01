@@ -1,0 +1,179 @@
+.explorer {
+    width: 20vw;
+    height: 95vh;
+    background-color: $llgray;
+    padding: 0.5em;
+    float: left;
+}
+
+.explorer-control-bar {
+    margin-top: 0.5em;
+}
+
+.explorer-control-bar, .tabs-bar {
+    
+    background-color: $lgray;
+    margin-bottom: 0.5em;
+    font-size: 90%;
+    height: 1.6em;
+    
+    .explorer-active-folder, .title {
+        display: inline-block;
+        max-width: 60%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        margin-left: 0.4em;
+        font-weight: bold;
+        color: $dgray;
+    }
+    
+    span[class^="icon-"] {
+        float: right;
+    }
+    
+}
+
+.explorer-objects {
+    
+    div[class^="explorer-object-"] {
+        
+        position: relative;
+        width: 100%;
+        
+        * {
+            display: inline;
+        }
+        
+        .object-name {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 60%;
+            cursor: pointer;
+        }
+        
+        .object-controls {
+            
+            width: 35%;
+            z-index: 2;
+            position: absolute;
+            top: 25%;
+            left: 25%;
+            padding: 0.5em;
+            text-align: left;
+            background-color: $llgray;
+            border: 0.1em solid $gray;
+            
+            span {
+                border-bottom: 0.1em solid;
+                display: block;
+                cursor: pointer;
+            }
+            
+            .icon-close {
+                position: absolute;
+                right: 0%;
+                top: 0%;
+            }
+            
+            .hidden, .icon-close {
+                border-bottom: none;
+            }
+            
+        }
+        
+    }
+    
+}
+
+div[class^="explorer-object-"]:hover, .list > .tab:hover, .list > .active {
+    background-color: rgba(186,186,186,0.4);
+}
+
+.explorer-user-input {
+    
+    background-color: $gray;
+    position: absolute;
+    padding: 0.4em;
+    z-index: 7;
+    bottom: 0%;
+    right: 0%;
+    left: 0%;
+    
+    span, div, input, select {
+        margin-left: 0.4em;
+        display: inline-block;
+    }
+    
+    .explorer-user-input-title {
+        font-weight: bold;
+    }
+    
+    .explorer-user-input-text {
+        width: 40vw;
+    }
+    
+    .icon-close {
+        float: right;
+    }
+    
+}
+
+.tabs > .list > .tab {
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    padding-right: 1.5em;
+    
+    .icon-close, .icon-close-hidden {
+        display: inline-block;
+        width: 1.5em;
+    }
+    
+    .directory {
+        color: $gray;
+        font-size: 80%;
+        margin-left: 0.5em;
+    }
+    
+}
+
+.document-finder {
+    
+    input {
+        text-align: center;
+    }
+    
+    .search-results {
+        
+        max-height: 18em;
+        overflow-y: auto;
+        
+        .result {
+         
+            width: 85%;
+            margin: auto;
+         
+            .name {
+                cursor: pointer;
+            }
+         
+            .directory {
+                display: block;
+                font-size: 85%;
+                margin-bottom: 0.5em;
+            }
+            
+        }
+        
+        .selected {
+            background-color: $llgray;
+        }
+        
+    }
+    
+}

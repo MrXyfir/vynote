@@ -1,6 +1,6 @@
 import {
     SET_SYNTAX, SET_THEME, TOGGLE_EDITOR_SETTINGS
-} from "../../constants/action-types/documents/code";
+} from "constants/action-types/documents/code";
 
 export function setSyntax(syntax) {
 	return {

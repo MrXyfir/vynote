@@ -1,8 +1,13 @@
-var gutil = require("gulp-util");
-var gzip = require("gulp-gzip");
-var gulp = require("gulp");
+const gutil = require("gulp-util");
+const gzip = require("gulp-gzip");
+const gulp = require("gulp");
 
-var isDev = require("./config").environment.development;
+const postcss = require("gulp-postcss");
+const precss = require("precss");
+const nano = require("cssnano");
+const ap = require("autoprefixer");
+
+const isDev = require("./config").environment.type == "dev";
 
 /*
 	css
@@ -11,40 +16,37 @@ var isDev = require("./config").environment.development;
 	- autoprefixer
 	- minifies / gzip
 */
-gulp.task("css", function () {
-    var postcss = require("gulp-postcss");
-    var precss = require("precss");
-    var nano = require("cssnano");
-    var ap = require("autoprefixer");
-    
-    return gulp.src("./styles/style.css")
+gulp.task("css", function() {
+    return gulp.src("./client/styles/style.css")
         .pipe(postcss([
             precss({}),
             ap({browsers: "last 1 version, > 10%"}),
             nano({ autoprefixer: false, zindex: false })
         ]))
-		.pipe(!isDev ? gzip() : gutil.noop())
-		.pipe(gulp.dest("./public/css"));
+		//.pipe(!isDev ? gzip() : gutil.noop())
+		.pipe(gulp.dest("./static/css"));
 });
 
 /*
 	client
     - convert es2015 -> es5
     - converts JSX -> plain JS
-	- bundles React componenents
+	- bundles React components
 	- minifies / gzip
 */
-gulp.task("client", function () {
-    var browserify = require("browserify");
-    var streamify = require("gulp-streamify");
-    var babelify = require("babelify");
-    var uglify = require("gulp-uglify");
-    var source = require("vinyl-source-stream");
+gulp.task("client", function() {
+    const browserify = require("browserify");
+    const streamify = require("gulp-streamify");
+    const babelify = require("babelify");
+    const uglify = require("gulp-uglify");
+    const source = require("vinyl-source-stream");
 
-    var extensions = [".jsx", ".js"];
+    const extensions = [".jsx", ".js"];
     
-    var b = browserify(
-        './client/containers/App.jsx', { debug: true, extensions: extensions }
+    const b = browserify(
+        './client/containers/App.jsx', {
+            debug: true, extensions, paths: ["./client"]
+        }
     );
     b.transform(babelify.configure({
         extensions: extensions, presets: ["es2015", "react"]
@@ -57,6 +59,31 @@ gulp.task("client", function () {
             compress: { unused: false }
         }))
         .on('error', gutil.log))
-		.pipe(!isDev ? gzip() : gutil.noop())
-		.pipe(gulp.dest('./public/js/'));
+		//.pipe(!isDev ? gzip() : gutil.noop())
+		.pipe(gulp.dest('./static/js/'));
+});
+
+/*
+	fontello
+    - get font and css files from fontello
+    - place in ./static/fontello
+*/
+gulp.task("fontello", function() {
+    return gulp.src("fontello.json")
+        .pipe(require("gulp-fontello")())
+        .pipe(gulp.dest("./static/fontello"));
+});
+
+/*
+	favicons
+    - generate favicons from icon.png
+    - place in static/icons
+*/
+gulp.task("favicons", function() {
+    const favicons = require("gulp-favicons");
+
+    return gulp.src("icon.png")
+    .pipe(favicons({}))
+    .on("error", gutil.log)
+    .pipe(gulp.dest("./static/icons/"));
 });

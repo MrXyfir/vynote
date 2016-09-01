@@ -1,15 +1,15 @@
 import React from "react";
 
 // Action creators
-import { saveError, saveContent } from "../../actions/documents/";
-import { setSyntax, setTheme } from "../../actions/documents/code";
-import { themes, syntaxes } from "../../constants/editor";
+import { saveError, saveContent } from "actions/documents/index";
+import { setSyntax, setTheme } from "actions/documents/code";
+import { themes, syntaxes } from "constants/editor";
 
 // Components
 import Editor from "./Editor";
 
 // Modules
-import diff from "../../lib/document/diff";
+import diff from "lib/document/diff";
 
 export default class Code extends React.Component {
 	

@@ -5,14 +5,14 @@ import {
     toggleShowChildren, navigateToElement, showElementControls,
     setElementFlags, addElement, deleteElement, editElement,
     hoverElement
-} from "../../../actions/documents/note";
-import { error } from "../../../actions/notification";
+} from "actions/documents/note";
+import { error } from "actions/notification";
 
 // Constants
-import flags from "../../../constants/flags";
+import flags from "constants/flags";
 
 // Modules
-import generateID from "../../../lib/note/generate-id";
+import generateID from "lib/note/generate-id";
 
 export default class ElementControls extends React.Component {
     

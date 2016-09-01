@@ -1,13 +1,13 @@
 import {
 	ERROR, SUCCESS
-} from "../../constants/action-types/notifications";
+} from "constants/action-types/notifications";
 import {
     SAVE_CONTENT, LOAD_CONTENT, SET_KEY, LOAD_DOCUMENT,
     DELETE_DOCUMENT, CLOSE_DOCUMENT, MARK_FOR_RELOAD
-} from "../../constants/action-types/documents/";
+} from "constants/action-types/documents/index";
 import {
 	DOCUMENT_CONTROLS
-} from "../../constants/action-types/modal/document-controls/";
+} from "constants/action-types/modal/document-controls/index";
 
 export function saveError() {
 	return {

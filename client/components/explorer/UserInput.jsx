@@ -1,19 +1,19 @@
 import React from "react";
 
 // Action creators
-import { error, success } from "../../actions/notification";
+import { error, success } from "actions/notification";
 import { 
 	createFolder, createDocument, renameObject, moveObject
-} from "../../actions/explorer/";
-import { closeUserInput } from "../../actions/explorer/user-input";
+} from "actions/explorer/index";
+import { closeUserInput } from "actions/explorer/user-input";
 
 // Action types
 import { 
 	CREATE_DOCUMENT, CREATE_FOLDER, RENAME_OBJECT, MOVE_OBJECT
-} from "../../constants/action-types/explorer/user-input";
+} from "constants/action-types/explorer/user-input";
 
 // Other constants
-import colors from "../../constants/colors";
+import colors from "constants/colors";
 
 export default class UserInput extends React.Component {
 	

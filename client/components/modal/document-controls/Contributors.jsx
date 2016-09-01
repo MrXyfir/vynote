@@ -4,10 +4,10 @@ import React from "react";
 import {
 	loadContributors, addContributor, removeContributor,
 	setPermissions, selectContributor
-} from "../../../actions/modal/document-controls/contributors";
+} from "actions/modal/document-controls/contributors";
 import {
 	error, success
-} from "../../../actions/notification";
+} from "actions/notification";
 
 export default class VersionControl extends React.Component {
 

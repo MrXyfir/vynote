@@ -1,7 +1,7 @@
 import {
     CREATE_TAB, CLOSE_ALL, SELECT_TAB, CLOSE_TAB, CHANGE_DOCUMENT,
     HOVER_TAB, SAVE_DOCUMENT, MARK_FOR_RELOAD
-} from "../../constants/action-types/explorer/tabs";
+} from "constants/action-types/explorer/tabs";
 
 export function createTab() {
     return {

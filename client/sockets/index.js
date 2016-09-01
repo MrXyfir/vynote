@@ -1,6 +1,6 @@
 ﻿import io from "socket.io-client";
 
-import { URL } from "../constants/config";
+import { URL } from "constants/config";
 
 // Event handlers
 import onUpdateSyntax from "./update-syntax";

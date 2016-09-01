@@ -3,10 +3,10 @@ import React from "react";
 // Actions creators
 import {
     openDocumentControls, closeDocument
-} from "../../actions/documents/";
-import { togglePreview } from "../../actions/documents/page";
-import { changeDocument, selectTab } from "../../actions/explorer/tabs";
-import { toggleShowEditorSettings } from "../../actions/documents/code";
+} from "actions/documents/index";
+import { togglePreview } from "actions/documents/page";
+import { changeDocument, selectTab } from "actions/explorer/tabs";
+import { toggleShowEditorSettings } from "actions/documents/code";
 
 export default class Head extends React.Component {
     

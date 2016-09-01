@@ -1,4 +1,4 @@
-import { CLOSE, LOAD_AD } from "../../constants/action-types/modal/";
+import { CLOSE, LOAD_AD } from "constants/action-types/modal/index";
 
 export function close() {
 	return {

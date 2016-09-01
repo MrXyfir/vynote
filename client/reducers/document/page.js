@@ -1,4 +1,4 @@
-import { TOGGLE_PREVIEW } from "../../constants/action-types/documents/page";
+import { TOGGLE_PREVIEW } from "constants/action-types/documents/page";
 
 export default function (state, action) {
 	switch (action.type) {

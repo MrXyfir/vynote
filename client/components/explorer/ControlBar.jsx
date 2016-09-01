@@ -1,10 +1,10 @@
 import React from "react";
 
-import { triggerCreateFolder, triggerCreateDocument } from "../../actions/explorer/user-input";
-import { navigateToFolder, loadFileSystem } from "../../actions/explorer/";
-import { error } from "../../actions/notification";
+import { triggerCreateFolder, triggerCreateDocument } from "actions/explorer/user-input";
+import { navigateToFolder, loadFileSystem } from "actions/explorer/index";
+import { error } from "actions/notification";
 
-import buildExplorerObject from "../../lib/explorer/build";
+import buildExplorerObject from "lib/explorer/build";
 
 export default class ControlBar extends React.Component {
 	

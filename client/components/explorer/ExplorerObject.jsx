@@ -3,26 +3,26 @@ import React from "react";
 // Action creators
 import {
 	triggerRenameObject, triggerMoveObject
-} from "../../actions/explorer/user-input";
-import { error, success } from "../../actions/notification";
+} from "actions/explorer/user-input";
+import { error, success } from "actions/notification";
 import {
     navigateToFolder, deleteObject, showControls, duplicateDocument
-} from "../../actions/explorer/";
+} from "actions/explorer/index";
 import {
     loadDocument, deleteDocument
-} from "../../actions/documents/";
+} from "actions/documents/index";
 import {
     createTab, selectTab, changeDocument
-} from "../../actions/explorer/tabs";
-import { initializeRenderObject } from "../../actions/documents/note";
+} from "actions/explorer/tabs";
+import { initializeRenderObject } from "actions/documents/note";
 
 // Constants
-import colors from "../../constants/colors";
+import colors from "constants/colors";
 
 // Modules
-import updateContent from "../../../lib/document/update";
-import getParents from "../../lib/explorer/scope-parents";
-import buildNote from "../../lib/note/build";
+import updateContent from "lib/../../lib/document/update";
+import getParents from "lib/explorer/scope-parents";
+import buildNote from "lib/note/build";
 
 export default class ExplorerObject extends React.Component {
 

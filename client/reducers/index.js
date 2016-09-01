@@ -1,11 +1,11 @@
 ﻿// Reducers
-import user from "./user/";
-import modal from "./modal/";
-import document from "./document/";
-import explorer from "./explorer/";
+import user from "./user/index";
+import modal from "./modal/index";
+import document from "./document/index";
+import explorer from "./explorer/index";
 import notification from "./notification";
 
-import { INITIALIZE_STATE } from "../constants/action-types/";
+import { INITIALIZE_STATE } from "constants/action-types/index";
 
 export default function (state, action) {
 

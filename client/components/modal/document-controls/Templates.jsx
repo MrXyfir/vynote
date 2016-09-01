@@ -1,17 +1,17 @@
 import React from "react";
 
 // Components
-import DocumentFinder from "../../contained/explorer/DocumentFinder";
+import DocumentFinder from "components/contained/explorer/DocumentFinder";
 
 // Action creators
-import { error, success } from "../../../actions/notification";
-import { loadTemplate } from "../../../actions/modal/document-controls/templates";
-import { loadContent, toggleMarkForReload } from "../../../actions/documents/";
-import { initializeRenderObject } from "../../../actions/documents/note";
+import { error, success } from "actions/notification";
+import { loadTemplate } from "actions/modal/document-controls/templates";
+import { loadContent, toggleMarkForReload } from "actions/documents/index";
+import { initializeRenderObject } from "actions/documents/note";
 
 // Modules
-import buildNoteObject from "../../../lib/note/build";
-import { encrypt } from "../../../lib/crypto";
+import buildNoteObject from "lib/note/build";
+import { encrypt } from "lib/crypto";
 
 export default class Templates extends React.Component {
 

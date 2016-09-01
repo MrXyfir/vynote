@@ -1,6 +1,6 @@
 import {
     TOGGLE_SHOW_UPGRADE_FORM
-} from "../../../constants/action-types/modal/user/account";
+} from "constants/action-types/modal/user/account";
 
 export default function (state, action) {
     switch (action.type) {
