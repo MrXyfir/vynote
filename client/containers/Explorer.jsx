@@ -4,7 +4,7 @@ import React from "react";
 import ExplorerObject from "components/explorer/ExplorerObject";
 import ControlBar from "components/explorer/ControlBar";
 import UserInput from "components/explorer/UserInput";
-import Tabs from "components/explorer/tabs";
+import Tabs from "components/explorer/Tabs";
 
 export default class Explorer extends React.Component {
 	
