@@ -76,7 +76,7 @@ class App extends React.Component {
                 }
                 
                 state.user = data;
-                state.user.config = JSON.parse(data.config);
+                state.user.config = JSON.parse(data.config || "{}");
                 
                 // Load user's set config or default configuration
                 state.user.config = Object.keys(state.user.config).length > 0
