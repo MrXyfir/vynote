@@ -10,6 +10,11 @@ module.exports = function(socket, xid, auth, fn) {
         config.keys.xacc + "/" + xid + "/" + auth;
 
     request(url, (err, response, body) => {
+        if (err) {
+            fn(true);
+            return;
+        }
+
         body = JSON.parse(body);
 
         if (body.error) {
@@ -18,7 +23,7 @@ module.exports = function(socket, xid, auth, fn) {
         }
 
         db(cn => {
-            let sql = "SELECT user_id, email, subscription FROM users WHERE xyfir_id = ?";
+            let sql = "SELECT user_id, subscription FROM users WHERE xyfir_id = ?";
             cn.query(sql, [xid], (err, rows) => {
 
                 // First login
