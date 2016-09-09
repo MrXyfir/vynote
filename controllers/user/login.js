@@ -7,7 +7,7 @@ const config = require("config");
 module.exports = function(socket, xid, auth, fn) {
 
     let url = config.address.xacc + "api/service/12/"
-        config.keys.xacc + "/" + xid + "/" + auth;
+        + config.keys.xacc + "/" + xid + "/" + auth;
 
     request(url, (err, response, body) => {
         if (err) {
