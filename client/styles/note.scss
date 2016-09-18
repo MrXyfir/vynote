@@ -50,12 +50,22 @@
         margin-left: 0.5em;
     }
     
-    .editing {
-        width: 95%;
-        border: none;
-        padding: 0em;
-        margin: 0em 0.5em;
-        font-size: 94%;
+    .editing-container {
+        
+        display: inline;
+
+        .editing {
+            width: 90%;
+            border: none;
+            padding: 0em;
+            margin: 0em 0.5em;
+            font-size: 94%;
+        }
+
+        .note-controls-extended {
+            margin-left: 1.5em
+        }
+
     }
     
 }
@@ -63,10 +73,6 @@
 .note-controls {
     
     position: relative;
-    
-    .highlight {
-        color: rgba(0,0,0,0.4);
-    }
     
     .toggle-show-children {
         position: absolute;
@@ -83,48 +89,21 @@
         left: -28%;
     }
     
-    .controls-extended {
-        position: absolute;
-        background-color: $gray;
-        border: 1px solid $lgray;
-        color: $lllgray;
-        width: 11em;
-        height: 11em;
-        padding: 0.2em;
-        line-height: 80%;
-        font-size: 80%;
-        z-index: 1;
-    }
-    
-    .controls-extended > * {
-        display: block;
-        border-bottom: 1px solid $lgray;
-        width: 90%;
-        margin: auto;
-        margin-bottom: 0.3em;
-        padding-bottom: 0.2em;
-    }
-    
-    .controls-extended > .icon-close {
-        text-align: right;
-    }
+}
+
+.note-controls-extended {
     
     .flags {
-        
-        height: 6em;
+        position: absolute;
+        background-color: $lllgray;
+        z-index: 1;
+        border: solid 0.1em $llgray;
+        padding: 0.2em;
+        max-height: 6em;
         overflow-y: auto;
-        
-        .flag {
-            
-            display: block;
-            
-            * {
-                display: inline;
-            }
-            
-        }
+        box-shadow: 0.1em 0.1em 0.3em black;
     }
-    
+
 }
 
 .note-scoped-element {
