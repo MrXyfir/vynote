@@ -180,14 +180,16 @@ class App extends React.Component {
                     dispatch={store.dispatch}
                 />
                 {window.innerHeight > window.innerWidth ? (
-                    <div className="status-bar">{this.state.notification.status ? (
-                        <Notification
-                            data={this.state.notification}
-                            dispatch={store.dispatch}
-                        />
-                    ) : (
-                        <QuickLinks dispatch={store.dispatch} />
-                    )}</div>
+                    <div className="status-bar">{
+                        this.state.notification.status != "clear" ? (
+                            <Notification
+                                data={this.state.notification}
+                                dispatch={store.dispatch}
+                            />
+                        ) : (
+                            <QuickLinks dispatch={store.dispatch} />
+                        )
+                }</div>
                 ) : (
                     <div className="status-bar">
                         <QuickLinks dispatch={store.dispatch} />
