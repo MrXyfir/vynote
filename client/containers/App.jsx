@@ -170,10 +170,24 @@ class App extends React.Component {
                     socket={socket} 
                     dispatch={store.dispatch}
                 />
-                <div className="status-bar">
-                    <QuickLinks dispatch={store.dispatch} />
-                    <Notification data={this.state.notification} dispatch={store.dispatch} />
-                </div>
+                {screen.availHeight > screen.availWidth ? (
+                    <div className="status-bar">{this.state.notification.status ? (
+                        <Notification
+                            data={this.state.notification}
+                            dispatch={store.dispatch}
+                        />
+                    ) : (
+                        <QuickLinks dispatch={store.dispatch} />
+                    )}</div>
+                ) : (
+                    <div className="status-bar">
+                        <QuickLinks dispatch={store.dispatch} />
+                        <Notification
+                            data={this.state.notification}
+                            dispatch={store.dispatch}
+                        />
+                    </div>
+                )}
             </div>
         );
     }
