@@ -8,6 +8,7 @@ import {
     loadDocument, loadContent
 } from "actions/documents/index";
 import { navigateToElement } from "actions/documents/note";
+import { setView } from "actions/index";
 import { error } from "actions/notification";
 
 // Modules
@@ -17,9 +18,6 @@ export default class Tabs extends React.Component {
     
     constructor(props) {
         super(props);
-        
-        this.onNewTab = this.onNewTab.bind(this);
-        this.onCloseAll = this.onCloseAll.bind(this);
     }
     
     onNewTab() {
@@ -58,6 +56,11 @@ export default class Tabs extends React.Component {
     
     onSelectTab(id) {
         let active = this.props.data.explorer.tabs.active;
+
+        // Change view if needed
+        if (id > 0 && this.props.data.view == "explorer") {
+            this.props.dispatch(setView("document"));
+        }
         
         if (active != id) {
             // Save state.document to state.explorer.tabs.list[active].document
@@ -115,8 +118,22 @@ export default class Tabs extends React.Component {
             <div className="tabs">
                 <div className="tabs-bar">
                     <span className="title">Active Documents</span>
-                    <span className="icon-add" title="New Tab" onClick={this.onNewTab} />
-                    <span className="icon-close" title="Close All Tabs" onClick={this.onCloseAll} />
+                    
+                    <span
+                        className="icon-right"
+                        onClick={() => this.props.dispatch(setView("document"))}
+                        title="View Active Document"
+                    />
+                    <span
+                        className="icon-add"
+                        onClick={() => this.onNewTab()}
+                        title="New Tab"
+                    />
+                    <span
+                        className="icon-close"
+                        onClick={() => this.onCloseAll()}
+                        title="Close All Tabs"
+                    />
                 </div>
                 
                 <div className="list">{
@@ -130,14 +147,21 @@ export default class Tabs extends React.Component {
                                 onMouseOut={() => this.props.dispatch(hoverTab(-1))}
                                 onMouseOver={() => this.props.dispatch(hoverTab(tab))}
                             >
-                                {
-                                    tab == this.props.data.explorer.tabs.hover
-                                    ? <span className="icon-close" onClick={this.onClose.bind(this, tab)} />
-                                    : <span className="icon-close-hidden" />
-                                }
+                                {tab == this.props.data.explorer.tabs.hover ? (
+                                    <span
+                                        className="icon-close"
+                                        onClick={this.onClose.bind(this, tab)}
+                                    />
+                                ) : (
+                                    <span className="icon-close-hidden" />
+                                )}
                                 
-                                <span className="name">{this.props.data.explorer.tabs.list[tab].name}</span>
-                                <span className="directory">{this.props.data.explorer.tabs.list[tab].directory}</span>
+                                <span className="name">{
+                                    this.props.data.explorer.tabs.list[tab].name
+                                }</span>
+                                <span className="directory">{
+                                    this.props.data.explorer.tabs.list[tab].directory
+                                }</span>
                             </div>
                         );
                     })
