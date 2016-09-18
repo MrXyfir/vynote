@@ -117,9 +117,17 @@ export default class Document extends React.Component {
                         />
                     ); break;
             }
+
+            if (this.props.data.view != "all") {
+
+            }
             
             return (
-                <div className="document-container">
+                <div className={
+                    "document-container" + (this.props.data.view != "all" ? (
+                        this.props.data.view == "document" ? " full" : " hidden"
+                    ) : "")
+                }>
                     <Head
                         data={this.props.data}
                         socket={this.props.socket}

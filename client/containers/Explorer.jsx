@@ -10,7 +10,13 @@ export default class Explorer extends React.Component {
 	
 	render() {
 		return (
-			<div className="explorer">
+			<div className={
+				"explorer" + (
+					this.props.data.view != "all" ? (
+						this.props.data.view == "explorer" ? " full" : " hidden"
+					) : ""
+				)
+			}>
                 <Tabs
                     data={this.props.data}
 					socket={this.props.socket}
