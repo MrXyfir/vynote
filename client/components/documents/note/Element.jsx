@@ -2,7 +2,8 @@ import marked from "marked";
 import React from "react";
 
 // Components
-import ElementControls from "./ElementControls";
+import ControlsExtended from "./ControlsExtended";
+import Controls from "./Controls";
 import Elements from "./Elements";
 
 // Action creators
@@ -245,16 +246,15 @@ export default class Element extends React.Component {
         
         return (
             <div className="note-element">
-                <ElementControls
-                    id={this.props.id} 
-                    data={this.props.data} 
-                    socket={this.props.socket} 
+                <Controls
+                    id={this.props.id}
+                    data={this.props.data}
                     dispatch={this.props.dispatch}
                 />
             
-                { // Output content in an editable or markdown-rendered element
-                    this.props.id == this.props.data.render.editing
-                    ? (
+                {/* Output content in an editable or markdown-rendered element */}
+                {this.props.id == this.props.data.render.editing ? (
+                    <div className="editing-container">
                         <input 
                             ref="input" 
                             type="text"  
@@ -264,17 +264,22 @@ export default class Element extends React.Component {
                             autoFocus={true} 
                             defaultValue={this.props.data.content[this.props.id].content}
                         />
-                    )
-                    : (
-                        <div 
-                            className="view" 
-                            onClick={this.onEdit} 
-                            dangerouslySetInnerHTML={
-                                {__html: this._parseContent()}
-                            }
+                        <ControlsExtended
+                            id={this.props.id}
+                            data={this.props.data}
+                            socket={this.props.socket}
+                            dispatch={this.props.dispatch}
                         />
-                    )
-                }
+                    </div>
+                ) : (
+                    <div 
+                        className="view" 
+                        onClick={this.onEdit} 
+                        dangerouslySetInnerHTML={
+                            {__html: this._parseContent()}
+                        }
+                    />
+                )}
                 
                 { // Optionally output element's children
                     this.props.data.render.showChildren.indexOf(this.props.id) > -1
