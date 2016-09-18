@@ -4,6 +4,7 @@ import React from "react";
 import {
     openDocumentControls, closeDocument
 } from "actions/documents/index";
+import { setView } from "actions/index";
 import { togglePreview } from "actions/documents/page";
 import { changeDocument, selectTab } from "actions/explorer/tabs";
 import { toggleShowEditorSettings } from "actions/documents/code";
@@ -33,6 +34,16 @@ export default class Head extends React.Component {
         
         return (
             <div className="document-head">
+                {this.props.data.view == "document" ? (
+                    <a
+                        title="Back to File Explorer"
+                        onClick={() => this.props.dispatch(setView("explorer"))}
+                        className="icon-left"
+                    />
+                ) : (
+                    <span />
+                )}
+
                 <div className="info">
                     <span className="name">{this.props.data.document.name}</span>
                     <span className="directory">{
@@ -66,6 +77,7 @@ export default class Head extends React.Component {
                         />
                     </div>
                 </div>
+
                 <div className="controls">
                     <span
                         title="Open Document Controls"
@@ -98,7 +110,7 @@ export default class Head extends React.Component {
                     }
                     <span
                         title="Close Document"
-                        onClick={this.onClose.bind(this)}
+                        onClick={() => this.onClose()}
                         className="icon-close"
                     />
                 </div>
