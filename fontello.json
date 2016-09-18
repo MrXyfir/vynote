@@ -215,6 +215,36 @@
       "css": "view",
       "code": 59426,
       "src": "entypo"
+    },
+    {
+      "uid": "d870630ff8f81e6de3958ecaeac532f2",
+      "css": "left",
+      "code": 59427,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "399ef63b1e23ab1b761dfbb5591fa4da",
+      "css": "right",
+      "code": 59428,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "57a0ac800df728aad61a7cf9e12f5fef",
+      "css": "flag",
+      "code": 59429,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "0db0310883e0bdacfd1bb2d394238e8a",
+      "css": "arrow-left",
+      "code": 59431,
+      "src": "entypo"
+    },
+    {
+      "uid": "52725ff4d4042964bd3a60609bf3695b",
+      "css": "arrow-right",
+      "code": 59432,
+      "src": "entypo"
     }
   ]
 }
