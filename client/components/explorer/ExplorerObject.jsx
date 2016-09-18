@@ -14,6 +14,7 @@ import {
 import {
     createTab, selectTab, changeDocument
 } from "actions/explorer/tabs";
+import { setView } from "actions/index";
 import { initializeRenderObject } from "actions/documents/note";
 
 // Constants
@@ -123,6 +124,11 @@ export default class ExplorerObject extends React.Component {
             
             // Select the new tab
             this.props.dispatch(selectTab(obj.doc_id));
+
+			// Change state.view if needed
+			if (this.props.data.view == "explorer") {
+				this.props.dispatch(setView("document"));
+			}
             
 			// If document is encrypted, Document container will handle content loading
 			// All we need to set is the type and id
