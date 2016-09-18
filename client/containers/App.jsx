@@ -55,7 +55,7 @@ class App extends React.Component {
         const initialize = () => {
             // Begin building initial state object
             let state = {
-                explorer: {}, document: {
+                view: "all", explorer: {}, document: {
                     doc_type: 0, doc_id: 0, folder_id: 0
                 },
                 modal: {
@@ -68,6 +68,15 @@ class App extends React.Component {
                     shortcuts: {}, config: {}, subscription: 0
                 }
             };
+
+            // Change view from "all"
+            if (screen.availHeight > screen.availWidth) {
+                // Set view to document if a doc is being viewed
+                if (location.hash.length > 1)
+                    state.view = "document";
+                else
+                    state.view = "explorer";
+            }
             
             // Grab filesystem and user objects
             socket.emit("get user info", (isLoggedIn, data) => {
@@ -149,7 +158,7 @@ class App extends React.Component {
 
     render() {
         if (this.state == undefined) {
-            return <span className="icon-loading" />;
+            return <span className="icon-loading">Initializing Vynote...</span>;
         }
         
         return (
