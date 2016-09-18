@@ -14,12 +14,6 @@ export default class Modal extends React.Component {
 
 	constructor(props) {
 		super(props);
-        
-        this.onClose = this.onClose.bind(this);
-	}
-
-	onClose() {
-		this.props.dispatch(close());
 	}
 
 	render() {
@@ -55,8 +49,14 @@ export default class Modal extends React.Component {
 		}
 	
 		return (
-			<div className="modal">
-				<span className="icon-close" title="Close" onClick={this.onClose} />
+			<div className={
+				"modal" + (this.props.data.view != "all" ? " full" : "")
+			}>
+				<span
+					className="icon-close"
+					onClick={() => this.props.dispatch(close())}
+					title="Close"
+				/>
 				{view}
 			</div>
 		);
