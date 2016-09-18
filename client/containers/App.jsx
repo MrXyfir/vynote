@@ -70,7 +70,7 @@ class App extends React.Component {
             };
 
             // Change view from "all"
-            if (screen.availHeight > screen.availWidth) {
+            if (window.innerHeight > window.innerWidth) {
                 // Set view to document if a doc is being viewed
                 if (location.hash.length > 1)
                     state.view = "document";
@@ -179,7 +179,7 @@ class App extends React.Component {
                     socket={socket} 
                     dispatch={store.dispatch}
                 />
-                {screen.availHeight > screen.availWidth ? (
+                {window.innerHeight > window.innerWidth ? (
                     <div className="status-bar">{this.state.notification.status ? (
                         <Notification
                             data={this.state.notification}
