@@ -1,15 +1,15 @@
 .modal {
     
-    position: absolute;
+    position: fixed;
     top: 10%;
+    left: 10%;
+    right: 10%;
+    bottom: 10%;
     background-color: white;
-    z-index: 6;
-    width: 60vw;
-    margin-left: 30%;
+    z-index: 7;
     border: solid 1px black;
     padding: 1em;
     box-shadow: 0.3em 0.3em 0.9em black;
-    bottom: 10%;
     overflow-y: auto;
     text-align: center;
     
@@ -27,6 +27,15 @@
         bottom: 1%;
     }
     
+}
+
+.modal.full {
+    left: 0%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    border: none;
+    box-shadow: none;
 }
 
 .document-controls {
