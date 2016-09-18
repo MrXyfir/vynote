@@ -1,1 +1,2 @@
 export const INITIALIZE_STATE = "INITIALIZE_STATE";
+export const SET_VIEW = "SET_VIEW";
