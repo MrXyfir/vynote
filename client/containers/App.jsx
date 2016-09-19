@@ -158,7 +158,11 @@ class App extends React.Component {
 
     render() {
         if (this.state == undefined) {
-            return <span className="icon-loading">Initializing Vynote...</span>;
+            return (
+                <span className="loading">
+                    <span className="icon-loading animate-spin" />Initializing Vynote...
+                </span>
+            );
         }
         
         return (
