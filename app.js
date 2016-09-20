@@ -25,3 +25,6 @@ app.get("/workspace/*", (req, res) => {
 });
 
 io.on("connection", require("./controllers/"));
+
+if (config.environment.runCronJobs)
+    require("./cron/start")();
