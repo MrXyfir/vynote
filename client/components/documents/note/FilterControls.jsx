@@ -22,9 +22,9 @@ export default class FilterControls extends React.Component {
         if (this.props.data.render.showFlagFilter) {
             let showFlags = [];
         
-            flags.forEach((flag, i) => {
-                if (this.refs[`flag-${i}`].checked)
-                    showFlags.push(i);
+            Object.keys(flags).forEach(flag => {
+                if (this.refs[`flag-${flag}`].checked)
+                    showFlags.push(flag);
             });
             
             this.props.dispatch(setFlags(showFlags));
@@ -53,17 +53,17 @@ export default class FilterControls extends React.Component {
                     this.props.data.render.showFlagFilter
                     ? (
                         <div className="flag-filters">
-                            {flags.map((flag, i) => {
+                            {Object.keys(flags).map(flag => {
                                 return (
                                     <div className="flag">
                                         <input
-                                            ref={`flag-${i}`}
+                                            ref={`flag-${flag}`}
                                             type="checkbox" 
                                             defaultChecked={
-                                                this.props.data.render.filter.flags.indexOf(i) > -1
+                                                this.props.data.render.filter.flags.indexOf(flag) > -1
                                             }
                                         />
-                                        <span>{flag}</span>
+                                        <span>{flags[flag]}</span>
                                     </div>
                                 );
                             })}

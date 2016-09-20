@@ -29,9 +29,9 @@ export default class ElementControlsExtended extends React.Component {
             let changed = false;
             
             // Check if element's flags have been changed
-            flags.forEach((flag, i) => {
-                let oldF = this.props.data.content[this.props.id].flags.indexOf(i) > -1;
-                let newF = this.refs[`flag-${i}`].checked;
+            Object.keys(flags).forEach(flag => {
+                let oldF = this.props.data.content[this.props.id].flags.indexOf(flag) > -1;
+                let newF = this.refs[`flag-${flag}`].checked;
                 
                 if (oldF !== newF) changed = true;
             });
@@ -39,11 +39,15 @@ export default class ElementControlsExtended extends React.Component {
             // Update element's flags
             if (changed && !this.props.data.content[this.props.id].create) {
                 let data = {
-                    action: "SET_FLAGS", doc: this.props.data.document.doc_id,
-                    id: this.props.id, content: flags.map((flag, i) => {
-                        return this.refs[`flag-${i}`].checked;
-                    }).filter(val => { return val; })
+                    action: "SET_FLAGS", doc: this.props.data.doc_id,
+                    id: this.props.id, content: []
                 };
+
+                // Add flag ids to state.document.content[element].flags
+                Object.keys(flags).forEach(flag => {
+                    if (this.refs[`flag-${flag}`].checked)
+                        data.content.push(flag);
+                });
                 
                 this.props.socket.emit("change note element", data, (err, res) => {
                     if (err) {
@@ -51,11 +55,9 @@ export default class ElementControlsExtended extends React.Component {
                     }
                     else {
                         this.props.dispatch(setElementFlags(
-                            this.props.id, data.flags
+                            this.props.id, data.content
                         ));
                     }
-                    
-                    this.props.dispatch(showElementControls(""));
                 });
             }
             
@@ -85,8 +87,6 @@ export default class ElementControlsExtended extends React.Component {
     }
     
     onDelete() {
-        this.props.dispatch(showElementControls(""));
-        
         // Element was only created locally
         if (this.props.data.content[this.props.id].create) {
             this.props.dispatch(deleteElement(this.props.id));
@@ -136,19 +136,19 @@ export default class ElementControlsExtended extends React.Component {
 
                 {this.state.showFlags ? (
                     <div className="flags">{
-                        flags.map((flag, i) => {
+                        Object.keys(flags).map(flag => {
                             return (
                                 <div className="flag">
                                     <input 
-                                        ref={`flag-${i}`} 
+                                        ref={`flag-${flag}`} 
                                         type="checkbox" 
                                         defaultChecked={
                                             this.props.data.content[
                                                 this.props.id
-                                            ].flags.indexOf(i) > -1
+                                            ].flags.indexOf(flag) > -1
                                         } 
                                     />
-                                    <span>{flag}</span>
+                                    <span>{flags[flag]}</span>
                                 </div>
                             );
                         })
