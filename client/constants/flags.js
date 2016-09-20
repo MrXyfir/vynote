@@ -1,3 +1,3 @@
-export default [
-    "Hidden", "Completed"
-];
+export default {
+    "s1": "Hidden", "s2": "Completed"
+};
