@@ -16,7 +16,7 @@ export default function (state, action) {
                     scope: "home",
                     scopeParents: [],
                     filter: {
-                        flags: [0], search: ""
+                        flags: ["s1"], search: ""
                     },
                     showChildren: [],
                     showFlagFilter: false,
