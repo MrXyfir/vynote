@@ -1,9 +1,9 @@
 .explorer {
     width: 20vw;
-    height: 95vh;
+    height: 97vh;
     background-color: $llgray;
-    padding: 0.5em;
     float: left;
+    overflow-y: auto;
 }
 
 .explorer.full {
@@ -13,7 +13,7 @@
 }
 
 .explorer-control-bar {
-    margin-top: 0.5em;
+    margin: 0.5em;
 }
 
 .explorer-control-bar, .tabs-bar {
@@ -42,6 +42,8 @@
 }
 
 .explorer-objects {
+
+    margin: 0em 0.5em;
     
     div[class^="explorer-object-"] {
         
@@ -125,6 +127,10 @@ div[class^="explorer-object-"]:hover, .list > .tab:hover, .list > .active {
         float: right;
     }
     
+}
+
+.tabs {
+    margin: 0.5em 0.5em 0.0em 0.5em;
 }
 
 .tabs > .list > .tab {
