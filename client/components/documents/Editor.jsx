@@ -122,7 +122,7 @@ export default class Ace extends React.Component {
 
     _setEditorHeight() {
         const css = `
-            .document-note > .note-elements {height: ${Math.floor(
+            #ace-editor {height: ${Math.floor(
                 document.querySelector(".status-bar").getBoundingClientRect().top
                 - this.refs.editor.getBoundingClientRect().top
             )}px;}
