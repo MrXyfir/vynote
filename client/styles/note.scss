@@ -1,5 +1,5 @@
 .document-note {
-    width: 80%;
+    width: 90%;
     margin: auto;
 }
 
@@ -36,6 +36,7 @@
 
 .document-note > .note-elements {
     margin-left: 0em;
+    overflow-y: auto;
 }
 
 .note-element {
