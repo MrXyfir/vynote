@@ -27,6 +27,27 @@ export default class Note extends React.Component {
         ));
         this.props.dispatch(editElement(id))
     }
+
+    _setHeight() {
+        const css = `
+            .document-note > .note-elements {height: ${Math.floor(
+                document.querySelector(".status-bar")
+                    .getBoundingClientRect().top
+                - document.querySelector(".document-note > .note-elements")
+                    .getBoundingClientRect().top
+            )}px;}
+        `;
+        let s = document.getElementById("vynote-note-styles");
+
+        // Create #vynote-note-styles
+        if (s == null) {
+            s = document.createElement("style");
+            s.setAttribute("id", "vynote-note-styles");
+            document.head.appendChild(s);
+        }
+
+        s.innerHTML = css;
+    }
     
     render() {
         if (this.props.data.render === undefined) {
@@ -55,7 +76,8 @@ export default class Note extends React.Component {
                     user={this.props.user}
                     data={this.props.data} 
                     socket={this.props.socket} 
-                    scope={this.props.data.render.scope} 
+                    scope={this.props.data.render.scope}
+                    onLoad={this._setHeight} 
                     dispatch={this.props.dispatch}
                 />
             </div>
