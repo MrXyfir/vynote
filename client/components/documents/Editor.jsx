@@ -18,6 +18,11 @@ export default class Ace extends React.Component {
 	}
 	
 	componentDidMount() {
+        // Determine height of #ace-editor
+        if (!this.props.id) {
+            this._setEditorHeight();
+        }
+
 		this.editor = ace.edit(this.props.id || "ace-editor");
 		
         // User set values
@@ -94,6 +99,45 @@ export default class Ace extends React.Component {
         
         document.body.onresize = function(){};
 	}
+
+    onChange(e) {
+        if (this.silent) return;
+        
+		clearTimeout(this.timeout);
+	
+		this.timeout = setTimeout(() => {
+			this.props.onChange({
+				action: "OVERWRITE", content: (
+					(this.props.data.encrypted) 
+					? encrypt(this.editor.getValue(), this.props.data.encrypt)
+					: this.editor.getValue()
+				)
+			});
+            
+            this.changed = false;
+		}, 5000);
+        
+        this.changed = true;
+	}
+
+    _setEditorHeight() {
+        const css = `
+            .document-note > .note-elements {height: ${Math.floor(
+                document.querySelector(".status-bar").getBoundingClientRect().top
+                - this.refs.editor.getBoundingClientRect().top
+            )}px;}
+        `;
+        let s = document.getElementById("vynote-editor-styles");
+
+        // Create #vynote-editor-styles
+        if (s == null) {
+            s = document.createElement("style");
+            s.setAttribute("id", "vynote-editor-styles");
+            document.head.appendChild(s);
+        }
+
+        s.innerHTML = css;
+    }
     
     _addCommands() {
         // Search for and replace shortcuts with full text in line
@@ -126,30 +170,10 @@ export default class Ace extends React.Component {
             exec: (editor) => { return; }
         })
     }
-	
-	onChange(e) {
-        if (this.silent) return;
-        
-		clearTimeout(this.timeout);
-	
-		this.timeout = setTimeout(() => {
-			this.props.onChange({
-				action: "OVERWRITE", content: (
-					(this.props.data.encrypted) 
-					? encrypt(this.editor.getValue(), this.props.data.encrypt)
-					: this.editor.getValue()
-				)
-			});
-            
-            this.changed = false;
-		}, 5000);
-        
-        this.changed = true;
-	}
 
 	render() {
 		return (
-			<div id={this.props.id || "ace-editor"} />
+			<div id={this.props.id || "ace-editor"} ref="editor" />
 		);
 	}
 	
