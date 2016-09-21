@@ -26,7 +26,7 @@ import setState from "lib/route/set-state";
 
 // Constants
 import { INITIALIZE_STATE } from "constants/action-types/index";
-import { URL, XACC, LOG_STATE } from "constants/config";
+import { URL, XACC, LOG_STATE, ENVIRONMENT } from "constants/config";
 import userConfig from "constants/user-config";
 
 // Create store and socket connection
@@ -77,9 +77,18 @@ class App extends React.Component {
                 else
                     state.view = "explorer";
             }
+
+            // Access code is generated upon a successful login
+            // Used to create new session without forcing login each time
+            const ac = localStorage.getItem("access_code") || "";
+
+            // Access code is required to create session with "get user info"
+            if (!ac && ENVIRONMENT != "dev") {
+                location.href = XACC + "app/#/login/12";
+            }
             
             // Grab filesystem and user objects
-            socket.emit("get user info", (isLoggedIn, data) => {
+            socket.emit("get user info", ac, (isLoggedIn, data) => {
                 if (!isLoggedIn) {
                     location.href = XACC + "app/#/login/12";
                 }
@@ -141,11 +150,12 @@ class App extends React.Component {
 
         // Attempt to login using XID/AUTH or skip to initialize()
         if (q.xid && q.auth) {
-            socket.emit("login user", q.xid, q.auth, (err) => {
+            socket.emit("login user", q.xid, q.auth, (err, ac) => {
                 if (err) {
                     location.href = XACC + "app/#/login/12";
                 }
                 else {
+                    localStorage.setItem("access_code", ac);
                     initialize();
                     location.hash = location.hash.split('?')[0];
                 }
