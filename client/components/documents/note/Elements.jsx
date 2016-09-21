@@ -7,6 +7,12 @@ export default class Elements extends React.Component {
     constructor(props) {
         super(props);
     }
+
+    componentDidMount() {
+        if (this.props.onLoad) {
+            this.props.onLoad();
+        }
+    }
     
     render() {
         return (
