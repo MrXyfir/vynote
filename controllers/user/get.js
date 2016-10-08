@@ -49,6 +49,13 @@ module.exports = function(socket, token, fn) {
             // [user_id, access_token]
             token = crypto.decrypt(token, config.keys.accessToken).split('-');
 
+            // Invalid token
+            if (!token[0] || !token[1]) {
+                cn.release();
+                fn(false);
+                return;
+            }
+
             // Get user's Xyfir ID
             sql = `SELECT xyfir_id FROM users WHERE user_id = ?`;
 
