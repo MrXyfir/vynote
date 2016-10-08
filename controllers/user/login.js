@@ -1,6 +1,6 @@
-﻿const rstring = require("randomstring");
-const request = require("request");
+﻿const request = require("request");
 const session = require("lib/session");
+const crypto = require("lib/crypto");
 const db = require("lib/db");
 
 const config = require("config");
@@ -28,22 +28,14 @@ module.exports = function(socket, xid, auth, fn) {
         let sql = "SELECT user_id, subscription FROM users WHERE xyfir_id = ?";
 
         db(cn => cn.query(sql, [xid], (err, rows) => {
-            // Generates a 3-day access code for user
-            const generateAccessCode = () => {
-                const code = rstring.generate(64);
-
-                sql = `
-                    INSERT INTO access_codes (code, expires, user_id)
-                    VALUES (?, DATE_ADD(NOW(), INTERVAL 3 DAY), ?)
-                `;
-                cn.query(sql, [code, rows[0].user_id], (err, result) => {
-                    cn.release();
-
-                    if (err || !result.affectedRows)
-                        fn(false, ""); // will fail 'get user info' and force login
-                    else
-                        fn(false, rows[0].user_id + "-" + code);
-                });
+            // Build / encrypt access token and send to client
+            const generateAccessToken = () => {
+                const token = crypto.encrypt(
+                    rows[0].user_id + "-" + body.accessToken,
+                    config.keys.accessToken
+                );
+                
+                fn(false, token);
             };
 
             // First login
@@ -54,13 +46,14 @@ module.exports = function(socket, xid, auth, fn) {
                 sql = "INSERT INTO users SET ?";
 
                 cn.query(sql, insert, (err, result) => {
+                    cn.release();
+
                     if (err || !result.affectedRows) {
-                        cn.release();
                         fn(true);
                     }
                     else {
                         session.save(socket.id, { uid: result.insertId, subscription: 0 });
-                        generateAccessCode();
+                        generateAccessToken();
                     }
                 });
             }
@@ -68,15 +61,16 @@ module.exports = function(socket, xid, auth, fn) {
             else {
                 sql = "UPDATE users SET email = ? WHERE user_id = ?";
                 cn.query(sql, [body.email, rows[0].user_id], (err, result) => {
+                    cn.release();
+
                     if (err) {
-                        cn.release();
                         fn(true);
                     }
                     else {
                         session.save(socket.id, {
                             uid: rows[0].user_id, subscription: rows[0].subscription
                         });
-                        generateAccessCode();
+                        generateAccessToken();
                     }
                 });
             }

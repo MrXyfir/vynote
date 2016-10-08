@@ -1,9 +1,11 @@
-﻿const session = require("lib/session");
+﻿const request = require("request");
+const session = require("lib/session");
+const crypto = require("lib/crypto");
 const db = require("lib/db");
 
 const config = require("config");
 
-module.exports = function(socket, code, fn) {
+module.exports = function(socket, token, fn) {
 
     db(cn => {
         let sql = "";
@@ -23,10 +25,10 @@ module.exports = function(socket, code, fn) {
                     sql = "SELECT name, content FROM shortcuts WHERE user_id = ?";
                     cn.query(sql, [uid], (err, shortcuts) => {
                         cn.release();
-
-                        session.save(
-                            socket.id, { uid, subscription: rows[0].subscription }
-                        );
+                        
+                        session.save(socket.id, {
+                            uid, subscription: rows[0].subscription
+                        });
 
                         rows[0].shortcuts = shortcuts;
                         fn(true, rows[0]);
@@ -34,57 +36,61 @@ module.exports = function(socket, code, fn) {
                 }
                 else {
                     cn.release();
-                    session.save(
-                        socket.id, { uid, subscription: rows[0].subscription }
-                    );
+                    session.save(socket.id, {
+                        uid, subscription: rows[0].subscription
+                    });
                     fn(true, rows[0]);
                 }
             });
         };
 
-        // Attempt to create a session before returning info
-        if (!socket.session.uid) {
-            // Validate access code
-            if (code) {
-                code = code.split('-');
+        // Validate access token
+        if (token) {
+            // [user_id, access_token]
+            token = crypto.decrypt(token, config.keys.accessToken).split('-');
 
-                sql = `
-                    SELECT user_id FROM access_codes WHERE user_id = ? AND code = ?
-                    AND expires > NOW()
-                `;
-                cn.query(sql, [code[0], code[1]], (err, rows) => {
-                    // Invalid code, force login
-                    if (err || !rows.length) {
-                        cn.release();
-                        fn(false);
-                    }
-                    // Get user's info and create session
-                    else {
-                        // Update access code's expiration date
-                        sql = `
-                            UPDATE access_codes SET expires = DATE_ADD(NOW(), INTERVAL 3 DAY)
-                            WHERE user_id = ? AND code = ?
-                        `;
-                        cn.query(sql, [code[0], code[1]], (err, result) => {
-                            getInfo(rows[0].user_id);
-                        });
-                    }
-                });
-            }
-            // Get info / create session for dev user
-            else if (config.environment.type == "dev") {
-                getInfo(1);
-            }
-            // No access code and not dev user, force login
-            else {
-                cn.release();
-                fn(false);
-                return;
-            }
+            // Get user's Xyfir ID
+            sql = `SELECT xyfir_id FROM users WHERE user_id = ?`;
+
+            cn.query(sql, [token[0]], (err, rows) => {
+                // User doesn't exist
+                if (err || !rows.length) {
+                    cn.release();
+                    fn(false);
+                }
+                // Validate access token with Xyfir Accounts
+                else {
+                    let url = config.address.xacc + "api/service/12/"
+                    + `${config.keys.xacc}/${rows[0].xyfir_id}/${token[1]}`;
+
+                    request(url, (err, response, body) => {
+                        // Error in request
+                        if (err) {
+                            fn(false);
+                            return;
+                        }
+
+                        body = JSON.parse(body);
+
+                        // Error from Xyfir Accounts
+                        if (body.error)
+                            fn(false);
+                        // Access token valid
+                        else
+                            getInfo(token[0]);
+                    });
+                }
+            });
         }
-        // Get info using session's uid
+        // Get info / create session for dev user
+        else if (config.environment.type == "dev") {
+            getInfo(1);
+        }
+        // No access token and not dev user, force login
         else {
-            getInfo(socket.session.uid);
+            cn.release();
+            fn(false);
+            return;
         }
     });
 
