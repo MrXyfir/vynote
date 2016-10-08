@@ -78,17 +78,17 @@ class App extends React.Component {
                     state.view = "explorer";
             }
 
-            // Access code is generated upon a successful login
+            // Access token is generated upon a successful login
             // Used to create new session without forcing login each time
-            const ac = localStorage.getItem("access_code") || "";
+            const token = localStorage.getItem("access_token") || "";
 
-            // Access code is required to create session with "get user info"
-            if (!ac && ENVIRONMENT != "dev") {
+            // Access token is required to create session with "get user info"
+            if (!token && ENVIRONMENT != "dev") {
                 location.href = XACC + "app/#/login/12";
             }
             
             // Grab filesystem and user objects
-            socket.emit("get user info", ac, (isLoggedIn, data) => {
+            socket.emit("get user info", token, (isLoggedIn, data) => {
                 if (!isLoggedIn) {
                     location.href = XACC + "app/#/login/12";
                 }
@@ -150,12 +150,12 @@ class App extends React.Component {
 
         // Attempt to login using XID/AUTH or skip to initialize()
         if (q.xid && q.auth) {
-            socket.emit("login user", q.xid, q.auth, (err, ac) => {
+            socket.emit("login user", q.xid, q.auth, (err, token) => {
                 if (err) {
                     location.href = XACC + "app/#/login/12";
                 }
                 else {
-                    localStorage.setItem("access_code", ac);
+                    localStorage.setItem("access_token", token);
                     initialize();
                     location.hash = location.hash.split('?')[0];
                 }
