@@ -119,7 +119,8 @@ export default class Tabs extends React.Component {
                 <div className="tabs-bar">
                     <span className="title">Active Documents</span>
                     
-                    {this.props.data.view == "explorer" ? (
+                    {this.props.data.view == "explorer"
+                    && this.props.data.document.doc_id ? (
                         <span
                             className="icon-right"
                             onClick={() => this.props.dispatch(setView("document"))}
