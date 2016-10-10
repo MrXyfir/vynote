@@ -286,16 +286,29 @@ export default class UserInput extends React.Component {
 		return (
 			<div className="explorer-user-input">
                 <span className="explorer-user-input-title">{inputTitle}</span>
-				<input 
-					ref="input"
-                    type="text"
-                    autoFocus="true" 
-					className="explorer-user-input-text" 
-					onKeyPress={this.onKeyPress} 
-                    defaultValue={inputContent} 
-				/>
-                {inputExtended}
-                <span className="icon-close" onClick={this.onClose} />
+				<div className="inputs">
+					<input 
+						ref="input"
+						type="text"
+						autoFocus="true" 
+						className="explorer-user-input-text" 
+						onKeyPress={this.onKeyPress} 
+						defaultValue={inputContent} 
+					/>
+					{inputExtended}
+				</div>
+				<div className="controls">
+					<span
+						className="icon-close"
+						onClick={this.onClose}
+						title="Close Input / Cancel Action"
+					/>
+                	<span
+						className="icon-success"
+						onClick={this._handleSubmit}
+						title="Submit"
+					/>
+				</div>
 			</div>
 		);
 	}
