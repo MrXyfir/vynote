@@ -22,13 +22,27 @@
     padding-left: 1.35em;
     box-shadow: 0.1em 0.1em 0.4em darkgray;
     margin-bottom: 0.3em;
-    
-    .info, .icons, .controls {
-        display: inline;
+
+    .icon-left {
+        display: inline-block;
+        width: 6%;
+        vertical-align: middle;
     }
-    
+
+    .info {
+        display: inline-block;
+        width: 66%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+    }
+
     .controls {
-        float: right;
+        display: inline-block;
+        width: 28%;
+        text-align: right;
+        vertical-align: middle;
     }
     
     .info {
@@ -37,6 +51,10 @@
             color: $gray;
             font-size: 80%;
             margin: 0.5em;
+        }
+
+        .icons {
+            display: inline;
         }
         
     }
