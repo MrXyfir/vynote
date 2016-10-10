@@ -22,6 +22,10 @@ export default class Head extends React.Component {
         ));
         this.props.dispatch(closeDocument());
         this.props.dispatch(selectTab(0));
+        
+        if (this.props.data.view == "document") {
+            this.props.dispatch(setView("explorer"));
+        }
     }
     
     render() {
