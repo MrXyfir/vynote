@@ -13,35 +13,14 @@
         box-shadow: 0.1em 0.1em 0.4em darkgray;
         background-color: $llgray;
         z-index: 2;
+        text-align: center;
         
-        .left {
-            
-            display: inline;
-            
-            .sub-title {
-                font-size: 60%;
-                color: $gray;
-                display: inline-block;
-                margin-top: -0.2em;
-                margin-left: 0.2em;
-            }
-            
+        a {
+            color: $dgray;
+            margin-right: 0.5em;
         }
-        
-        .right {
-            
-            display: inline;
-            position: absolute;
-            right: 10%;
-            
-            a {
-                color: $dgray;
-                margin-right: 0.5em;
-            }
-            a:hover {
-                color: $lgray;
-            }
-            
+        a:hover {
+            color: $lgray;
         }
         
     }
