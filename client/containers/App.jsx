@@ -11,6 +11,7 @@ import Document from "./Document";
 import Modal from "./Modal";
 
 // Non-container React componenents
+import DynamicStyles from "components/contained/misc/DynamicStyles";
 import Notification from "components/status-bar/Notification";
 import QuickLinks from "components/status-bar/QuickLinks";
 
@@ -148,6 +149,11 @@ class App extends React.Component {
         
         const q = parseQuery();
 
+        // PhoneGap app opens to vynote.com/workspace/#?phonegap=1
+        if (q.phonegap) {
+            localStorage.setItem("isPhoneGap", "true");
+        }
+
         // Attempt to login using XID/AUTH or skip to initialize()
         if (q.xid && q.auth) {
             socket.emit("login user", q.xid, q.auth, (err, token) => {
@@ -177,6 +183,7 @@ class App extends React.Component {
         
         return (
             <div>
+                <DynamicStyles />
                 <Explorer 
                     data={this.state} 
                     socket={socket} 
