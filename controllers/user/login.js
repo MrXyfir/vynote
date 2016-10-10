@@ -29,9 +29,9 @@ module.exports = function(socket, xid, auth, fn) {
 
         db(cn => cn.query(sql, [xid], (err, rows) => {
             // Build / encrypt access token and send to client
-            const generateAccessToken = () => {
+            const generateAccessToken = (uid) => {
                 const token = crypto.encrypt(
-                    rows[0].user_id + "-" + body.accessToken,
+                    uid + "-" + body.accessToken,
                     config.keys.accessToken
                 );
                 
@@ -53,7 +53,7 @@ module.exports = function(socket, xid, auth, fn) {
                     }
                     else {
                         session.save(socket.id, { uid: result.insertId, subscription: 0 });
-                        generateAccessToken();
+                        generateAccessToken(result.insertId);
                     }
                 });
             }
@@ -70,7 +70,7 @@ module.exports = function(socket, xid, auth, fn) {
                         session.save(socket.id, {
                             uid: rows[0].user_id, subscription: rows[0].subscription
                         });
-                        generateAccessToken();
+                        generateAccessToken(rows[0].user_id);
                     }
                 });
             }
