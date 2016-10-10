@@ -2,6 +2,7 @@ import React from "react";
 
 import { triggerCreateFolder, triggerCreateDocument } from "actions/explorer/user-input";
 import { navigateToFolder, loadFileSystem } from "actions/explorer/index";
+import { closeDocument } from "actions/documents/index";
 import { error } from "actions/notification";
 
 import buildExplorerObject from "lib/explorer/build";
@@ -44,7 +45,9 @@ export default class ControlBar extends React.Component {
 	
 	onRefresh() {
 		// Refresh entire filesystem
+		// !! This also closes open document and resets tabs
 		this.props.socket.emit("get filesystem", (res) => {
+			this.props.dispatch(closeDocument());
 			this.props.dispatch(loadFileSystem(
                 buildExplorerObject(res, this.props.data.scope)
             ));
