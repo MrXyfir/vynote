@@ -1,6 +1,6 @@
 export default function (state) {
 
-    let document = location.hash.substr(1).split('.')[0];
+    let document = location.hash.substr(1).split('?')[0].split('.')[0];
 
     // Document does not match
     if (state.document.doc_id != document) {
