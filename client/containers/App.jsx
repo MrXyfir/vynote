@@ -183,7 +183,7 @@ class App extends React.Component {
         
         return (
             <div>
-                <DynamicStyles />
+                <DynamicStyles beforeApp={true} />
                 <Explorer 
                     data={this.state} 
                     socket={socket} 
@@ -220,6 +220,7 @@ class App extends React.Component {
                         />
                     </div>
                 )}
+                <DynamicStyles beforeApp={false} />
             </div>
         );
     }
