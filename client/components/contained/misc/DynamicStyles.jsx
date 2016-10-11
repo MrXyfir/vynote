@@ -9,15 +9,30 @@ export default class DynamicStyles extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ styles: this._generateStyles() });
+        if (this.props.beforeApp)
+            this.setState({ styles: this._generateStylesBefore() });
+        else
+            this.setState({ styles: this._generateStylesAfter() });
     }
 
-    _generateStyles() {
+    _generateStylesBefore() {
         return `
             #content {${
                 this._isPhoneGap() && this._isIOS()
                 ? "padding-top: 20px;" : ""
             }}
+        `;
+    }
+
+    _generateStylesAfter() {
+        return `
+            .explorer {
+                height: ${
+                    document.body.scrollHeight
+                    - document.querySelector(".status-bar").scrollHeight
+                    - (this._isPhoneGap() && this._isIOS() ? 20 : 0)
+                }px;
+            }
         `;
     }
 
