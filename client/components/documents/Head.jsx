@@ -82,7 +82,9 @@ export default class Head extends React.Component {
                     </div>
                 </div>
 
-                <div className="controls">
+                <div className={"controls" + (
+                    this.props.data.view == "document" ? "" : " offset"
+                )}>
                     <span
                         title="Open Document Controls"
                         onClick={() => this.props.dispatch(openDocumentControls())}
