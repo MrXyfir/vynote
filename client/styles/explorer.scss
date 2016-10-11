@@ -60,6 +60,7 @@
             text-overflow: ellipsis;
             max-width: 60%;
             cursor: pointer;
+            user-select: none;
         }
         
         .object-controls {

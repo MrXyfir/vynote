@@ -16,6 +16,9 @@ button {
     cursor: pointer;
 }
 
+span[class^="icon-"] {
+    user-select: none;
+}
 span[class^="icon-"]:hover {
     cursor: pointer;
     color: $dgray;
