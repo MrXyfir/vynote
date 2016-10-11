@@ -164,6 +164,11 @@ class App extends React.Component {
                     localStorage.setItem("access_token", token);
                     initialize();
                     location.hash = location.hash.split('?')[0];
+
+                    // App doesn't load icons after login for some reason
+                    if (localStorage.setItem("isPhoneGap") == "true") {
+                        location.reload();
+                    }
                 }
             });
         }
