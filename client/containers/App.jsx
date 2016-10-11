@@ -152,6 +152,7 @@ class App extends React.Component {
         // PhoneGap app opens to vynote.com/workspace/#?phonegap=1
         if (q.phonegap) {
             localStorage.setItem("isPhoneGap", "true");
+            location.hash = "";
         }
 
         // Attempt to login using XID/AUTH or skip to initialize()
