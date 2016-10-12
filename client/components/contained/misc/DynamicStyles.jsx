@@ -9,10 +9,19 @@ export default class DynamicStyles extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.beforeApp)
+        if (this.props.beforeApp) {
+            document.getElementsByName("viewport")[0].setAttribute(
+                "content",
+                `‌​user-scalable=no, initial-scale=${
+                    (1 / window.devicePixelRatio)
+                }, minimum-scale=0.2, maximum-scale=2, width=device-width`
+            );
+
             this.setState({ styles: this._generateStylesBefore() });
-        else
+        }
+        else {
             this.setState({ styles: this._generateStylesAfter() });
+        }
     }
 
     _generateStylesBefore() {
