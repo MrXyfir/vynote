@@ -29,14 +29,20 @@ export default class QuickLinks extends React.Component {
 	render() {
 		return (
 			<div className="quick-links">
-                <span className="icon-user" />
-                <a onClick={this.onOpen.bind(this, 1)}>Account</a>
+                <a
+                    className="icon-user"
+                    onClick={this.onOpen.bind(this, 1)}
+                >Account</a>
                 
-                <span className="icon-help" />
-                <a onClick={this.onOpen.bind(this, 2)}>Help</a>
+                <a
+                    className="icon-help"
+                    onClick={this.onOpen.bind(this, 2)}
+                >Help</a>
                 
-                <span className="icon-settings" />
-                <a onClick={this.onOpen.bind(this, 3)}>Settings</a>
+                <a
+                    className="icon-settings"
+                    onClick={this.onOpen.bind(this, 3)}
+                >Settings</a>
             </div>
 		);
 	}
