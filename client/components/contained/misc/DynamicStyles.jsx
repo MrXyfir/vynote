@@ -10,13 +10,6 @@ export default class DynamicStyles extends React.Component {
 
     componentDidMount() {
         if (this.props.beforeApp) {
-            document.getElementsByName("viewport")[0].setAttribute(
-                "content",
-                `‌​user-scalable=no, initial-scale=${
-                    (1 / window.devicePixelRatio)
-                }, minimum-scale=0.2, maximum-scale=2, width=device-width`
-            );
-
             this.setState({ styles: this._generateStylesBefore() });
         }
         else {
@@ -29,6 +22,10 @@ export default class DynamicStyles extends React.Component {
             #content {${
                 this._isPhoneGap() && this._isIOS()
                 ? "padding-top: 20px;" : ""
+            }}
+            .explorer, .status-bar, .document-head, .document-note, .modal {${
+                this._isPhoneGap() && this._isIOS()
+                ? "font-size: 135%;" : ""
             }}
         `;
     }
