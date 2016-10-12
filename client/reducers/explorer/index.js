@@ -137,10 +137,14 @@ export default function (state, action) {
                     return (() => {
                         let temp = Object.assign({}, state);
                         
-                        temp.documents[action.newId] = temp.documents[action.id];
+						// Copy origin file, update id, append " - Copy" to name
+                        temp.documents[action.newId] = Object.assign(
+							{}, temp.documents[action.id]
+						);
                         temp.documents[action.newId].doc_id = action.newId;
                         temp.documents[action.newId].name += " - Copy";
                         
+						// Add new document to parent's children
                         temp.children[temp.documents[action.id].folder_id].push(
                             { type: 2, id: action.newId }
                         );
