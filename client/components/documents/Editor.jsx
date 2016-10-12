@@ -40,9 +40,9 @@ export default class Ace extends React.Component {
         // Set inintial value without triggering onChange
         this.silent = true;
 		this.editor.setValue(
-			(this.props.data.encrypted) 
+			((this.props.data.encrypted) 
 			? decrypt(this.props.data.content, this.props.data.encrypt)
-			: this.props.data.content
+			: this.props.data.content), 1
 		);
         this.silent = false;
         
@@ -66,15 +66,19 @@ export default class Ace extends React.Component {
         // Update syntax/theme
         this.editor.getSession().setMode(getSyntaxFile(this.props.data.syntax));
 		this.editor.setTheme(getThemeFile(this.props.data.theme));
+
+        const position = this.editor.selection.getCursor();
         
         // Update content
         this.silent = true;
 		this.editor.setValue(
-			(this.props.data.encrypted) 
+			((this.props.data.encrypted)
 			? decrypt(this.props.data.content, this.props.data.encrypt)
-			: this.props.data.content
+			: this.props.data.content), 1
 		);
         this.silent = false;
+
+        this.editor.gotoLine(position.row + 1, position.column + 1);
         
         // Set state.document.reload = false
         if (this.props.data.reload)
