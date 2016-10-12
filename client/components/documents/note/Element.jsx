@@ -114,6 +114,12 @@ export default class Element extends React.Component {
     }
     
     _saveElementContent(createSibling = false) {
+        // Delete element if it has no content
+        if (!this.refs.input.value.trim()) {
+            this._deleteElement();
+            return;
+        }
+
         let data = {
             action: "UPDATE", id: this.props.id, doc: this.props.data.doc_id,
             content: (
@@ -172,9 +178,9 @@ export default class Element extends React.Component {
     }
     
     _deleteElement(e) {
-        if (!this.refs.input.value.length) {
+        if (!e || !this.refs.input.value.length) {
             // Prevent backspace from navigating to previous page
-            e.preventDefault();
+            if (e) e.preventDefault();
             
             const del = (id) => {
                 let parent  = this.props.data.content[id].parent;
