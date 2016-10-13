@@ -11,7 +11,21 @@
 }
 
 .explorer-control-bar {
+    
     margin: 0.5em;
+
+    .explorer-active-folder {
+        max-width: 50%;
+    }
+
+}
+
+.tabs-bar {
+
+    .title {
+        max-width: 80%;
+    }
+
 }
 
 .explorer-control-bar, .tabs-bar {
@@ -24,7 +38,6 @@
     
     .explorer-active-folder, .title {
         display: inline-block;
-        max-width: 60%;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -117,10 +130,22 @@ div[class^="explorer-object-"]:hover, .list > .tab:hover, .list > .active {
     
     .explorer-user-input-title {
         font-weight: bold;
+        vertical-align: middle;
     }
     
     .explorer-user-input-text {
         width: 40vw;
+    }
+
+    .explorer-user-input-extended {
+        
+        vertical-align: middle;
+
+        .or {
+            margin-right: 0.4em;
+            font-weight: bold;
+        }
+
     }
     
     .controls {
