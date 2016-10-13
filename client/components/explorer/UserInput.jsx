@@ -129,13 +129,7 @@ export default class UserInput extends React.Component {
 	}
 	
 	onMoveObject() {
-		let directory = this.refs.input.value.charAt(0) == '/'
-            ? this.refs.input.value.substring(1).split('/') 
-            : this.refs.input.value.split('/');
-       
-        if (directory[directory.length - 1] == "")
-            directory.pop();
-		
+		// Move object to folder
 		const move = (to) => {
 			const data = {
 				objType: this.props.data.userInput.objType,
@@ -154,43 +148,59 @@ export default class UserInput extends React.Component {
 				this.props.dispatch(closeUserInput());
 			});
 		};
-		
-		// User wants to move object to root
-		if (directory.length == 1) {
-			if (this.props.data.userInput.objType == 2) {
-				this.props.dispatch(error("Cannot move documents to home folder"));
-				this.props.dispatch(closeUserInput());
-			}
-			else {
-				move(0);
-			}
+
+		// Move to currently scoped folder
+		if (this.refs.moveToScopedFolder.checked) {
+			move(this.props.data.scope);
 		}
+		// Move to directory in text input
 		else {
-			let folder = 0;
+			let directory = this.refs.input.value.charAt(0) == '/'
+				? this.refs.input.value.substring(1).split('/') 
+				: this.refs.input.value.split('/');
+		
+			if (directory[directory.length - 1] == "")
+				directory.pop();
 			
-			// Find the folder id of the deepest folder
-			// (the folder to move object to)
-			directory.forEach((dir, i) => {
-				if (i == 0) return;
-                
-				this.props.data.children[folder].forEach(child => {
-					if (child.type == 1 && this.props.data.folders[child.id].name == dir) {
-						folder = child.id;
-                    }
-				});
-			});
-			
-			// Don't move object
-			if (folder == this.props.data.scope) {
-				this.props.dispatch(closeUserInput());
+			// User wants to move object to root
+			if (directory.length == 1) {
+				if (this.props.data.userInput.objType == 2) {
+					this.props.dispatch(error("Cannot move documents to home folder"));
+					this.props.dispatch(closeUserInput());
+				}
+				else {
+					move(0);
+				}
 			}
-			// Couldn't find a folder at that address
-			else if (folder == 0) {
-				this.props.dispatch(error("No folder exists at that address"));
-				this.props.dispatch(closeUserInput()); 
-			}
+			// Move to non-root folder
+			// Get folder id from directory string
 			else {
-				move(folder);
+				let folder = 0;
+				
+				// Find the folder id of the deepest folder
+				// (the folder to move object to)
+				directory.forEach((dir, i) => {
+					if (i == 0) return;
+					
+					this.props.data.children[folder].forEach(child => {
+						if (child.type == 1 && this.props.data.folders[child.id].name == dir) {
+							folder = child.id;
+						}
+					});
+				});
+				
+				// Don't move object
+				if (folder == this.props.data.scope) {
+					this.props.dispatch(closeUserInput());
+				}
+				// Couldn't find folder
+				else if (folder == 0) {
+					this.props.dispatch(error("Could not find folder"));
+					this.props.dispatch(closeUserInput()); 
+				}
+				else {
+					move(folder);
+				}
 			}
 		}
 	}
@@ -256,11 +266,18 @@ export default class UserInput extends React.Component {
 				inputExtended = (
 					(this.props.user.subscription > Date.now())
 					? <div className="explorer-user-input-extended">
-                        <select ref="color" defaultValue={this.props.user.config.defaultExplorerObjectColor}>{
-                            colors.map((color, i) => { return <option value={i}>{color}</option>; })
+                        <select
+							ref="color"
+							defaultValue={
+								this.props.user.config.defaultExplorerObjectColor
+							}
+						>{
+                            colors.map((color, i) => {
+								return <option value={i}>{color}</option>;
+							})
                         }</select>
                       </div>
-					: <span></span>
+					: <span />
 				);
 				break;
 				
@@ -276,8 +293,25 @@ export default class UserInput extends React.Component {
 				inputTitle = "Move";
 				inputContent = this.props.data.scopeParents.map(dir => {
 					return dir.name;
-				}).join("/") + "/" + this.props.data.folders[this.props.data.scope].name;
-				break;
+				}).join("/") + "/" + this.props.data.folders[
+					this.props.data.scope
+				].name;
+				inputExtended = (
+					<div className="explorer-user-input-extended">
+                        <span className="or">OR</span>
+						<input
+							ref="moveToScopedFolder"
+							type="checkbox"
+							defaultValue={false}
+							onChange={(e) => {
+								if (e.target.checked)
+									this.refs.input.disabled = true;
+								else
+									this.refs.input.disabled = false;
+							}}
+						/>Move To Currently Scoped Folder
+					</div>
+				); break;
 			
 			default:
 				return <div />;
