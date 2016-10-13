@@ -59,11 +59,15 @@ export default class ControlBar extends React.Component {
 	}
 	
 	render() {
+		const parents = this.props.data.scopeParents.map(p => p.name).join("/");
+		const name = this.props.data.folders[this.props.data.scope].name; 
+
 		return (
 			<div className="explorer-control-bar">
-				<span className="explorer-active-folder" title="Active Folder">{
-					this.props.data.folders[this.props.data.scope].name
-				}</span>
+				<span
+					className="explorer-active-folder"
+					title={`Active Folder: ${parents}/${name}`}
+				>{name}</span>
 				<span
 					title="Go to Parent Folder" 
 					className={this.props.data.scope > 0 ? "icon-level-up" : ""} 
