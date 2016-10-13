@@ -55,7 +55,7 @@ export default class Note extends React.Component {
         }
         
         return (
-            <div className="document-note">
+            <div className="document document-note">
                 <FilterControls data={this.props.data} dispatch={this.props.dispatch} />
                 <Parents dispatch={this.props.dispatch} data={this.props.data} />
                 
