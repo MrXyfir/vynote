@@ -26,6 +26,9 @@ span[class^="icon-"]:hover {
 .hidden {
     display: none;
 }
+.explorer, .document-head, .modal, .status-bar {
+    user-select: none;
+}
 
 
 /* LINKS */
