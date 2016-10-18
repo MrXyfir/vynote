@@ -153,23 +153,18 @@ class App extends React.Component {
         if (q.phonegap) {
             localStorage.setItem("isPhoneGap", "true");
             location.hash = "";
+            initialize();
         }
-
         // Attempt to login using XID/AUTH or skip to initialize()
-        if (q.xid && q.auth) {
+        else if (q.xid && q.auth) {
             socket.emit("login user", q.xid, q.auth, (err, token) => {
                 if (err) {
                     location.href = XACC + "app/#/login/12";
                 }
                 else {
                     localStorage.setItem("access_token", token);
+                    location.hash = "";
                     initialize();
-                    location.hash = location.hash.split('?')[0];
-
-                    // App doesn't load icons after login for some reason
-                    if (localStorage.setItem("isPhoneGap") == "true") {
-                        location.reload();
-                    }
                 }
             });
         }
