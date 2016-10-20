@@ -146,5 +146,24 @@
         <a href="https://xyfir.com/#/documentation/vynote/tos">Terms of Service</a>
         <a href="https://xyfir.com/#/documentation/vynote/privacy">Privacy Policy</a>
     </footer>
+
+    <script>
+        let s = document.createElement("style");
+
+        s.innerHTML = `
+            .nav-bar {${
+                localStorage.getItem("isPhoneGap") == "true"
+                ? "padding-top: 20px !important;" : ""
+            }}
+            .markdown {
+                margin-top: ${
+                    document.querySelector(".nav-bar").offsetHeight
+                    + (localStorage.getItem("isPhoneGap") == "true" ? 20 : 0)
+                }px;
+            }
+        `;
+
+        document.body.appendChild(s);
+    </script>
 </body>
 </html>
