@@ -5,7 +5,7 @@ import {
     createTab, closeAll, selectTab, closeTab, hoverTab, saveDocument
 } from "actions/explorer/tabs";
 import {
-    loadDocument, loadContent
+    loadDocument, loadContent, closeDocument
 } from "actions/documents/index";
 import { navigateToElement } from "actions/documents/note";
 import { setView } from "actions/index";
@@ -43,6 +43,7 @@ export default class Tabs extends React.Component {
                 this.props.data.explorer.tabs.active,
                 JSON.stringify(this.props.data.document)
             ));
+            this.props.dispatch(closeDocument());
         }
         
         // Create/select new tab
@@ -51,6 +52,7 @@ export default class Tabs extends React.Component {
     }
     
     onCloseAll() {
+        this.props.dispatch(closeDocument());
         this.props.dispatch(closeAll());
     }
     
@@ -103,6 +105,10 @@ export default class Tabs extends React.Component {
                     }
                 }
             }
+            // Selecting blank tab
+            else {
+                this.props.dispatch(closeDocument());
+            }
             
             // Select tab id
             this.props.dispatch(selectTab(id));
@@ -110,7 +116,40 @@ export default class Tabs extends React.Component {
     }
     
     onClose(id) {
-        this.props.dispatch(closeTab(id));
+        const tabs = Object.keys(this.props.data.explorer.tabs.list);
+
+        // Closing active tab
+        if (this.props.data.explorer.tabs.active == id) {
+            // Select previous/next tab
+            if (tabs.length > 1) {
+                let index = 0;
+
+                // Get tab's index in list
+                tabs.forEach((tab, i) => { if (tab == id) index = i; });
+
+                // Select previous tab
+                if (index + 1 == tabs.length)
+                    index -= 1;
+                // Select next tab
+                else
+                    index += 1;
+                
+                // Select new tab and load document
+                this.onSelectTab(tabs[index]);
+                this.props.dispatch(closeTab(id));
+            }
+            // Make blank tab
+            else {
+                this.props.dispatch(closeDocument());
+                this.props.dispatch(closeTab(id));
+                this.props.dispatch(createTab());
+                this.props.dispatch(selectTab(0));
+            }
+        }
+        // Close non-active tab
+        else {
+            this.props.dispatch(closeTab(id));
+        }
     }
     
     render() {
