@@ -17,7 +17,9 @@ export default function (state, action) {
         case CLOSE_ALL:
             return Object.assign({}, state, {
                 tabs: {
-                    active: -1, hover: -1, list: {}
+                    active: 0, hover: -1, list: {
+                        '0': { name: "New Tab", directory: "" }
+                    }
                 }
             });
             
