@@ -35,7 +35,8 @@ export default class Ace extends React.Component {
         // Always set values
         this.editor.session.setOption("wrap", "free");
         this.editor.setShowPrintMargin(false);
-        this.editor.on('change', this.onChange);
+        this.editor.on("change", this.onChange);
+        this.editor.setOption("scrollPastEnd", 2);
 		
         // Set inintial value without triggering onChange
         this.silent = true;
@@ -45,6 +46,11 @@ export default class Ace extends React.Component {
 			: this.props.data.content), 1
 		);
         this.silent = false;
+
+        // Mobile app only settings
+        if (localStorage.getItem("isPhoneGap") == "true") {
+            this.editor.renderer.setShowGutter(false);
+        }
         
         // Bind keyboard commands to editor
         this._addCommands();
