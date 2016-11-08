@@ -15,6 +15,12 @@ body {
 button {
     cursor: pointer;
 }
+section {
+	background-color: $lllgray;
+	padding: 0.5em;
+	margin: 1em auto;
+	width: 80%;
+}
 
 span[class^="icon-"] {
     user-select: none;
@@ -49,7 +55,6 @@ input[type=submit], button, .btn {
 	height: 3.142em;
 	min-width: 7em;
 	color:#fff;
-	padding: 5px 10px;
 	border: 0;
 	text-transform: uppercase;
 	border-radius: 0.15em;
@@ -103,6 +108,15 @@ input[type=text], input[type=password], input[type=email], input[type=number], i
 	background-color: rgba(255,255,255,.8);
 	display: block;
 	margin: 1em auto;
+}
+label {
+    display: block;
+    font-weight: bold;
+}
+.input-description {
+    font-size: 90%;
+    color: $dgray;
+    display: block;
 }
 
 .status-bar {

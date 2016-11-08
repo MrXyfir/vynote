@@ -9,7 +9,7 @@
     z-index: 7;
     border: solid 1px black;
     padding: 1em;
-    box-shadow: 0.3em 0.3em 0.9em black;
+    box-shadow: 0.1em 0.1em 0.3em black;
     overflow-y: auto;
     text-align: center;
     
@@ -116,17 +116,17 @@
 
 .user-account {
     
+    section.info > input {
+        text-align: center;
+        margin-bottom: 2em;
+    }
+
     .upgrade > .form {
         
         margin-bottom: 2em;
         
         select {
             font-size: 1.2em;
-        }
-        
-        label {
-            font-weight: bold;
-            display: block;
         }
         
         input {
@@ -142,17 +142,6 @@
 }
 
 .user-settings {
-    
-    label {
-        display: block;
-        font-weight: bold;
-    }
-    
-    .input-description {
-        font-size: 90%;
-        color: $ddgray;
-        display: block;
-    }
     
     .config {
         
