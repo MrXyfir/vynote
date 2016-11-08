@@ -1,57 +1,113 @@
 ﻿const session = require("lib/session");
+const request = require("request");
+const stripe = require("stripe");
 const db = require("lib/db");
 
-/* interface IData {
-    months: number, token: string
-} */
+const config = require("config");
+
+function setSubscription(subscription, days) {
+    return Date.now() > subscription
+        ? (Date.now() + ((60 * 60 * 24 * days) * 1000))
+        : (subscription + ((60 * 60 * 24 * days) * 1000));
+}
+
+// Give user who referred buyer one week subscription for every month bought
+function rewardReferrer(cn, ref, days) {
+    let sql = `
+        SELECT subscription FROM users WHERE user_id = ?
+    `, vars = [ref];
+
+    cn.query(sql, vars, (err, rows) => {
+        if (err || !rows.length) {
+            cn.release();
+        }
+        else {
+            sql = `
+                UPDATE users SET subscription = ? WHERE user_id = ?
+            `, vars = [
+                setSubscription(rows[0].subscription, (days / 30) * 7 ), ref
+            ];
+
+            cn.query(sql, vars, (err, result) => cn.release());
+        }
+    });
+}
+
+// Notify XACC of purchase
+function rewardAffiliate(aff, amount) {
+    request.post({
+        url: config.address.xacc + "api/affiliate/purchase", form: {
+            service: 12, serviceKey: config.keys.xacc,
+            promoCode: aff, amount
+        }
+    }, (err, response, body) => 1);
+}
 
 module.exports = function(socket, data, fn) {
 
-    let stripeKey = require("../../config").keys.stripe;
-    let amount = [0, 300, 1500, 2400][data.months];
+    let sql = `
+        SELECT subscription, referral FROM users WHERE user_id = ?
+    `, vars = [
+        socket.session.uid
+    ];
 
-    if (!amount) {
-        fn(true, "Invalid subscription length");
-        return;
-    }
-
-    let months = [0, 1, 6, 12][data.months];
-
-    let info = {
-        amount: amount,
-        currency: "usd",
-        source: data.token,
-        description: `Vynote - Premium Subscription`
-    };
-    
-    require("stripe")(stripeKey).charges.create(info, (err, charge) => {
-        if (err) {
-            fn(true, "Error processing your card. Please try again.");
+    db(cn => cn.query(sql, vars, (err, rows) => {
+        if (err || !rows.length) {
+            cn.release();
+            fn(true);
             return;
         }
 
-        let sql = "SELECT subscription FROM users WHERE user_id = ?";
+        let amount = [0, 300, 1500, 2400][data.subscription];
 
-        db(cn => cn.query(sql, [socket.session.uid], (err, rows) => {
-            if (err || !rows.length) {
-                cn.release();
-                fn(true);
+        if (!amount) {
+            fn(true, "Invalid subscription length");
+            return;
+        }
+
+        // Add days to current subscription expiration (or now())
+        const days = [0, 30, 180, 365][data.subscription];
+        const subscription = setSubscription(rows[0].subscription, days);
+        
+        const referral = JSON.parse(rows[0].referral);
+
+        // Discount 10% off of first purchase
+        if ((referral.referral || referral.affiliate) && !referral.hasMadePurchase) {
+            referral.hasMadePurchase = true;
+            amount -= amount * 0.10;
+        }
+        
+        stripe(config.keys.stripe).charges.create({
+            amount, currency: "usd", source: data.token,
+            description: "Vynote - Premium Subscription"
+        }, (err, charge) => {
+            if (err) {
+                fn(true, "Error processing your card. Please try again.");
                 return;
             }
 
-            // Add months to current subscription expiration (or now())
-            let subscription = rows[0].subscription == 0
-                ? (Date.now() + (data.months * 43200 * 60 * 1000))
-                : ((new Date(rows[0].subscription)).getTime() + (data.months * 43200 * 60 * 1000));
+            // Update user's account
+            sql = `
+                UPDATE users SET subscription = ?, referral = ? WHERE user_id = ?
+            `, vars = [
+                subscription, JSON.stringify(referral), socket.session.uid
+            ];
 
-            // Update in database
-            sql = "UPDATE users SET subscription = ? WHERE user_id = ?";
-            cn.query(sql, [subscription, socket.session.uid], (err, result) => {
-                cn.release();
-
+            cn.query(sql, vars, (err, result) => {
                 if (err || !result.affectedRows) {
+                    cn.release();
                     fn(true);
                     return;
+                }
+                else if (referral.referral) {
+                    rewardReferrer(cn, referral.referral, days);
+                }
+                else if (referral.affiliate) {
+                    cn.release();
+                    rewardAffiliate(referral.affiliate, amount);
+                }
+                else {
+                    cn.release();
                 }
 
                 // Update in Redis
@@ -61,7 +117,7 @@ module.exports = function(socket, data, fn) {
                 // Send to user
                 fn(false, subscription);
             });
-        }));
-    });
+        });
+    }));
 
 }
