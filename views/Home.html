@@ -190,6 +190,15 @@
         `;
 
         document.body.appendChild(s);
+
+        if (location.hash.indexOf("?")) {
+            localStorage.setItem(
+                "referral", location.hash.split("?r=")[1] || ""
+            )
+            localStorage.setItem(
+                "affiliate", location.hash.split("?promo=")[1] || ""
+            );
+        }
     </script>
 </body>
 </html>
