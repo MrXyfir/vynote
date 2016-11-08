@@ -20,12 +20,7 @@ export default class Settings extends React.Component {
 	}
     
     onUpdateConfiguration() {
-        if (Date.now() > this.props.data.user.subscription) {
-            this.props.dispatch(error("Free members cannot update this configuration"));
-            return;
-        }
-        
-        let config = {
+        const config = {
             defaultExplorerObjectColor: +this.refs["default-explorer-color"].value,
             defaultDocumentType: this.refs["default-document-type"].value,
             defaultEditorTheme: +this.refs["default-editor-theme"].value,
