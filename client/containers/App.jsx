@@ -96,6 +96,7 @@ class App extends React.Component {
                 
                 state.user = data;
                 state.user.config = JSON.parse(data.config || "{}");
+                state.user.referral = JSON.parse(data.referral || "{}");
                 
                 // Load user's set config or default configuration
                 state.user.config = Object.keys(state.user.config).length > 0
@@ -157,7 +158,10 @@ class App extends React.Component {
         }
         // Attempt to login using XID/AUTH or skip to initialize()
         else if (q.xid && q.auth) {
-            socket.emit("login user", q.xid, q.auth, (err, token) => {
+            q.affiliate = localStorage.getItem("affiliate") || "";
+            q.referral = localStorage.getItem("referral") || "";
+
+            socket.emit("login user", q, (err, token) => {
                 if (err) {
                     location.href = XACC + "app/#/login/12";
                 }
@@ -177,7 +181,9 @@ class App extends React.Component {
         if (this.state == undefined) {
             return (
                 <span className="loading">
-                    <span className="icon-loading animate-spin" />Initializing Vynote...
+                    <span
+                        className="icon-loading animate-spin"
+                    />Initializing Vynote...
                 </span>
             );
         }

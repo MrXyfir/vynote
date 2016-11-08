@@ -5,10 +5,10 @@ const db = require("lib/db");
 
 const config = require("config");
 
-module.exports = function(socket, xid, auth, fn) {
+module.exports = function(socket, data, fn) {
 
     let url = config.address.xacc + "api/service/12/"
-        + config.keys.xacc + "/" + xid + "/" + auth;
+        + config.keys.xacc + "/" + data.xid + "/" + data.auth;
 
     request(url, (err, response, body) => {
         // Error in request
@@ -27,7 +27,7 @@ module.exports = function(socket, xid, auth, fn) {
 
         let sql = "SELECT user_id, subscription FROM users WHERE xyfir_id = ?";
 
-        db(cn => cn.query(sql, [xid], (err, rows) => {
+        db(cn => cn.query(sql, [data.xid], (err, rows) => {
             // Build / encrypt access token and send to client
             const generateAccessToken = (uid) => {
                 const token = crypto.encrypt(
@@ -40,22 +40,68 @@ module.exports = function(socket, xid, auth, fn) {
 
             // First login
             if (rows.length == 0) {
-                let insert = {
-                    xyfir_id: xid, email: body.email
+                let data = {
+                    xyfir_id: data.xid, email: body.email, subscription: 0,
+                    referral: "{}"
                 };
                 sql = "INSERT INTO users SET ?";
 
-                cn.query(sql, insert, (err, result) => {
-                    cn.release();
+                const createAccount = () => {
+                    cn.query(sql, data, (err, result) => {
+                        cn.release();
 
-                    if (err || !result.affectedRows) {
-                        fn(true);
-                    }
-                    else {
-                        session.save(socket.id, { uid: result.insertId, subscription: 0 });
-                        generateAccessToken(result.insertId);
-                    }
-                });
+                        if (err || !result.affectedRows) {
+                            fn(true);
+                        }
+                        else {
+                            session.save(socket.id, {
+                                uid: result.insertId,
+                                subscription: data.subscription
+                            });
+                            generateAccessToken(result.insertId);
+                        }
+                    });
+                };
+
+                // Referral from user gives one free week + 10% off first purchase 
+                if (data.referral) {
+                    data.subscription = Date.now() + ((60 * 60 * 24 * 7) * 1000);
+                    data.referral = JSON.stringify({
+                        referral: data.referral, hasMadePurchase: false
+                    });
+
+                    createAccount();
+                }
+                // Validate affiliate promo code
+                else if (data.affiliate) {
+                    request.post({
+                        url: config.address.xacc + "api/affiliate/signup", form: {
+                            service: 12, serviceKey: config.keys.xacc,
+                            promoCode: data.affiliate
+                        }
+                    }, (err, response, body) => {
+                        if (err) {
+                            createAccount();
+                        }
+                        else {
+                            body = JSON.parse(body);
+
+                            if (!body.error && body.promo == 3) {
+                                data.subscription = Date.now()
+                                    + ((60 * 60 * 24 * 7) * 1000);
+                                data.referral = JSON.stringify({
+                                    affiliate: data.affiliate,
+                                    hasMadePurchase: false
+                                });
+                            }
+
+                            createAccount();
+                        }
+                    });
+                }
+                else {
+                    createAccount();
+                }
             }
             // Update data
             else {
