@@ -14,7 +14,8 @@ module.exports = function(socket, token, fn) {
         // Create / update session if uid is valid
         const getInfo = (uid) => {
             sql = `
-                SELECT email, config, subscription FROM users WHERE user_id = ?
+                SELECT user_id as id, email, config, subscription, referral
+                FROM users WHERE user_id = ?
             `;
             cn.query(sql, [uid], (err, rows) => {
                 if (err || !rows.length) {
