@@ -1,8 +1,8 @@
 import React from "react";
 
 // Action creators
-import { setSubscription } from "actions/user/index";
 import { toggleShowUpgradeForm } from "actions/modal/user/account";
+import { setSubscription } from "actions/user/index";
 import { error, success } from "actions/notification";
 
 // Constants
@@ -32,56 +32,69 @@ export default class Account extends React.Component {
             }
             
             let data = {
-                months: +this.refs.subscription.value,
+                subscription: +this.refs.subscription.value,
                 token: res.id
             };
             
-            if (data.months == 0) {
+            if (data.subscription == 0) {
                 this.props.dispatch(error("Select a subscription length"));
                 return;
             }
             
             this.props.socket.emit("purchase subscription", data, (err, res) => {
-                if (err) {
+                if (err)
                     this.props.dispatch(error(res));
-                }
-                else {
-                    this.onToggleShowUpgradeForm();
-                    this.props.dispatch(setSubscription(res));
-                    this.props.dispatch(success(`${data.months} months of premium subscription added to your account`));
-                }
+                else
+                    location.reload();
             });
         })};
         
         // Dynamically load Stripe.js
-        let element = document.createElement('script');
-        element.src = 'https://js.stripe.com/v2/';
-        element.type = 'text/javascript';
+        let element = document.createElement("script");
+        element.src = "https://js.stripe.com/v2/";
+        element.type = "text/javascript";
         element.onload = purchase;
         document.body.appendChild(element);
     }
 	
 	render() {
+        const discount = (
+            this.props.data.user.referral.referral
+            || this.props.data.user.referral.affiliate
+        ) && !this.props.data.user.referral.hasMadePurchase;
+
 		return (
 			<div className="user-account">
-				<div className="status">{
-                    Date.now() > this.props.data.user.subscription
-                    ? (
-                        <span>
+                <section className="info">
+                    <label>Referral Program</label>
+                    <span className="input-description">
+                        Refer new users to Vynote and they'll receive a premium subscription for one week for free and 10% off of their first purchase.
+                        <br />
+                        You'll receive one week of free premium subscription time for every month they purchase.
+                    </span>
+                    <input
+                        type="text" readonly
+                        value={"https://vynote.com?r=" + this.props.data.user.id}
+                        onFocus={(e) => e.target.select()}
+                    />
+
+                    {Date.now() > this.props.data.user.subscription ? (
+                        <span className="subscription-status">
                             You don't have a premium account yet. Interested in what it gets you? Here's a list of
-                            <a target="_blank" href={URL + "#Premium"}> features</a>
+                            <a target="_blank" href={URL + "#Premium"}> features</a>.
                         </span>
                     )
                     : (
-                        <span>Your subscription will expire on {
-                            (new Date(this.props.data.user.subscription)).toLocaleString()
-                        }</span>
-                    )
-                }</div>
+                        <span className="subscription-status">
+                            Your subscription will expire on {
+                                (new Date(this.props.data.user.subscription))
+                                    .toLocaleString()
+                            }
+                        </span>
+                    )}
+                </section>
                 
-                <hr />
-                
-                <div className="upgrade">{
+                <section className="upgrade">{
                     !this.props.data.modal.showUpgradeForm
                     ? (
                         <button className="btn-primary" onClick={this.onToggleShowUpgradeForm}>{
@@ -91,8 +104,18 @@ export default class Account extends React.Component {
                     )
                     : (
                         <div className="form">
+                            {discount ? (
+                                <p>
+                                    You will receive 10% off of your first purchase.
+                                </p>
+                            ) : (
+                                <span />
+                            )}
+
                             <select ref="subscription" defaultValue="0">
-                                <option value="0" disabled>Subscription Length</option>
+                                <option value="0" disabled>
+                                    Subscription Length
+                                </option>
                                 <option value="1">1 Month   - $3</option>
                                 <option value="2">6 Months  - $15</option>
                                 <option value="3">12 Months - $24</option>
@@ -106,15 +129,25 @@ export default class Account extends React.Component {
                                 <input type="number" data-stripe="cvc" />
                             
                                 <label>Expiration (MM/YYYY)</label>
-                                <input type="number" data-stripe="exp-month" placeholder="07"/>
+                                <input
+                                    type="number"
+                                    data-stripe="exp-month"
+                                    placeholder="07"
+                                />
                                 <span> / </span>
-                                <input type="number" data-stripe="exp-year" placeholder="2020" />
+                                <input
+                                    type="number"
+                                    data-stripe="exp-year"
+                                    placeholder="2020"
+                                />
                             </form>
                             
-                            <button onClick={this.onPurchase} className="btn-primary">Purchase</button>
+                            <button onClick={this.onPurchase} className="btn-primary">
+                                Purchase
+                            </button>
                         </div>
                     )
-                }</div>
+                }</section>
 			</div>
 		);
 	}
