@@ -40,14 +40,14 @@ module.exports = function(socket, data, fn) {
 
             // First login
             if (rows.length == 0) {
-                let data = {
+                let insert = {
                     xyfir_id: data.xid, email: body.email, subscription: 0,
                     referral: "{}"
                 };
-                sql = "INSERT INTO users SET ?";
 
                 const createAccount = () => {
-                    cn.query(sql, data, (err, result) => {
+                    sql = "INSERT INTO users SET ?";
+                    cn.query(sql, insert, (err, result) => {
                         cn.release();
 
                         if (err || !result.affectedRows) {
@@ -56,7 +56,7 @@ module.exports = function(socket, data, fn) {
                         else {
                             session.save(socket.id, {
                                 uid: result.insertId,
-                                subscription: data.subscription
+                                subscription: insert.subscription
                             });
                             generateAccessToken(result.insertId);
                         }
@@ -65,8 +65,8 @@ module.exports = function(socket, data, fn) {
 
                 // Referral from user gives one free week + 10% off first purchase 
                 if (data.referral) {
-                    data.subscription = Date.now() + ((60 * 60 * 24 * 7) * 1000);
-                    data.referral = JSON.stringify({
+                    insert.subscription = Date.now() + ((60 * 60 * 24 * 7) * 1000);
+                    insert.referral = JSON.stringify({
                         referral: data.referral, hasMadePurchase: false
                     });
 
@@ -87,9 +87,9 @@ module.exports = function(socket, data, fn) {
                             body = JSON.parse(body);
 
                             if (!body.error && body.promo == 3) {
-                                data.subscription = Date.now()
+                                insert.subscription = Date.now()
                                     + ((60 * 60 * 24 * 7) * 1000);
-                                data.referral = JSON.stringify({
+                                insert.referral = JSON.stringify({
                                     affiliate: data.affiliate,
                                     hasMadePurchase: false
                                 });
