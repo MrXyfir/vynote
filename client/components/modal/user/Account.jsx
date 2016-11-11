@@ -74,7 +74,7 @@ export default class Account extends React.Component {
                     </span>
                     <input
                         type="text" readonly
-                        value={"https://vynote.com?r=" + this.props.data.user.id}
+                        value={"https://vynote.com/#?r=" + this.props.data.user.id}
                         onFocus={(e) => e.target.select()}
                     />
 
