@@ -31,11 +31,6 @@ export default class ExplorerObject extends React.Component {
 		super(props);
         
         this.onToggleShowControls = this.onToggleShowControls.bind(this);
-        this.onDuplicate = this.onDuplicate.bind(this);
-        this.onRename = this.onRename.bind(this);
-        this.onDelete = this.onDelete.bind(this);
-        this.onMove = this.onMove.bind(this);
-        this.onOpen = this.onOpen.bind(this);
 	}
 
     onToggleShowControls(e) {
@@ -55,17 +50,23 @@ export default class ExplorerObject extends React.Component {
 
 	onRename() {
         this.onToggleShowControls();
-		this.props.dispatch(triggerRenameObject(this.props.type, this.props.id));
+		this.props.dispatch(triggerRenameObject(
+			this.props.type, this.props.id
+		));
 	}
 	
 	onMove() {
         this.onToggleShowControls();
-		this.props.dispatch(triggerMoveObject(this.props.type, this.props.id));
+		this.props.dispatch(triggerMoveObject(
+			this.props.type, this.props.id
+		));
 	}
 	
     onDuplicate() {
         this.onToggleShowControls();
-        this.props.socket.emit("duplicate document", this.props.id, (err, id) => {
+        
+		this.props.socket
+		.emit("duplicate document", this.props.id, (err, id) => {
             if (err) {
                 this.props.dispatch(error("Could not duplicate document"));
             }
@@ -79,7 +80,7 @@ export default class ExplorerObject extends React.Component {
 	onDelete() {
         this.onToggleShowControls();
         
-		let type = this.props.type, id = this.props.id;
+		const type = this.props.type, id = this.props.id;
 		
 		this.props.socket.emit("delete object", type, id, (err, msg) => {
 			if (err) {
@@ -92,12 +93,16 @@ export default class ExplorerObject extends React.Component {
                     this.props.dispatch(deleteDocument(id));
                     
                     if (this.props.data.explorer.tabs.list[id]) {
-                        this.props.dispatch(changeDocument(id, 0, "Blank Tab", ""));
+                        this.props.dispatch(changeDocument(
+							id, 0, "Blank Tab", ""
+						));
                         this.props.dispatch(selectTab(0));
                     }
                 }
                 
-                this.props.dispatch(success(`${this.props.type == 2 ? "Document" : "Folder"} deleted`));
+                this.props.dispatch(success(
+					`${this.props.type == 2 ? "Document" : "Folder"} deleted`
+				));
 			}
 		});
 	}
@@ -136,11 +141,14 @@ export default class ExplorerObject extends React.Component {
 				// Document container will require encryption key when
 				// encrypted == true && encrypt == ""
                 let data = Object.assign({}, obj, {
-                    encrypt: "", theme: this.props.data.user.config.defaultEditorTheme
+                    encrypt: "",
+					theme: this.props.data.user.config.defaultEditorTheme
                 });
                 
-                if (obj.doc_type == 2)
-                    data.preview = this.props.data.user.config.defaultPageView == "preview";
+                if (obj.doc_type == 2) {
+                    data.preview = this.props.data.user.config
+						.defaultPageView == "preview";
+				}
                 
 				this.props.dispatch(loadDocument(data));
 				return;
@@ -148,7 +156,8 @@ export default class ExplorerObject extends React.Component {
 		
 			// Note document
 			if (obj.doc_type == 1) {
-				this.props.socket.emit("get note object", obj.doc_id, "", (err, res) => {
+				this.props.socket
+				.emit("get note object", obj.doc_id, "", (err, res) => {
 					if (err) {
 						this.props.dispatch(error("Could not load note"));
 					}
@@ -164,23 +173,25 @@ export default class ExplorerObject extends React.Component {
 			}
 			// Other document
 			else {
-				this.props.socket.emit("get document content", obj.doc_id, "", (err, res) => {
+				this.props.socket
+				.emit("get document content", obj.doc_id, "", (err, res) => {
 					if (err) {
 						this.props.dispatch(error("Could not load document"));
 					}
 					else {
-                        let changes = [];
-                        res.changes.forEach(change => {
-                            changes = changes.concat(JSON.parse(change.change_object).changes);
-                        });
+						const changes = res.changes.map(c =>
+							JSON.parse(c.change_object).changes
+						);
                         
                         let data = Object.assign({}, obj, {
                             content: updateContent(res.content, changes),
                             theme: this.props.data.user.config.defaultEditorTheme
                         });
                         
-                        if (obj.doc_type == 2)
-                            data.preview = this.props.data.user.config.defaultPageView == "preview";
+                        if (obj.doc_type == 2) {
+                            data.preview = this.props.data.user.config
+								.defaultPageView == "preview";
+						}
                         
 						this.props.dispatch(loadDocument(data));
 					}
@@ -193,12 +204,14 @@ export default class ExplorerObject extends React.Component {
 	}
 
 	render() {
-		let icon = "", type = this.props.type, id = this.props.id;
+		if (this.props.data === undefined) return <div />;
         
-        if (this.props.data === undefined) return <div />;
+        const obj = this.props.data.explorer[this.props.group][this.props.id]
+		const id  = this.props.id, type = this.props.type;
+
+		let icon  = ""
         
-        let obj = this.props.data.explorer[this.props.group][this.props.id];
-        if (obj === undefined) return <div />;
+		if (obj === undefined) return <div />;
         
 		if (this.props.type == 2) {
 			switch (obj.doc_type) {
@@ -213,30 +226,41 @@ export default class ExplorerObject extends React.Component {
     
 		return (
 			<div 
-				className={"explorer-object-" + (this.props.type == 2 ? "document" : "folder")}
+				onClick={() => this.onOpen()}
+				className={"explorer-object " + (
+					this.props.type == 2 ? "document" : "folder"
+				)}
 				onContextMenu={this.onToggleShowControls}
 			>
-				<span className={"icon-" + icon} style={{color: colors[obj.color]}} />
-				<span className="object-name" onClick={this.onOpen}>{obj.name}</span>
-				{
-					(type == this.props.data.explorer.controls.objType && id == this.props.data.explorer.controls.id)
-					? (
-						<div className="object-controls">
-                            <span className="icon-close" onClick={this.onToggleShowControls} />
-							<span onClick={this.onRename}>Rename</span>
-							<span onClick={this.onMove}>Move</span>
-							<span onClick={this.onDelete}>Delete</span>
-                            {
-                                this.props.type == 2
-                                ? <span onClick={this.onDuplicate}>Duplicate</span>
-                                : <span className="hidden" />
-                            }
-						</div>
-					)
-					: (
-						<div />
-					)
-				}
+				<span
+					className={"icon-" + icon}
+					style={{color: colors[obj.color]}}
+				/>
+				<span className="object-name">{obj.name}</span>
+				{type == this.props.data.explorer.controls.objType
+				&& id == this.props.data.explorer.controls.id ? (
+					<div className="object-controls">
+						<span
+							className="icon-close"
+							onClick={this.onToggleShowControls}
+						/>
+
+						<span onClick={() => this.onRename()}>Rename</span>
+						<span onClick={() => this.onMove()}>Move</span>
+						<span onClick={() => this.onDelete()}>Delete</span>
+						
+						{this.props.type == 2 ? (
+							<span onClick={() => this.onDuplicate()}>
+								Duplicate
+							</span>
+						) : (
+							<span className="hidden" />
+						)}
+					</div>
+				)
+				: (
+					<div />
+				)}
 			</div>
 		);
 	}
