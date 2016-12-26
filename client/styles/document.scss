@@ -20,8 +20,8 @@
     
     padding: 0.3em;
     padding-left: 1.35em;
-    box-shadow: 0.1em 0.1em 0.2em darkgray;
     margin-bottom: 0.3em;
+    border-bottom: solid 0.1em $llgray;
 
     .icon-left {
         display: inline-block;
@@ -74,11 +74,6 @@
         margin: 0.4em;
     }
     
-}
-
-#ace-editor {
-    width: 98%;
-    margin: auto;
 }
 
 .document-page-preview > div {
