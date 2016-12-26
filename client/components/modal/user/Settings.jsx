@@ -141,8 +141,8 @@ export default class Settings extends React.Component {
                         ref="default-page-view"
                         defaultValue={c.defaultPageView}
                     >
-                        <option value="preview">Preview</option>
                         <option value="edit">Editor</option>
+                        <option value="preview">Preview</option>
                     </select>
                     
                     <label>Editor Font Size</label>

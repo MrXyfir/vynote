@@ -3,7 +3,7 @@ export default {
     defaultDocumentType: "0",
     defaultCodeSyntax: 70,
     defaultEditorTheme: 6,
-    defaultPageView: "preview",
+    defaultPageView: "edit",
     editorFontSize: 1,
     darkTheme: false
 };
