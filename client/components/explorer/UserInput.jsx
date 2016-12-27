@@ -34,29 +34,41 @@ export default class UserInput extends React.Component {
     }
     
 	onCreateDocument() {
-		if (this.refs.docType.value == 0) {
-			this.props.dispatch(error("You must select a document type"));
+		const docTypes = ["", "note", "page", "code"]; 
+		const docType  = docTypes.indexOf(
+			this.refs.input.value.split(".").slice(-1)[0]
+		);
+		
+		if (docType < 1 && this.refs.docType.value == 0) {
+			this.props.dispatch(error(
+				"You must provide a document type"
+			));
 			return;
 		}
 	
 		let data = {
 			objType: 2, folder: this.props.data.scope,
-			docType: +this.refs.docType.value,
+			docType: +this.refs.docType.value || docType,
 			encrypt: (
-				(this.props.user.subscription > Date.now())
+				this.props.user.subscription > Date.now()
 				? this.refs.key.value
 				: ""
 			),
 			color: (
-				(this.props.user.subscription > Date.now())
+				this.props.user.subscription > Date.now()
 				? this.refs.color.value
 				: 7
 			),
-			name: this.refs.input.value
+			name: (
+				docType > -1
+				? this.refs.input.value.replace("." + docTypes[docType], "")
+				: this.refs.input.value
+			)
 		};
         
         if (data.docType != 1) {
-            data.syntax = (data.docType == 3 && this.props.user.subscription > Date.now())
+            data.syntax =
+				data.docType == 3 && this.props.user.subscription > Date.now()
                 ? this.props.user.config.defaultCodeSyntax : 70;
         }
         
@@ -67,9 +79,11 @@ export default class UserInput extends React.Component {
 			}
 			else {
 				data = {
-					doc_type: data.docType, doc_id: res, name: data.name, folder_id: data.folder,
-                    contributor: false, syntax: data.syntax, color: data.color,
-					encrypt: data.encrypt, encrypted: data.encrypt != ""
+					doc_type: data.docType, doc_id: res, name: data.name,
+					folder_id: data.folder, contributor: false,
+					syntax: data.syntax, color: data.color,
+					encrypted: data.encrypt != "",
+					encrypt: data.encrypt
 				};
                 
 				this.props.dispatch(createDocument(data));
