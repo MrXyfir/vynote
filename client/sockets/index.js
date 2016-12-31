@@ -17,9 +17,9 @@ export default function (store) {
 
     let socket = io(URL, { transports: ["websocket"] });
 
-    socket.on("update syntax"  , function () { call(onUpdateSyntax  , arguments); });
-    socket.on("update content" , function () { call(onUpdateContent , arguments); });
-    socket.on("note change"    , function () { call(onNoteChange    , arguments); });
+    socket.on("note change", function() { call(onNoteChange, arguments); });
+    socket.on("update syntax", function() { call(onUpdateSyntax, arguments); });
+    socket.on("update content", function() { call(onUpdateContent, arguments); });
 
     return socket;
 
