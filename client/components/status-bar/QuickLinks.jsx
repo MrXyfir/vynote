@@ -31,18 +31,21 @@ export default class QuickLinks extends React.Component {
 			<div className="quick-links">
                 <a
                     className="icon-user"
-                    onClick={this.onOpen.bind(this, 1)}
-                >Account</a>
+                    onClick={() => this.onOpen(1)}
+                    title="User account"
+                />
                 
                 <a
                     className="icon-help"
-                    onClick={this.onOpen.bind(this, 2)}
-                >Help</a>
+                    onClick={() => this.onOpen(2)}
+                    title="Help documents"
+                />
                 
                 <a
                     className="icon-settings"
-                    onClick={this.onOpen.bind(this, 3)}
-                >Settings</a>
+                    onClick={() => this.onOpen(3)}
+                    title="Settings"
+                />
             </div>
 		);
 	}
