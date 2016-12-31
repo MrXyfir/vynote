@@ -191,22 +191,26 @@ class App extends React.Component {
         return (
             <div>
                 <DynamicStyles beforeApp={true} />
+
                 <Explorer 
                     data={this.state} 
                     socket={socket} 
                     dispatch={store.dispatch}
                 />
+
                 <Document
                     data={this.state}
                     socket={socket}
                     folders={this.state.explorer.folders}
                     dispatch={store.dispatch}
                 />
+
                 <Modal
                     data={this.state} 
                     socket={socket} 
                     dispatch={store.dispatch}
                 />
+
                 {window.innerHeight > window.innerWidth ? (
                     <div className="status-bar">{
                         this.state.notification.status != "clear" ? (
@@ -227,6 +231,7 @@ class App extends React.Component {
                         />
                     </div>
                 )}
+                
                 <DynamicStyles beforeApp={false} />
             </div>
         );
