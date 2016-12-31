@@ -136,19 +136,15 @@ label {
     .quick-links {
         
         width: 21%;
-        display: table-cell;
+        display: flex;
         
         a {
+            flex: 1;
             color: $llgray;
             margin-right: 0.4em;
         }
         a:hover {
             color: $black;
-        }
-        
-        span[class^="icon-"]:hover {
-            cursor: auto;
-            color: $llgray;
         }
         
     }
@@ -180,4 +176,18 @@ label {
     left: 0%;
     right: 0%;
     bottom: 5%;    
+}
+
+/* NAVBAR */
+nav.navbar {
+	display: flex;
+    background-color: $lllgray;
+	width: 80%;
+	margin: auto;
+	padding: 0.3em;
+	margin-bottom: 1em;
+
+	>a {
+		flex: 1;
+	}
 }
