@@ -14,7 +14,8 @@
     text-align: center;
     
     .icon-close {
-        float: right;
+        display: block;
+        text-align: right;
     }
     
     .tabs > a {
@@ -141,22 +142,15 @@
     
 }
 
-.user-settings {
+.settings {
     
     .config {
-        
-        margin-bottom: 2em;
         
         button {
             display: block;
             margin: 2em auto;
         }
         
-    }
-    
-    .config, .shortcuts {
-        overflow-y: auto;
-        height: 20em;
     }
     
     .shortcuts {
