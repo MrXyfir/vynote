@@ -1,19 +1,23 @@
 import React from "react";
 
+// actions
 import { toggleMarkForReload } from "actions/documents/index";
+import { saveError, saveContent } from "actions/documents/index";
 
 // Constants
 import { getThemeFile, getSyntaxFile } from "constants/editor";
 
 // Modules
 import { encrypt, decrypt } from "lib/crypto";
+import diff from "lib/document/diff";
 
-export default class Ace extends React.Component {
+export default class Editor extends React.Component {
 	
 	constructor(props) {
 		super(props);
         
         this._addCommands = this._addCommands.bind(this);
+        this._saveChanges = this._saveChanges.bind(this);
         this.onChange = this.onChange.bind(this);
 	}
 	
@@ -64,8 +68,15 @@ export default class Ace extends React.Component {
             ||
             nProps.data.doc_id != this.props.data.doc_id
             ||
-            nProps.data.reload
+            !!nProps.data.reload
         );
+    }
+
+    componentWillUpdate(nProps, nState) {
+        if (this.props.data.doc_id != nProps.data.doc_id && this.changed) {
+            clearTimeout(this.timeout);
+            this._saveChanges(true);
+        }
     }
     
     componentDidUpdate() {
@@ -78,7 +89,7 @@ export default class Ace extends React.Component {
         // Update content
         this.silent = true;
 		this.editor.setValue(
-			((this.props.data.encrypted)
+			(this.props.data.encrypted
 			? decrypt(this.props.data.content, this.props.data.encrypt)
 			: this.props.data.content), 1
 		);
@@ -94,20 +105,10 @@ export default class Ace extends React.Component {
 	componentWillUnmount() {
 		clearTimeout(this.timeout);
 	
-        if (this.changed) {
-            this.props.onChange({
-                action: "OVERWRITE", content: (
-                    (this.props.data.encrypted) 
-                    ? encrypt(this.editor.getValue(), this.props.data.encrypt)
-                    : this.editor.getValue()
-                )
-            });
-        }
+        if (this.changed) this._saveChanges();
     
 		this.editor.destroy();
 		this.editor = null;
-        
-        document.body.onresize = function(){};
 	}
 
     onChange(e) {
@@ -116,19 +117,30 @@ export default class Ace extends React.Component {
 		clearTimeout(this.timeout);
 	
 		this.timeout = setTimeout(() => {
-			this.props.onChange({
-				action: "OVERWRITE", content: (
-					(this.props.data.encrypted) 
-					? encrypt(this.editor.getValue(), this.props.data.encrypt)
-					: this.editor.getValue()
-				)
-			});
-            
+			this._saveChanges();
             this.changed = false;
 		}, 5000);
         
         this.changed = true;
 	}
+
+    _saveChanges(skipSave) {
+        const data = {
+            doc: this.props.data.doc_id,
+            changes: diff(
+                this.props.data.content, (this.props.data.encrypted
+                    ? encrypt(this.editor.getValue(), this.props.data.encrypt)
+                    : this.editor.getValue())
+            )
+        };
+		
+		this.props.socket.emit("update document content", data, (err) => {
+			if (err)
+                this.props.dispatch(saveError());
+			else if (!skipSave)
+				this.props.dispatch(saveContent(content));
+		});
+    }
 
     _setEditorHeight() {
         const css = `
@@ -163,7 +175,9 @@ export default class Ace extends React.Component {
             
                 // Replace shortcuts in line
                 Object.keys(this.props.user.shortcuts || {}).forEach(sc => {
-                    line = line.replace("${" + sc + "}", this.props.user.shortcuts[sc]);
+                    line = line.replace(
+                        "${" + sc + "}", this.props.user.shortcuts[sc]
+                    );
                 });
             
                 // Write new line
@@ -177,7 +191,7 @@ export default class Ace extends React.Component {
         this.editor.commands.addCommand({
             name: 'save',
             bindKey: {win: "Ctrl-S", "mac": "Cmd-S"},
-            exec: (editor) => { return; }
+            exec: (editor) => 0
         })
     }
 
